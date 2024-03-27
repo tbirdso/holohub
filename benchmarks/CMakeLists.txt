@@ -14,3 +14,6 @@
 # limitations under the License.
 
 # Make sure to order by alphabetical list
+
+add_holohub_application(model_benchmarking)
+
