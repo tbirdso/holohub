@@ -45,6 +45,9 @@ set(HOLOHUB_DATA_DIR "${CMAKE_BINARY_DIR}/data" CACHE PATH "Data Download direct
 # Build the applications
 add_subdirectory(applications)
 
+# Build the benchmarks
+add_subdirectory(benchmarks)
+
 # Build the operators
 add_subdirectory(operators)
 
