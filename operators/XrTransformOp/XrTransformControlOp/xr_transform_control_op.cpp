@@ -17,7 +17,6 @@
 
 #include "xr_transform_control_op.hpp"
 
-#include <nlohmann/json.hpp>
 #include "holoviz/holoviz.hpp"
 
 namespace holoscan::openxr {
@@ -35,7 +34,6 @@ void XrTransformControlOp::setup(OperatorSpec& spec) {
   spec.output<std::array<nvidia::gxf::Vector2f, 3>>("crop_box");
   spec.output<UxBoundingBox>("ux_box");
   spec.output<UxCursor>("ux_cursor");
-  spec.output<UxWindow>("ux_window");
 }
 
 void XrTransformControlOp::start() {
@@ -53,13 +51,6 @@ void XrTransformControlOp::start() {
   ui_box_.global_transform.setIdentity();
   ui_box_.global_transform.translate(Eigen::Vector3f{0.0, 0.0, -1.0});
   ui_box_controller_ = std::make_shared<UxBoundingBoxController>(ui_box_);
-
-  // setup window controller
-  ui_window_.transform = Eigen::Matrix4f::Identity();
-  ui_window_.transform.translate(Eigen::Vector3f{0.65, 0.1, -0.75});
-  ui_window_.content = {0.25, 0.25, 0.2};  // window half extent in meters
-  ui_window_.cursor = {0.74, 0.14};
-  ui_window_controller_ = std::make_shared<UxWindowController>(ui_window_);
 }
 
 void XrTransformControlOp::compute(InputContext& input, OutputContext& output,
@@ -94,11 +85,8 @@ void XrTransformControlOp::compute(InputContext& input, OutputContext& output,
       ui_box_.local_transform.translate(Eigen::Vector3f(0, 0, 0));
       ui_box_.global_transform.setIdentity();
       ui_box_.global_transform.translate(head_transform * Eigen::Vector3f(0.0, 0.0, -1.0));
-      ui_box_controller_->reset();
 
-      ui_window_.transform = Eigen::Matrix4f::Identity();
-      ui_window_.transform.translate(head_transform * Eigen::Vector3f{0.65, 0.1, -0.75});
-      ui_window_controller_->reset();
+      ui_box_controller_->reset();
     }
   } else {
     timestamp_ = now;
@@ -125,33 +113,20 @@ void XrTransformControlOp::compute(InputContext& input, OutputContext& output,
   Eigen::Affine3f cursor(matrix);
   if (*trigger_click) {
     if (!cursor_down_) {
-      if (ui_box_.state == holoscan::openxr::INACTIVE) {
-        ui_window_controller_->cursorClick(cursor);
-      }
-      if (ui_window_.state == holoscan::openxr::INACTIVE) {
-        ui_box_controller_->cursorClick(cursor);
-      }
+      ui_box_controller_->cursorClick(cursor);
+      ui_cursor_controller_->cursorClick(cursor);
       cursor_down_ = true;
     } else {
-      if (ui_box_.state == holoscan::openxr::INACTIVE) {
-        ui_window_controller_->cursorMove(cursor);
-      }
-      if (ui_window_.state == holoscan::openxr::INACTIVE) {
-        ui_box_controller_->cursorMove(cursor);
-      }
+      ui_box_controller_->cursorMove(cursor);
+      ui_cursor_controller_->cursorMove(cursor);
     }
   } else if (cursor_down_) {
-    ui_window_controller_->cursorRelease();
     ui_box_controller_->cursorRelease();
+    ui_cursor_controller_->cursorRelease();
     cursor_down_ = false;
   } else {
-    if (ui_box_.state == holoscan::openxr::INACTIVE) { ui_window_controller_->cursorMove(cursor); }
-    if (ui_window_.state == holoscan::openxr::INACTIVE) { ui_box_controller_->cursorMove(cursor); }
-  }
-
-  if (ui_window_.state == holoscan::openxr::INACTIVE) {
-    Eigen::Vector3f focus = Eigen::Map<Eigen::Vector3f>(head_pose->translation.data());
-    ui_window_controller_->alignWith(focus);
+    ui_box_controller_->cursorMove(cursor);
+    ui_cursor_controller_->cursorMove(cursor);
   }
 
   // Emit the object transform as a Pose3D.
@@ -177,10 +152,10 @@ void XrTransformControlOp::compute(InputContext& input, OutputContext& output,
 
   output.emit(crop_box, "crop_box");
 
-  // Emit widget state.
+  // Emit bounding box state.
   output.emit(ui_box_, "ux_box");
+
   output.emit(ui_cursor_, "ux_cursor");
-  output.emit(ui_window_, "ux_window");
 }
 
 }  // namespace holoscan::openxr

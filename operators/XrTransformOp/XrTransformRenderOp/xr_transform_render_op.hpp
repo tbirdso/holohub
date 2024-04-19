@@ -20,11 +20,10 @@
 
 #include "Eigen/Dense"
 #include "holoscan/holoscan.hpp"
-#include "holoviz/holoviz.hpp"
+
+#include "ux/ux_bounding_box_renderer.hpp"
 
 #include "gxf/multimedia/camera.hpp"
-#include "ux/ux_bounding_box_renderer.hpp"
-#include "ux/ux_window_renderer.hpp"
 
 namespace holoscan::openxr {
 
@@ -42,22 +41,15 @@ class XrTransformRenderOp : public Operator {
  private:
   cudaStream_t cuda_stream_;
 
-  Parameter<std::string> config_file_;
   Parameter<uint32_t> display_width_;
   Parameter<uint32_t> display_height_;
 
   UxBoundingBoxRenderer ui_box_renderer_;
-  UxWindowRenderer ui_window_renderer_;
 
-  holoscan::viz::InstanceHandle instance_;
+  bool initialized_ = false;
 
-  struct Params;
-  std::shared_ptr<Params> render_params_;
-
-  std::array<float, 16> toModelView(Eigen::Affine3f world, nvidia::gxf::CameraModel camera,
+  std::array<float, 16> toModelView(nvidia::gxf::Pose3D pose, nvidia::gxf::CameraModel camera,
                                     float near_z, float far_z);
-
-  Eigen::Affine3f toEigen(nvidia::gxf::Pose3D pose);
 };
 
 }  // namespace holoscan::openxr

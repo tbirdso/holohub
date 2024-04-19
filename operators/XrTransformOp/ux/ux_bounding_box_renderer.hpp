@@ -23,15 +23,16 @@
 
 #include "ux_widgets.hpp"
 
+
 namespace holoscan::openxr {
 class UxBoundingBoxRenderer {
  public:
-  void render(UxBoundingBox& box, Eigen::Vector3f eye_pos);
+  void render(UxBoundingBox& box);
 
  private:
   void drawCorner(UxCorner& state, Eigen::Vector3f point, Eigen::Vector3f dx, Eigen::Vector3f dy,
-                  Eigen::Vector3f dz, Eigen::Vector3f& eye_pos);
-  void drawEdge(UxEdge& state, Eigen::Vector3f p0, Eigen::Vector3f p1, Eigen::Vector3f& eye_pos);
+                  Eigen::Vector3f dz);
+  void drawEdge(UxEdge& state, Eigen::Vector3f p0, Eigen::Vector3f p1);
   void drawFace(UxFace& state, Eigen::Vector3f p0, Eigen::Vector3f pu, Eigen::Vector3f pv,
                 Eigen::Affine3f& transform);
 

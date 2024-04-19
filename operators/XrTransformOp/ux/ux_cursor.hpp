@@ -22,6 +22,8 @@
 
 #include "ux_widgets.hpp"
 
+#define DEBUG_PRINT 1
+
 namespace holoscan::openxr {
 class UxCursorController {
  public:

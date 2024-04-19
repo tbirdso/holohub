@@ -54,6 +54,8 @@ if(NOT openxr_hpp_POPULATED)
   )
 endif()
 
+FetchContent_MakeAvailable(nlohmann_json)
+
 add_library(xr_transform_op
             XrTransformControlOp/xr_transform_control_op.cpp
             XrTransformRenderOp/xr_transform_render_op.cpp
@@ -70,6 +72,7 @@ target_link_libraries(xr_transform_op
     GXF::core
     GXF::multimedia
     holoscan::core
+    #nlohmann_json::nlohmann_json
   PUBLIC
     Eigen3::Eigen
     openxr_loader

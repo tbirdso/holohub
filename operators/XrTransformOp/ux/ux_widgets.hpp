@@ -23,17 +23,12 @@
 
 namespace holoscan::openxr {
 
-// Controls
-//
-// used to assemble widgets
-//
+#define BOX_MIN_EXTENT 0.1f  // minimum edge length in meters
 
-#define UX_ACTIVATION_THRESHOLD 0.1f  // %of length
-
-enum UxControlState { DRAGABLE, DRAGING, IDLE };
+enum UxAction { IDLE, DRAGGING };
 
 struct UxEdge {
-  UxControlState action;
+  UxAction action;
 
   // inverse normalized distance from cursor to projection point on edge [0,1]
   float range;
@@ -43,14 +38,14 @@ struct UxEdge {
 };
 
 struct UxCorner {
-  UxControlState action;
+  UxAction action;
 
   // inverse normalized distance from cursor to action point at corner [0,1]
   float range;
 };
 
 struct UxFace {
-  UxControlState action;
+  UxAction action;
 
   // inverse normalized distance from cursor to projected cursor [0,1]
   float range;
@@ -59,17 +54,9 @@ struct UxFace {
   Eigen::Vector2f projection;
 };
 
-// Widgets
-//
-//
-//
-
-#define BOX_MIN_EXTENT 0.1f  // minimum edge length in meters
-
-enum UxWidgetState { INACTIVE, ACTIVE };
+#define UX_ACTIVATION_THRESHOLD 0.1f // %of length
 
 struct UxBoundingBox {
-  UxWidgetState state;
   //
   //        |   -z
   //        y   /
@@ -130,43 +117,13 @@ struct UxBoundingBox {
 };
 
 struct UxCursor {
-  UxWidgetState state;
+  UxAction state;
 
   // normalized distance from cursor to activation surface [0,1]
   float range;
 
   Eigen::Affine3f transform;
 };
-
-#define HEADER_HEIGHT 0.07  // meters
-
-struct UxWindow {
-  UxWidgetState state;
-
-  //        3---XX---2
-  //        |        |
-  //        |        |
-  //        |        |
-  //        |        |
-  //        0--------1
-
-  UxFace face;
-
-  UxEdge handle;  // XX
-
-  // pysical size of window content in meters { [-x,x], [-y,y], [0,z]}
-  Eigen::Vector3f content;
-  // location of window in 3d space
-  Eigen::Affine3f transform;
-
-  // Normalized uv coordiantes of cursor in window content excluding header
-  Eigen::Vector2f cursor;
-  // button state
-  int button;
-  // trackpad state
-  Eigen::Vector2f trackpad;
-};
-
 }  // namespace holoscan::openxr
 
 #endif  // HOLOSCAN_OPERATORS_OPENXR_UX_UX_WIDGETS_HPP

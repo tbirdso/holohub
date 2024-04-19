@@ -70,7 +70,7 @@ class UxBoundingBoxController {
     UxEdge& state;
   };
   std::vector<Edge> edges_;
-  float test_edge(Eigen::Vector3f& cursor, Edge& edge);
+  void test_edge(Eigen::Vector3f& cursor, Edge& edge);
   void drag_edge(Eigen::Vector3f& cursor, Edge& edge);
 
   // Faces
@@ -86,7 +86,7 @@ class UxBoundingBoxController {
     UxFace& state;
   };
   std::vector<Face> faces_;
-  float test_face(Eigen::Vector3f& cursor, Face& face);
+  void test_face(Eigen::Vector3f& cursor, Face& face);
   void drag_face(Eigen::Vector3f& cursor, Face& face);
 
   // Corners
@@ -100,7 +100,7 @@ class UxBoundingBoxController {
     UxCorner& state;
   };
   std::vector<Corner> corners_;
-  float test_corner(Eigen::Vector3f& cursor, Corner& corner);
+  void test_corner(Eigen::Vector3f& cursor, Corner& corner);
   void drag_corner(Eigen::Vector3f& cursor, Corner& corner);
 
   // control actions

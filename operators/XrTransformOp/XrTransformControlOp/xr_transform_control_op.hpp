@@ -23,7 +23,6 @@
 
 #include "ux/ux_bounding_box_controller.hpp"
 #include "ux/ux_cursor.hpp"
-#include "ux/ux_window_controller.hpp"
 
 #include "gxf/multimedia/camera.hpp"
 
@@ -40,6 +39,7 @@ class XrTransformControlOp : public Operator {
   void compute(InputContext& input, OutputContext& output, ExecutionContext& context) override;
 
  private:
+
   Eigen::Vector3f model_half_extent_;
 
   UxBoundingBox ui_box_;
@@ -47,9 +47,6 @@ class XrTransformControlOp : public Operator {
 
   UxCursor ui_cursor_;
   std::shared_ptr<UxCursorController> ui_cursor_controller_;
-
-  UxWindow ui_window_;
-  std::shared_ptr<UxWindowController> ui_window_controller_;
 
   bool trackpad_touched_;
   bool cursor_down_;
