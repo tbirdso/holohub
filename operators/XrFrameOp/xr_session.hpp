@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright (c) 2023 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+ * SPDX-FileCopyrightText: Copyright (c) 2023-2024 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,6 +32,7 @@
 #include <set>
 #include <string>
 #include <vector>
+#include <chrono>
 
 #include <cuda_runtime.h>
 
@@ -71,7 +72,20 @@ class XrSession : public holoscan::Resource {
   uint32_t swapchain_count() { return view_configurations_[0].recommendedSwapchainSampleCount; }
   xr::EnvironmentBlendMode blend_mode() { return blend_modes_[0]; }
 
+  struct PollResult {
+    bool exit_render_loop = false;
+    bool request_reestart = false;
+  };
+  PollResult poll_events();
+
+  bool transition_state(const xr::SessionState new_state, const std::chrono::milliseconds timeout_ms);
+
+  bool is_session_running() const { return session_state_ == xr::SessionState::Ready;}
+
  private:
+  const XrEventDataBaseHeader* try_read_next_event(xr::EventDataBuffer& eventDataBuffer);
+  void process_session_state_changed(const XrEventDataSessionStateChanged& stateChangedEvent, PollResult& sessionState);
+
   Parameter<std::string> application_name_;
   Parameter<uint32_t> application_version_;
   Parameter<float> near_z_;
@@ -85,6 +99,8 @@ class XrSession : public holoscan::Resource {
   xr::ViewConfigurationDepthRangeEXT view_configuration_depth_range_;
   std::vector<xr::EnvironmentBlendMode> blend_modes_;
   std::set<std::string> xr_extensions_;
+  xr::EventDataBuffer eventDataBuffer_{};
+  xr::SessionState session_state_{xr::SessionState::Unknown};
 
   vk::raii::Context vk_context_;
   vk::raii::Instance vk_instance_{nullptr};

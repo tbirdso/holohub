@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright (c) 2023 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+ * SPDX-FileCopyrightText: Copyright (c) 2023-2024 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -201,11 +201,13 @@ XrCudaInteropSwapchain::XrCudaInteropSwapchain(XrSession& session,
                                               nullptr,
                                               transfer_layout_barrier);
     vk::BufferImageCopy buffer_image_copy({
-        .imageSubresource = {
+        .imageSubresource =
+            {
                 .aspectMask = imageAspect(swapchain_create_info_),
                 .layerCount = 1,
             },
-        .imageExtent = {
+        .imageExtent =
+            {
                 .width = swapchain_create_info.width,
                 .height = swapchain_create_info.height,
                 .depth = 1,
@@ -241,7 +243,7 @@ XrCudaInteropSwapchain::~XrCudaInteropSwapchain() {
     cudaDestroyExternalMemory(image.cuda_transfer_memory);
     cudaDestroyExternalSemaphore(image.render_done_cuda_semaphore);
   }
-}
+};
 
 namespace {
 template <nvidia::gxf::VideoFormat C>

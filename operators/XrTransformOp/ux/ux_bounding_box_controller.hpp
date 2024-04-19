@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright (c) 2023 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+ * SPDX-FileCopyrightText: Copyright (c) 2023-2024 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +27,7 @@
 namespace holoscan::openxr {
 class UxBoundingBoxController {
  public:
-  explicit UxBoundingBoxController(UxBoundingBox& boundingBox);
+  UxBoundingBoxController(UxBoundingBox& boundingBox);
 
   void cursorMove(Eigen::Affine3f pose);
   void cursorClick(Eigen::Affine3f cursor);
@@ -70,7 +70,7 @@ class UxBoundingBoxController {
     UxEdge& state;
   };
   std::vector<Edge> edges_;
-  void test_edge(Eigen::Vector3f& cursor, Edge& edge);
+  float test_edge(Eigen::Vector3f& cursor, Edge& edge);
   void drag_edge(Eigen::Vector3f& cursor, Edge& edge);
 
   // Faces
@@ -86,7 +86,7 @@ class UxBoundingBoxController {
     UxFace& state;
   };
   std::vector<Face> faces_;
-  void test_face(Eigen::Vector3f& cursor, Face& face);
+  float test_face(Eigen::Vector3f& cursor, Face& face);
   void drag_face(Eigen::Vector3f& cursor, Face& face);
 
   // Corners
@@ -100,7 +100,7 @@ class UxBoundingBoxController {
     UxCorner& state;
   };
   std::vector<Corner> corners_;
-  void test_corner(Eigen::Vector3f& cursor, Corner& corner);
+  float test_corner(Eigen::Vector3f& cursor, Corner& corner);
   void drag_corner(Eigen::Vector3f& cursor, Corner& corner);
 
   // control actions

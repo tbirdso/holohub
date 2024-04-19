@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: Copyright (c) 2023 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+ * SPDX-FileCopyrightText: Copyright (c) 2023-2024 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
  * SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,12 +22,10 @@
 
 #include "ux_widgets.hpp"
 
-#define DEBUG_PRINT 1
-
 namespace holoscan::openxr {
 class UxCursorController {
  public:
-  explicit UxCursorController(UxCursor& cursor);
+  UxCursorController(UxCursor& cursor);
 
   void cursorMove(Eigen::Affine3f pose);
   void cursorClick(Eigen::Affine3f pose);
