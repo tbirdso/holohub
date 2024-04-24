@@ -24,8 +24,8 @@ The following packages and applications are required to run remote rendering wit
 |--|------|---------|--|
 | Magic Leap Hub | Windows or macOS PC | latest | [Magic Leap Website](https://ml2-developer.magicleap.com/downloads) |
 | Headset Firmware | Magic Leap 2 | v1.6.0 | Magic Leap Hub |
-| Headset Remote Rendering Viewer (.apk) | Magic Leap 2 | [1.9.192](https://thelab.magicleap.cloud/packages_mlhub/artifacts/com.magicleap.remote_render/1.9.192/ml_remote_viewer.apk) | Magic Leap Download Link |
-| Windrunner OpenXR Backend | HoloHub Container | 1.9.194 | Included in Container |
+| Headset Remote Rendering Viewer (.apk) | Magic Leap 2 | [1.11.64](https://thelab.magicleap.cloud/packages_mlhub/artifacts/com.magicleap.remote_render/1.11.64/ml_remote_viewer.apk) | Magic Leap Download Link |
+| Windrunner OpenXR Backend | HoloHub Container | 1.11.64 | Included in Container |
 | Magic Leap 2 Pro License | | | Magic Leap |
 
 Refer to the Magic Leap 2 documentation for more information:
