@@ -18,7 +18,7 @@
 ARG BASE_IMAGE
 FROM ${BASE_IMAGE} as base
 
-ARG WINDRUNNER_VERSION=1.9.194-6b93ea0-1~20240216ubuntu2004
+ARG WINDRUNNER_VERSION=1.13.7-ac585eb-1~20240423ubuntu2204
 ARG DEBIAN_FRONTEND=noninteractive
 ARG VULKAN_SDK_VERSION=1.3.216.0
 
@@ -103,7 +103,12 @@ RUN if false; then \
     && chmod a+r "$LIST_FILE" \
     && apt update \
     && echo "debconf-set-selections windrunner/accept_eula boolean true" | debconf-set-selections \
-    && apt install --no-install-recommends -y net-tools windrunner-service=${WINDRUNNER_VERSION} libopenxr1-windrunner=${WINDRUNNER_VERSION} libnvidia-compute-510- libnvidia-encode-510- \
+    && apt install --no-install-recommends -y \
+        net-tools \
+        windrunner-service=${WINDRUNNER_VERSION} \
+        libopenxr1-windrunner=${WINDRUNNER_VERSION} \
+        libnvidia-compute-510- \
+        libnvidia-encode-510- \
     && printf '\
     Package: windrunner-service\n\
     Pin: version %s\n\
@@ -138,17 +143,28 @@ RUN rm -f ${VULKAN_SDK}/lib/libvulkan.so* \
 ENV PATH="${PATH}:${VULKAN_SDK}/bin"
 ENV CMAKE_PREFIX_PATH="${CMAKE_PREFIX_PATH}:${VULKAN_SDK}"
 
-ENTRYPOINT ["/workspace/holohub/applications/volume_rendering_xr/scripts/dev-entrypoint.sh"]
+COPY tmp/magicleap/20240422/libopenxr1-windrunner_${WINDRUNNER_VERSION}_arm64.deb /workspace/holoscan/deb/libopenxr1-windrunner_${WINDRUNNER_VERSION}_arm64.deb
+COPY tmp/magicleap/20240422/windrunner-service_${WINDRUNNER_VERSION}_arm64.deb /workspace/holoscan/deb/windrunner-service_${WINDRUNNER_VERSION}_arm64.deb
+RUN apt update && \
+    echo "debconf-set-selections windrunner/accept_eula boolean true" | debconf-set-selections  &&\
+    dpkg -i \
+        /workspace/holoscan/deb/libopenxr1-windrunner_${WINDRUNNER_VERSION}_arm64.deb \
+        /workspace/holoscan/deb/windrunner-service_${WINDRUNNER_VERSION}_arm64.deb \
+        || true && \
+    apt --fix-broken install -y && \
+    apt install -y net-tools
 
 # Set JIT compilation cache paths
 #  https://developer.nvidia.com/blog/cuda-pro-tip-understand-fat-binaries-jit-caching/
 ENV CUDA_CACHE_DISABLE="0"
-ENV CUDA_CACHE_PATH="/workspace/holoscan-openxr/.cache/ComputeCache"
+ENV CUDA_CACHE_PATH="/workspace/holohub/.cache/ComputeCache"
 #  https://raytracing-docs.nvidia.com/optix7/api/optix__host_8h.html#a59a60f5f600df0f9321b0a0b1090d76b
-ENV OPTIX_CACHE_PATH="/workspace/holoscan-openxr/.cache/OptixCache"
+ENV OPTIX_CACHE_PATH="/workspace/holohub/.cache/OptixCache"
 #  https://download.nvidia.com/XFree86/Linux-x86_64/460.67/README/openglenvvariables.html
-ENV __GL_SHADER_DISK_CACHE_PATH="/workspace/holoscan-openxr/.cache/GLCache"
+ENV __GL_SHADER_DISK_CACHE_PATH="/workspace/holohub/.cache/GLCache"
 
 # all NVIDIA devices are visible, also use all driver capabilities
 ENV NVIDIA_VISIBLE_DEVICES="all"
 ENV NVIDIA_DRIVER_CAPABILITIES="all"
+
+ENTRYPOINT ["/workspace/holohub/applications/volume_rendering_xr/scripts/dev-entrypoint.sh"]

@@ -18,7 +18,7 @@
 
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 
-${SCRIPT_DIR}/../thirdparty/magicleap/ml_start.sh
-${SCRIPT_DIR}/../thirdparty/magicleap/ml_pair.sh
+# source ${SCRIPT_DIR}/../thirdparty/magicleap/ml_start.sh
+# source ${SCRIPT_DIR}/../thirdparty/magicleap/ml_pair.sh
 
 exec bash "$@"
