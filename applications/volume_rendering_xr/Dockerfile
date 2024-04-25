@@ -15,12 +15,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG BASE_IMAGE
-FROM ${BASE_IMAGE} as base
-
-ARG WINDRUNNER_VERSION=1.11.72-d0b630e-1~20240425ubuntu2204
+ARG WINDRUNNER_VERSION=1.11.73-e4b0e79-1~20240425ubuntu2204
 ARG DEBIAN_FRONTEND=noninteractive
 ARG VULKAN_SDK_VERSION=1.3.216.0
+
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE} as base
 
 ENV CMAKE_GENERATOR=Ninja
 
@@ -68,6 +68,7 @@ RUN if [ $(uname -m) = "aarch64" ]; then \
 FROM base as dev
 
 ARG DEBIAN_FRONTEND=noninteractive
+ARG WINDRUNNER_VERSION
 
 # Install OpenXR dev dependencies, can remove when using libopenxr-dev package instead of building OpenXR from source
 RUN apt update \
