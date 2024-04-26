@@ -15,7 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG WINDRUNNER_VERSION=1.13.7-ac585eb-1~20240423ubuntu2204
 ARG DEBIAN_FRONTEND=noninteractive
 ARG VULKAN_SDK_VERSION=1.3.216.0
 
@@ -68,7 +67,7 @@ RUN if [ $(uname -m) = "aarch64" ]; then \
 FROM base as dev
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG WINDRUNNER_VERSION
+ARG WINDRUNNER_VERSION=1.11.73-e4b0e79-1~20240425ubuntu2204
 
 # Install OpenXR dev dependencies, can remove when using libopenxr-dev package instead of building OpenXR from source
 RUN apt update \
