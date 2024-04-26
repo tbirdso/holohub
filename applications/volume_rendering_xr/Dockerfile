@@ -15,7 +15,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-ARG WINDRUNNER_VERSION=1.11.73-e4b0e79-1~20240425ubuntu2204
+ARG WINDRUNNER_VERSION=1.13.7-ac585eb-1~20240423ubuntu2204
 ARG DEBIAN_FRONTEND=noninteractive
 ARG VULKAN_SDK_VERSION=1.3.216.0
 
