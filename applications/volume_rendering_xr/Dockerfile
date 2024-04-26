@@ -143,6 +143,7 @@ RUN rm -f ${VULKAN_SDK}/lib/libvulkan.so* \
 ENV PATH="${PATH}:${VULKAN_SDK}/bin"
 ENV CMAKE_PREFIX_PATH="${CMAKE_PREFIX_PATH}:${VULKAN_SDK}"
 
+# TODO remove in favor of apt distribution
 COPY tmp/magicleap/20240422/libopenxr1-windrunner_${WINDRUNNER_VERSION}_arm64.deb /workspace/holoscan/deb/libopenxr1-windrunner_${WINDRUNNER_VERSION}_arm64.deb
 COPY tmp/magicleap/20240422/windrunner-service_${WINDRUNNER_VERSION}_arm64.deb /workspace/holoscan/deb/windrunner-service_${WINDRUNNER_VERSION}_arm64.deb
 RUN apt update && \
