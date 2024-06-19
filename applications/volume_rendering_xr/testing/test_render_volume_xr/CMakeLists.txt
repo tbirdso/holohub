@@ -18,8 +18,6 @@ FetchContent_Declare(
   googletest
   URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
 )
-# For Windows: Prevent overriding the parent project's compiler/linker settings
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
 
@@ -42,4 +40,19 @@ target_include_directories(test_render_volume_xr INTERFACE ${CMAKE_SOURCE_DIR}/o
 add_custom_target(test_render_volume_xr_config_yaml
     COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_SOURCE_DIR}/app_config.yaml" ${CMAKE_CURRENT_BINARY_DIR}
 )
-add_dependencies(test_render_volume_xr test_render_volume_xr_config_yaml)
+# TODO: The `./configs/ctnv_bb_er.json` path is hardcoded.
+# Need to determine whether this occurs in `main.cpp` or in `XrTransformRenderOp`.
+add_custom_target(test_render_volume_xr_config_json
+  COMMAND ${CMAKE_COMMAND} -E copy_if_different "${CMAKE_SOURCE_DIR}/applications/volume_rendering_xr/configs/ctnv_bb_er.json" "${CMAKE_BINARY_DIR}/configs/ctnv_bb_er.json"
+)
+add_dependencies(test_render_volume_xr
+  test_render_volume_xr_config_yaml
+  test_render_volume_xr_config_json
+)
+
+# Add test
+add_test(NAME xr_volume_rendering_test
+          COMMAND ${CMAKE_CURRENT_BINARY_DIR}/test_render_volume_xr --count=10
+          WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
+set_tests_properties(xr_volume_rendering_test PROPERTIES
+                     PASS_REGULAR_EXPRESSION "Application has finished running.")

@@ -87,14 +87,6 @@ install(TARGETS volume_rendering_xr
   COMPONENT holoscan-apps
 )
 
-
-#if(BUILD_TESTING)
-# add_subdirectory(testing)
-  # Add test
-#  add_test(NAME xr_volume_rendering_test
-#           COMMAND xr_volume_rendering --count=100
-#           WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
-#  set_tests_properties(xr_volume_rendering_test PROPERTIES
-#                       PASS_REGULAR_EXPRESSION "Application has finished running.")
-
-#endif()
+if(BUILD_TESTING)
+ add_subdirectory(testing)
+endif()

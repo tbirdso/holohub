@@ -81,6 +81,7 @@ void XrTransformRenderOp::start() {
 
   // load transfer functions
   std::ifstream input_file_stream(config_file_.get());
+  HOLOSCAN_LOG_TRACE("Loading input config file " + std::string(config_file_.get()));
   render_params_->settings = nlohmann::json::parse(input_file_stream);
   nlohmann::json transfer_functions = render_params_->settings["TransferFunction"];
 

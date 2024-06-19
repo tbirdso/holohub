@@ -65,7 +65,7 @@ class AppXR : public holoscan::Application {
     xr_session->initialize();
 
     auto xr_begin_frame = make_operator<holoscan::openxr::XrBeginFrameOp>(
-        "xr_begin_frame", holoscan::Arg("session") = xr_session);
+        "xr_begin_frame", holoscan::Arg("session") = xr_session, holoscan::Arg("enable_eye_tracking") = false);
     auto xr_end_frame = make_operator<holoscan::openxr::XrEndFrameOp>(
         "xr_end_frame", holoscan::Arg("session") = xr_session);
 
@@ -167,6 +167,7 @@ class AppXR : public holoscan::Application {
              {
                  {"ux_box", "ux_box"},
                  {"ux_cursor", "ux_cursor"},
+                 {"ux_window", "ux_window"}
              });
 
     add_flow(xr_begin_frame, volume_renderer, {{"color_buffer", "color_buffer_in"}});
@@ -183,11 +184,11 @@ class AppXR : public holoscan::Application {
   const std::string density_volume_file_;
   const std::string mask_volume_file_;
   const std::string render_config_file_default{
-      "/workspace/holoscan-openxr/data/volume_rendering/config.json"};
+      "/workspace/holohub/applications/volume_rendering_xr/configs/ctnv_bb_er.json"};
   const std::string density_volume_file_default{
-      "/workspace/holoscan-openxr/data/volume_rendering/highResCT.mhd"};
+      "/workspace/holohub/data/volume_rendering_xr/highResCT.mhd"};
   const std::string mask_volume_file_default{
-      "/workspace/holoscan-openxr/data/volume_rendering/smoothmasks.seg.mhd"};
+      "/workspace/holohub/data/volume_rendering_xr/smoothmasks.seg.mhd"};
 };
 
 }  // namespace
@@ -195,20 +196,18 @@ class AppXR : public holoscan::Application {
 TEST(AppXR, TestAppXR) {
   std::vector<std::string> args{
       "--config",
-      "/workspace/holoscan-openxr/data/volume_rendering/config.json",
+      "/workspace/holohub/applications/volume_rendering_xr/configs/ctnv_bb_er.json",
       "--density",
-      "/workspace/holoscan-openxr/data/volume_rendering/highResCT.mhd",
+      "/workspace/holohub/data/volume_rendering_xr/highResCT.mhd",
       "--mask",
-      "/workspace/holoscan-openxr/data/volume_rendering/smoothmasks.seg.mhd"};
+      "/workspace/holohub/data/volume_rendering_xr/smoothmasks.seg.mhd"};
   EXPECT_EQ(args.size(), 6);
-  EXPECT_EQ(args[1], "/workspace/holoscan-openxr/data/volume_rendering/config.json");
-  EXPECT_EQ(args[3], "/workspace/holoscan-openxr/data/volume_rendering/highResCT.mhd");
-  EXPECT_EQ(args[5], "/workspace/holoscan-openxr/data/volume_rendering/smoothmasks.seg.mhd");
+  EXPECT_EQ(args[1], "/workspace/holohub/applications/volume_rendering_xr/configs/ctnv_bb_er.json");
+  EXPECT_EQ(args[3], "/workspace/holohub/data/volume_rendering_xr/highResCT.mhd");
+  EXPECT_EQ(args[5], "/workspace/holohub/data/volume_rendering_xr/smoothmasks.seg.mhd");
   std::cout << "argument one:" << args[1];
   auto app = make_application<AppXR>(args[1], args[3], args[5]);
-  auto config_path =
-      "/workspace/holoscan-openxr/build/applications/volume_rendering_xr/testing/"
-      "test_render_volume_xr/app_config.yaml";
+  auto config_path = "/workspace/holohub/applications/volume_rendering_xr/testing/test_render_volume_xr/app_config.yaml";
   app->config(config_path);
   // auto& argv = app->argv();
   app->run();
