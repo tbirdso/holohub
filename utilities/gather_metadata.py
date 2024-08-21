@@ -49,7 +49,7 @@ def extract_readme(file_path):
             return ""
 
 
-def extract_application_name(metadata_filepath: str) -> str:
+def extract_project_name(metadata_filepath: str) -> str:
     """Extract the application name from the README file path.
 
     HoloHub convention is such that an application `metadata.json` file
@@ -71,17 +71,17 @@ def generate_build_and_run_command(metadata: dict) -> str:
     """Generate the build and run command for the application"""
     language = metadata.get("metadata", {}).get("language", "").lower()
     if language == "python":
-        return f'./dev_container build_and_run {metadata["application_name"]} --language python'
+        return f'./dev_container build_and_run {metadata["project_name"]} --language python'
     elif language in ["cpp", "c++"]:
-        return f'./dev_container build_and_run {metadata["application_name"]} --language cpp'
+        return f'./dev_container build_and_run {metadata["project_name"]} --language cpp'
     else:
         # Unknown language, use default
-        return f'./dev_container build_and_run {metadata["application_name"]}'
+        return f'./dev_container build_and_run {metadata["project_name"]}'
 
 
 def gather_metadata(repo_path) -> dict:
     """Collect project metadata from JSON files into a single dictionary"""
-    SCHEMA_TYPES = ["application", "operator", "gxf_extension", "tutorial"]
+    SCHEMA_TYPES = ["application", "benchmark", "operator", "gxf_extension", "tutorial"]
 
     metadata_files = find_metadata_files(repo_path)
     metadata = []
@@ -97,12 +97,13 @@ def gather_metadata(repo_path) -> dict:
                     break
 
             readme = extract_readme(file_path)
-            application_name = extract_application_name(file_path)
+            project_name = extract_project_name(file_path)
             source_folder = os.path.normpath(file_path).split("/")[0]
+            data["filepath"] = file_path
             data["readme"] = readme
-            data["application_name"] = application_name
+            data["project_name"] = project_name
             data["source_folder"] = source_folder
-            if source_folder == "applications":
+            if data["metadata"].get("run"):
                 data["build_and_run"] = generate_build_and_run_command(data)
             metadata.append(data)
 
@@ -112,17 +113,23 @@ def gather_metadata(repo_path) -> dict:
 def main(args: argparse.Namespace):
     """Run the gather application"""
 
-    DEFAULT_INCLUDE_PATHS = ["applications", "operators", "tutorials"]
-    DEFAULT_OUTPUT_FILEPATH = "aggregate_metadata.json"
+    DEFAULT_INCLUDE_PATHS = ["applications", "benchmarks", "operators", "tutorials"]
+    DEFAULT_OUTPUT_FILEPATH = "stdout"
 
     repo_paths = args.include or DEFAULT_INCLUDE_PATHS
     output_file = args.output or DEFAULT_OUTPUT_FILEPATH
+    
+    if not (output_file == "stdout" or output_file.endswith(".json")):
+        raise ValueError("Output file must be a JSON file")
 
     metadata = gather_metadata(repo_paths)
 
     # Write the metadata to the output file
-    with open(output_file, "w") as output:
-        json.dump(metadata, output, indent=4)
+    if output_file == "stdout":
+        print(json.dumps(metadata, indent=4))
+    else:
+        with open(output_file, "w") as output:
+            json.dump(metadata, output, indent=4)
 
 
 if __name__ == "__main__":
@@ -134,7 +141,7 @@ if __name__ == "__main__":
         "--output",
         type=str,
         required=False,
-        help="Output filepath for JSON collection of project metadata",
+        help="Output filepath for JSON collection of project metadata. Defaults to stdout.",
     )
     parser.add_argument(
         "--include",
