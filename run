@@ -114,6 +114,16 @@ gather_metadata() {
   echo $(python3 ${SCRIPT_DIR}/utilities/gather_metadata.py)
 }
 
+get_app_metadata() {
+  local appname="$1"
+  local language="${2:-cpp}"
+  if [[ -z "${appname}" ]]; then
+    echo "Missing app name argument for get_app_metadata"
+    exit 1
+  fi
+
+  echo -n $(gather_metadata | jq -r --arg appname "${appname}" '[.[] | select(.project_name == $appname)]')
+}
 
 get_app_source_root_dir() {
   # Get source path for a given application according to HoloHub convention,
