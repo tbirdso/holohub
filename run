@@ -116,7 +116,8 @@ gather_metadata() {
 
 
 get_app_source_root_dir() {
-  # Get source path for a given application according to HoloHub convention.
+  # Get source path for a given application according to HoloHub convention,
+  # stripped of optional language subdirectory (cpp, python).
   # Usage: ./run get_app_source_root_dir <app_name>
   local appname="$1"
   if [[ -z "${appname}" ]]; then
@@ -125,7 +126,7 @@ get_app_source_root_dir() {
   fi
 
   app_filepath=$(gather_metadata | \
-    jq -r --arg appname "${appname}" '.[] | select(.project_name == "$appname") | .filepath')
+    jq -r --arg a "$appname" '.[] | select(.project_name == $a) | .filepath' | head -n1)
   if [ -z "${app_filepath}" ]; then
     echo "Could not find project ${appname}"
     exit 1
@@ -137,7 +138,7 @@ get_app_source_root_dir() {
     holohub_app_source="${holohub_app_source%/*}"
   fi
 
-  echo -n "$(dirname ${holohub_app_source})"
+  echo -n "${holohub_app_source}"
 }
 
 get_app_source_lang_dir() {
@@ -873,27 +874,21 @@ list_desc() {
 }
 
 list() {
+  local ignore_patterns="(cookiecutter)"
+
+  project_entries=$(gather_metadata | \
+    jq --arg ignore "${ignore_patterns}" '[.[] | select((.project_type == "application" or .project_type == "benchmark") and (.project_name | test($ignore) | not))]')
+  projects_count=$(echo ${project_entries} | jq 'length')
+  pretty_entries=$(echo ${project_entries} | jq -r '.[] | "\(.metadata.name) (\(.metadata.language))"' | sort -d)
+
   echo ""
-  echo "***** HoloHub applications ******"
+  echo "***** HoloHub applications (${projects_count})******"
 
-  apps=$(find ${SCRIPT_DIR}/applications -name 'metadata.json' | sort -d)
-  apps+=$(find ${SCRIPT_DIR}/benchmarks -name 'metadata.json' | sort -d)
-  for d in ${apps}; do
-    local appname=$(dirname $d | grep -Po '^'${SCRIPT_DIR}'/(applications|benchmarks)/\K[^ ]*')
-
-    local language="${appname##*/}"
-    if [[ ${language} != "cpp" ]] && [[ ${language} != "python" ]]; then
-      language=""
-      filename="${appname}"
-    else
-      language="(${language})"
-      filename="${appname%/*}"
-    fi
-
-    application="${filename##*/}"
-
-    echo "- ${application} ${language}"
+  IFS=$'\n'
+  for entry in ${pretty_entries}; do
+    echo "- ${entry}"
   done
+
   echo ""
   echo "Run ./run build <app_name> to build a specific app."
 }

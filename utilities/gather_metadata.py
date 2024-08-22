@@ -93,6 +93,7 @@ def gather_metadata(repo_path) -> dict:
 
             for schema_type in SCHEMA_TYPES:
                 if schema_type in data:
+                    data["project_type"] = schema_type
                     data["metadata"] = data.pop(schema_type)
                     break
 
