@@ -98,25 +98,28 @@ def gather_metadata(repo_path) -> dict:
     # Iterate over the found metadata files
     for file_path in metadata_files:
         with open(file_path, "r") as file:
-            data = json.load(file)
+            project_entries = json.load(file)
+            if not isinstance(project_entries, list):
+                project_entries = [project_entries]
 
-            for schema_type in SCHEMA_TYPES:
-                if schema_type in data:
-                    data["project_type"] = schema_type
-                    data["metadata"] = data.pop(schema_type)
-                    break
+            # Allow multiple project entries in one metadata.json
+            for data in project_entries:
+                for schema_type in SCHEMA_TYPES:
+                    if schema_type in data:
+                        data["project_type"] = schema_type
+                        data["metadata"] = data.pop(schema_type)
+                        break
 
-            readme = extract_readme(file_path)
-            project_name = extract_project_name(file_path)
-            source_folder = os.path.normpath(file_path).split("/")[0]
-            data["filepath"] = file_path
-            data["readme"] = readme
-            data["name"] = project_name
-            data["language"] = normalize_language(data["metadata"].get("language", ""))
-            data["source_folder"] = source_folder
-            if data["metadata"].get("run"):
-                data["build_and_run"] = generate_build_and_run_command(data)
-            metadata.append(data)
+                readme = extract_readme(file_path)
+                source_folder = os.path.normpath(file_path).split("/")[0]
+                data["filepath"] = file_path
+                data["readme"] = readme
+                data["name"] = data["metadata"].get("shortname", extract_project_name(file_path))
+                data["language"] = normalize_language(data["metadata"].get("language", ""))
+                data["source_folder"] = source_folder
+                if data["metadata"].get("run"):
+                    data["build_and_run"] = generate_build_and_run_command(data)
+                metadata.append(data)
 
     return metadata
 

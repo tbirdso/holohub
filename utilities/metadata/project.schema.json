@@ -6,6 +6,9 @@
     "name": {
       "type": "string"
     },
+    "shortname": {
+      "type": "string"
+    },
     "description": {
       "type": "string"
     },
