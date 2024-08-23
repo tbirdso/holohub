@@ -886,18 +886,24 @@ launch() {
 list_desc() {
   echo ""
   echo "Display the list of applications to run."
-  echo "Usage: ./run list"
+  echo "Usage: ./run list [ --pretty]"
   echo ""
 }
 
 list() {
   local ignore_patterns="(cookiecutter)"
-  local name_to_print=".metadata.name"
+  local format_str=".metadata.name"
 
   project_entries=$(gather_metadata | \
     jq --arg ignore "${ignore_patterns}" '[.[] | select((.project_type == "application" or .project_type == "benchmark") and (.project_name | test($ignore) | not))]')
   projects_count=$(echo ${project_entries} | jq 'length')
-  pretty_entries=$(echo ${project_entries} | jq -r '.[] | "\(.metadata.name) (\(.metadata.language))"' | sort -d)
+
+  if [[ "${1:-}" == "--pretty" ]]; then
+    format_str='"\(.metadata.name) (\(.metadata.language))"'
+  else
+    format_str='"\(.project_name) (\(.metadata.language))"'
+  fi
+  pretty_entries=$(echo "${project_entries}" | jq -r ".[] | ${format_str}" | sort -d)
 
   echo ""
   echo "***** HoloHub applications (${projects_count})******"
