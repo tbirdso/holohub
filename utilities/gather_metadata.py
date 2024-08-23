@@ -82,10 +82,10 @@ def generate_build_and_run_command(metadata: dict) -> str:
     """Generate the build and run command for the application"""
     language = normalize_language(metadata.get("metadata", {}).get("language", ""))
     if language:
-        return f'./dev_container build_and_run {metadata["project_name"]} --language {language}'
+        return f'./dev_container build_and_run {metadata["name"]} --language {language}'
     else:
         # Unknown language, use default
-        return f'./dev_container build_and_run {metadata["project_name"]}'
+        return f'./dev_container build_and_run {metadata["name"]}'
 
 
 def gather_metadata(repo_path) -> dict:
@@ -111,8 +111,8 @@ def gather_metadata(repo_path) -> dict:
             source_folder = os.path.normpath(file_path).split("/")[0]
             data["filepath"] = file_path
             data["readme"] = readme
-            data["project_name"] = project_name
-            data["project_language"] = normalize_language(data["metadata"].get("language", ""))
+            data["name"] = project_name
+            data["language"] = normalize_language(data["metadata"].get("language", ""))
             data["source_folder"] = source_folder
             if data["metadata"].get("run"):
                 data["build_and_run"] = generate_build_and_run_command(data)

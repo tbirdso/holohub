@@ -141,9 +141,9 @@ get_project_metadata() {
     exit 1
   fi
 
-  json_match=$(gather_metadata | jq -r "[.[] | select(.project_name == \"${project_name}\")]")
+  json_match=$(gather_metadata | jq -r "[.[] | select(.name == \"${project_name}\")]")
   if [[ -n "${language}" ]]; then
-    json_match=$(echo $json_match | jq -r "[.[] | select(.project_language == \"$language\")]")
+    json_match=$(echo $json_match | jq -r "[.[] | select(.language == \"$language\")]")
   fi
   echo -n "${json_match}"
 }
@@ -881,7 +881,7 @@ launch() {
 list_desc() {
   echo ""
   echo "Display the list of applications to run."
-  echo "Usage: ./run list [ --pretty]"
+  echo "Usage: ./run list [--pretty]"
   echo ""
 }
 
@@ -890,13 +890,13 @@ list() {
   local format_str=".metadata.name"
 
   project_entries=$(gather_metadata | \
-    jq --arg ignore "${ignore_patterns}" '[.[] | select((.project_type == "application" or .project_type == "benchmark") and (.project_name | test($ignore) | not))]')
+    jq --arg ignore "${ignore_patterns}" '[.[] | select((.project_type == "application" or .project_type == "benchmark") and (.name | test($ignore) | not))]')
   projects_count=$(echo ${project_entries} | jq 'length')
 
   if [[ "${1:-}" == "--pretty" ]]; then
     format_str='"\(.metadata.name) (\(.metadata.language))"'
   else
-    format_str='"\(.project_name) (\(.metadata.language))"'
+    format_str='"\(.name) (\(.language))"'
   fi
   pretty_entries=$(echo "${project_entries}" | jq -r ".[] | ${format_str}" | sort -d)
 
