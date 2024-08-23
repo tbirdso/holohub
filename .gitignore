@@ -21,6 +21,7 @@ ngc-cli/
 .bash_history
 .python_history
 .wget-hsts
+.lesshst
 
 .cache/
 .cupy/

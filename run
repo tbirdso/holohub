@@ -114,29 +114,49 @@ gather_metadata() {
   echo $(python3 ${SCRIPT_DIR}/utilities/gather_metadata.py)
 }
 
-get_app_metadata() {
-  local appname="$1"
-  local language="${2:-cpp}"
-  if [[ -z "${appname}" ]]; then
-    echo "Missing app name argument for get_app_metadata"
-    exit 1
-  fi
-
-  echo -n $(gather_metadata | jq -r --arg appname "${appname}" '[.[] | select(.project_name == $appname)]')
+normalize_language() {
+  # Normalize language string:
+  # C++, CPP, etc -> cpp
+  # Python, PYTHON, etc -> python
+  case "${1,,}" in
+      "c++" | "cpp")
+        echo "cpp"
+        ;;
+      "python")
+        echo "python"
+        ;;
+      *)
+        echo ""
+        ;;
+    esac
 }
 
-get_app_source_root_dir() {
-  # Get source path for a given application according to HoloHub convention,
-  # stripped of optional language subdirectory (cpp, python).
-  # Usage: ./run get_app_source_root_dir <app_name>
-  local appname="$1"
-  if [[ -z "${appname}" ]]; then
-    echo "Missing app name argument for get_app_source_root_dir"
+get_project_metadata() {
+  local project_name="$1"
+  local language=$(normalize_language "$2")
+  if [[ -z "${project_name}" ]]; then
+    echo "Missing name argument for get_project_metadata"
     exit 1
   fi
 
-  app_filepath=$(gather_metadata | \
-    jq -r --arg a "$appname" '.[] | select(.project_name == $a) | .filepath' | head -n1)
+  json_match=$(gather_metadata | jq -r --arg name "${project_name}" '[.[] | select(.project_name == $name)]')
+  if [[ -n "${language}" ]]; then
+    json_match=$(gather_metadata | jq -r --arg lang "${language}" '[.[] | select(.metadata.language == $lang)]')
+  fi
+  echo -n "${json_match}"
+}
+
+get_project_source_root_dir() {
+  # Get source path for a given application according to HoloHub convention,
+  # stripped of optional language subdirectory (cpp, python).
+  # Usage: ./run get_project_source_root_dir <app_name>
+  local appname="$1"
+  if [[ -z "${appname}" ]]; then
+    echo "Missing app name argument for get_project_source_root_dir"
+    exit 1
+  fi
+
+  app_filepath=$(get_project_metadata ${appname} | jq -r '.[0].filepath')
   if [ -z "${app_filepath}" ]; then
     echo "Could not find project ${appname}"
     exit 1
@@ -151,45 +171,42 @@ get_app_source_root_dir() {
   echo -n "${holohub_app_source}"
 }
 
-get_app_source_lang_dir() {
+get_project_source_lang_dir() {
   # Get source path for a given application language implementation according to HoloHub convention.
   # If a project defines more than one language implementation it must define one subfolder per language,
   # otherwise the implementation may be provided at the top level or in a subfolder at the contributor's discretion.
-  # Usage: ./run get_app_source_lang_dir <app_name> <language>
+  # Usage: ./run get_project_source_lang_dir <app_name> <language>
   local appname="$1"
   local language="$2"
 
-  local holohub_app_source=$(get_app_source_root_dir "${appname}")
-  if [[ -n "${holohub_app_source}" ]] && [[ -d "${holohub_app_source}/${language}" ]]; then
-    holohub_app_source="${holohub_app_source}/${language}"
+  holohub_project_source=$(get_project_source_root_dir "${appname}")
+  if [[ -n "${holohub_project_source}" && -n "${language}" && -d "${holohub_project_source}/${language}" ]]; then
+      holohub_project_source="${holohub_project_source}/${language}"
   fi
 
-  echo -n "${holohub_app_source}"
+  echo -n "${holohub_project_source}"
 }
 
-get_app_dockerfile() {
-  # Parse the path to a custom application Dockerfile, if provided.
+get_project_dockerfile() {
+  # Parse the path to a custom project Dockerfile, if provided.
   # Follows the HoloHub convention:
   # 1. Check the metadata.json file for a "dockerfile" entry.
   # 2. Check for a Dockerfile in the application language implementation directory.
   # 3. Check for a Dockerfile in the root application directory.
   # 4. Use the default Dockerfile provided at the top level of the HoloHub repository.
-  # Usage: ./run get_app_dockerfile <app_name> <language>
-  local appname="$1"
+  # Usage: ./run get_project_dockerfile <app_name> <language>
+  local project_name="$1"
   local language="$2"
   local dockerfile_path=""
 
-  local app_source_root_path=$(get_app_source_root_dir ${appname})
-  local app_source_lang_path=$(get_app_source_lang_dir ${appname} ${language})
+  local project_source_lang_path=$(get_project_source_lang_dir ${project_name} ${language})
 
-  local dockerfile_entry=$(cat "${app_source_lang_path}/metadata.json" 2>/dev/null | grep "dockerfile" )
-  if [[ -n "${dockerfile_entry}" ]]; then
-    pattern="s#<holohub_app_source>#${app_source_lang_path}#g"
+  dockerfile_entry=$(get_project_metadata "${project_name}" "${language}" | jq -r '.[0].metadata.dockerfile')
+  if [[ -n "${dockerfile_entry}" ]] && [[ "${dockerfile_entry}" != "null" ]]; then
+    pattern="s#<holohub_app_source>#${project_source_lang_path}#g"
     dockerfile_path=$(echo "${dockerfile_entry}" | awk -F'["]' '{ print $4 }' | sed -E ${pattern})
-  elif [[ -f "${app_source_lang_path}/Dockerfile" ]]; then
-    dockerfile_path="${app_source_lang_path}/Dockerfile"
-  elif [[ -f "${app_source_root_path}/Dockerfile" ]]; then
-    dockerfile_path="${app_source_root_path}/Dockerfile"
+  elif [[ -f "${project_source_lang_path}/Dockerfile" ]]; then
+    dockerfile_path="${project_source_lang_path}/Dockerfile"
   else
     dockerfile_path="${SCRIPT_DIR}/Dockerfile"
   fi
@@ -197,33 +214,31 @@ get_app_dockerfile() {
   echo -n "${dockerfile_path}"
 }
 
-get_app_default_language() {
+get_project_default_language() {
   # Return the default app language, with a preference for C++ over Python.
   # Yields "cpp", "python", or an empty string if no language is found.
-  # Usage: ./run get_app_default_language <app_name>
-  appname="$1"
-
-  language=$(gather_metadata | jq -r --arg appname "${appname}" '.[] | select(.project_name == $appname) | .metadata.language')
-
+  # Usage: ./run get_project_default_language <app_name>
+  language=$(get_project_metadata "$1" | jq -r '.[] | .metadata.language')
   if [ -z "${language}" ]; then
-    echo "Could not find language for project ${appname}"
-    exit 1
+    echo ""
   fi
 
-  # Normalize language string
-  case "${language,,}" in
-      "c++" | "cpp")
-        language="cpp"
+  IFS=$'\n'
+  for lang in $language; do
+    lang=$(normalize_language $lang)
+    case $lang in
+      "cpp")
+        echo -n "cpp"
+        return
         ;;
       "python")
-        language="python"
-        ;;
-      *)
-        language=""
+        echo -n "python"
+        return
         ;;
     esac
+  done
 
-  echo -e "${language}"
+  echo -n ""
 }
 
 
@@ -683,7 +698,7 @@ build() {
 
   local app_source_root_path
   if [ $benchmark == true ]; then
-    app_source_root_path=$(get_app_source_root_dir $1)
+    app_source_root_path=$(get_project_source_root_dir $1)
     run_command benchmarks/holoscan_flow_benchmarking/patch_application.sh ${app_source_root_path}
   fi
 
@@ -712,7 +727,7 @@ build() {
   fi
 
   if [ $benchmark == true ]; then
-    app_source_root_path=$(get_app_source_root_dir $1)
+    app_source_root_path=$(get_project_source_root_dir $1)
     run_command benchmarks/holoscan_flow_benchmarking/restore_application.sh ${app_source_root_path}
   fi
 
@@ -787,14 +802,13 @@ launch() {
    local holohub_data_dir=$(grep -Po '^HOLOHUB_DATA_DIR:PATH=\K[^ ]*' ${holohub_build_dir}/CMakeCache.txt)
 
    if [[ -z "${language}" ]]; then
-     language=$(get_app_default_language "${appname}")
-     language=${language:-cpp}
+      language=$(get_project_default_language "${appname}") || language="cpp"
      if [[ -n "${language}" ]]; then
        echo "Default language for ${appname} selected: ${language}"
      fi
    fi
 
-   holohub_app_source=$(get_app_source_lang_dir "${appname}" "${language}")
+   holohub_app_source=$(get_project_source_lang_dir "${appname}" "${language}")
    if [[ -z "${holohub_app_source}" ]]; then
      print_error "Could not find app source directory for ${appname} ${language}."
      launch_desc
@@ -858,13 +872,6 @@ launch() {
    local environment="export PYTHONPATH=\${PYTHONPATH}:${holoscan_sdk_install}/../../../python/lib:${holohub_build_dir}/python/lib:${SCRIPT_DIR} && export HOLOHUB_DATA_PATH=${holohub_data_dir} && export HOLOSCAN_INPUT_PATH=${holohub_data_dir}"
    local reset_environment="export PYTHONPATH=${PYTHONPATH} && export HOLOHUB_DATA_PATH=\"${HOLOHUB_DATA_PATH}\" && export HOLOSCAN_INPUT_PATH=\"${HOLOSCAN_INPUT_PATH}\""
 
-   if [ ${verbose} ]; then
-    echo "Run environment: $environment"
-    echo "Run workdir: $workdir"
-    echo "Run command: $command"
-    echo "Run command args: $extra_args"
-   fi
-
    # Run the command
    run_command $environment
    run_command $workdir
@@ -885,6 +892,7 @@ list_desc() {
 
 list() {
   local ignore_patterns="(cookiecutter)"
+  local name_to_print=".metadata.name"
 
   project_entries=$(gather_metadata | \
     jq --arg ignore "${ignore_patterns}" '[.[] | select((.project_type == "application" or .project_type == "benchmark") and (.project_name | test($ignore) | not))]')
