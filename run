@@ -133,12 +133,12 @@ normalize_language() {
 
 get_project_metadata() {
   # Get JSON metadata for a given HoloHub project.
+  # Returns an empty list ([]) on error or if no project is found.
   # Usage: ./run get_project_metadata <project_name> <language>
   local project_name="$1"
   local language=$(normalize_language "$2")
   if [[ -z "${project_name}" ]]; then
-    echo "Missing name argument for get_project_metadata"
-    exit 1
+    echo -n "[]"
   fi
 
   json_match=$(gather_metadata | jq -r "[.[] | select(.name == \"${project_name}\")]")
@@ -148,45 +148,29 @@ get_project_metadata() {
   echo -n "${json_match}"
 }
 
-get_project_source_root_dir() {
+get_project_source_dir() {
   # Get source path for a given project according to HoloHub convention,
   # stripped of optional language subdirectory (cpp, python).
-  # Usage: ./run get_project_source_root_dir <app_name>
+  # Usage: ./run get_project_source_dir <app_name> <language>
   local project_name="$1"
+  local language=$(normalize_language "${2:-$(get_project_default_language ${project_name})}")
   if [[ -z "${project_name}" ]]; then
     echo "Missing app name argument for get_project_source_root_dir"
     exit 1
   fi
 
-  project_filepath=$(realpath $(get_project_metadata ${project_name} | jq -r '.[0].filepath'))
-  if [ -z "${project_filepath}" ]; then
-    echo "Could not find project ${project_name}"
+  metadata_filepath=$(get_project_metadata "${project_name}" "${language}" | jq -r '.[0].filepath' | xargs realpath)
+  if [[ -z "${metadata_filepath}" ]] || ! [[ -e "${metadata_filepath}" ]]; then
+    echo "Could not find metadata for ${project_name}"
     exit 1
   fi
-
-  # Remove the language directory postfix if present
-  holohub_project_source=$(dirname ${project_filepath})
-  if [[ "$holohub_project_source" =~ /(cpp|python)$ ]]; then
-    holohub_project_source="${holohub_project_source%/*}"
+  
+  project_dir=$(dirname ${metadata_filepath})
+  if [[ -z "${project_dir}" ]]; then
+    echo "Could not find project directory for ${project_name}"
+    exit 1
   fi
-
-  echo -n "${holohub_project_source}"
-}
-
-get_project_source_lang_dir() {
-  # Get source path for a given application language implementation according to HoloHub convention.
-  # If a project defines more than one language implementation it must define one subfolder per language,
-  # otherwise the implementation may be provided at the top level or in a subfolder at the contributor's discretion.
-  # Usage: ./run get_project_source_lang_dir <app_name> <language>
-  local project_name="$1"
-  local language="$2"
-
-  holohub_project_source=$(get_project_source_root_dir "${project_name}")
-  if [[ -n "${holohub_project_source}" && -n "${language}" && -d "${holohub_project_source}/${language}" ]]; then
-      holohub_project_source="${holohub_project_source}/${language}"
-  fi
-
-  echo -n "${holohub_project_source}"
+  echo -n "${project_dir}"
 }
 
 get_project_dockerfile() {
@@ -198,19 +182,24 @@ get_project_dockerfile() {
   # 4. Use the default Dockerfile provided at the top level of the HoloHub repository.
   # Usage: ./run get_project_dockerfile <app_name> <language>
   local project_name="$1"
-  local language="$2"
+  local language="$(normalize_language ${2:-$(get_project_default_language ${project_name})})"
   local dockerfile_path=""
 
-  local project_source_lang_path=$(get_project_source_lang_dir ${project_name} ${language})
+  local project_source_dir=$(get_project_source_dir "${project_name}" "${language}")
+  local dockerfile_path=$(get_project_metadata "${project_name}" "${language}" | jq -r '.[0].metadata.dockerfile')
 
-  dockerfile_entry=$(get_project_metadata "${project_name}" "${language}" | jq -r '.[0].metadata.dockerfile')
-  if [[ -n "${dockerfile_entry}" ]] && [[ "${dockerfile_entry}" != "null" ]]; then
-    pattern="s#<holohub_app_source>#${project_source_lang_path}#g"
-    dockerfile_path=$(echo "${dockerfile_entry}" | awk -F'["]' '{ print $4 }' | sed -E ${pattern})
-  elif [[ -f "${project_source_lang_path}/Dockerfile" ]]; then
-    dockerfile_path="${project_source_lang_path}/Dockerfile"
-  else
-    dockerfile_path="${SCRIPT_DIR}/Dockerfile"
+  if [[ -z "${dockerfile_path}" || "${dockerfile_path}" == "null" ]]; then
+    local dockerfile_search_paths=(
+      "${project_source_dir}/Dockerfile"
+      "${project_source_dir%/${language}}/Dockerfile"
+      "${SCRIPT_DIR}/Dockerfile"
+    )
+
+    for dockerfile_path in "${dockerfile_search_paths[@]}"; do
+      if [[ -f "${dockerfile_path}" ]]; then
+        break
+      fi
+    done
   fi
 
   echo -n "${dockerfile_path}"
