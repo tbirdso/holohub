@@ -53,12 +53,13 @@ endif()
 if(BUILD_TESTING)
   include(HoloHubTestHelpers)
   add_engine_generation_test_fixture(
-    MODEL_FILEPATH ${HOLOHUB_DATA_DIR}/endoscopy/tool_loc_convlstm.onnx
+    MODEL_FILEPATH ${HOLOHUB_DATA_DIR}/ssd_model/epoch24_nms.onnx
     TEST_FIXTURE_NAME multiai_endoscopy_engine_generation_fixture
   )
   add_engine_generation_test_fixture(
-    MODEL_FILEPATH ${HOLOHUB_DATA_DIR}/ssd_model/epoch24_nms.onnx
+    MODEL_FILEPATH ${HOLOHUB_DATA_DIR}/monai_tool_seg_model/model_endoscopic_tool_seg_sanitized_nhwc_in_nchw_out.onnx
     TEST_FIXTURE_NAME multiai_endoscopy_engine_generation_fixture
+    TIMEOUT 900  # engine generation observed to take 700s on Jetson Nano device with TensorRT 10.3
   )
 endif()
 

@@ -14,7 +14,7 @@
 # limitations under the License.
 
 function(add_engine_generation_test_fixture)
-  cmake_parse_arguments(TEST "" "MODEL_FILEPATH;FIXTURE_NAME" "FORWARD_ARGS" ${ARGN})
+  cmake_parse_arguments(TEST "" "MODEL_FILEPATH;FIXTURE_NAME;TIMEOUT" "FORWARD_ARGS" ${ARGN})
   string(REGEX MATCH "\\.onnx$" ONNX_EXTENSION ${TEST_MODEL_FILEPATH})
   if(NOT ONNX_EXTENSION)
     message(FATAL_ERROR "Must provide an ONNX model to pre-process for testing")
@@ -39,5 +39,12 @@ function(add_engine_generation_test_fixture)
       --output ${MODEL_OUTPUT_DIR}
       ${TEST_FORWARD_ARGS}
   )
-  set_tests_properties(${test_name} PROPERTIES FIXTURES_SETUP ${TEST_FIXTURE_NAME})
+
+  if(TEST_TIMEOUT)
+    set(timeout_property TIMEOUT ${TEST_TIMEOUT})
+  endif()
+  set_tests_properties(${test_name} PROPERTIES
+    FIXTURES_SETUP ${TEST_FIXTURE_NAME}
+    ${timeout_property}
+  )
 endfunction()
