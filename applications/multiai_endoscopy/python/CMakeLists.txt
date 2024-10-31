@@ -62,6 +62,7 @@ if(BUILD_TESTING)
       "PYTHONPATH=${GXF_LIB_DIR}/../python/lib:${CMAKE_BINARY_DIR}/python/lib")
 
   set_tests_properties(multiai_endoscopy_python_test PROPERTIES
+       FIXTURES_REQUIRED multiai_endoscopy_engine_generation_fixture
        PASS_REGULAR_EXPRESSION "Reach end of file or playback count reaches to the limit. Stop ticking.;"
        FAIL_REGULAR_EXPRESSION "[^a-z]Error;ERROR;Failed")
 

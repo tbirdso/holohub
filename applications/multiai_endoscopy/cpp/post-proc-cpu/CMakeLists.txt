@@ -96,6 +96,7 @@ if(BUILD_TESTING)
             --data "${HOLOHUB_DATA_DIR}/"
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR})
   set_tests_properties(multiai_endoscopy_cpp_test PROPERTIES
+                       FIXTURES_REQUIRED multiai_endoscopy_engine_generation_fixture
                        ENVIRONMENT "LD_LIBRARY_PATH=$ENV{LD_LIBRARY_PATH}:${CMAKE_BINARY_DIR}/gxf_extensions"
                        PASS_REGULAR_EXPRESSION "Reach end of file or playback count reaches to the limit. Stop ticking."
                        FAIL_REGULAR_EXPRESSION "[^a-z]Error;ERROR;Failed")

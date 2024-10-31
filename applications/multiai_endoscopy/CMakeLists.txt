@@ -49,5 +49,18 @@ if(HOLOHUB_DOWNLOAD_DATASETS)
   )
 endif()
 
+# Add testing
+if(BUILD_TESTING)
+  include(HoloHubTestHelpers)
+  add_engine_generation_test_fixture(
+    MODEL_FILEPATH ${HOLOHUB_DATA_DIR}/endoscopy/tool_loc_convlstm.onnx
+    TEST_FIXTURE_NAME multiai_endoscopy_engine_generation_fixture
+  )
+  add_engine_generation_test_fixture(
+    MODEL_FILEPATH ${HOLOHUB_DATA_DIR}/ssd_model/epoch24_nms.onnx
+    TEST_FIXTURE_NAME multiai_endoscopy_engine_generation_fixture
+  )
+endif()
+
 add_subdirectory(cpp)
 add_subdirectory(python)
