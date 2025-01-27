@@ -30,19 +30,19 @@ target_link_libraries(gxf_emergent_source_lib
   GXF::std
   holoscan::core
   yaml-cpp
-  EmergentCamera
+  # EmergentCamera
 )
-target_include_directories(gxf_emergent_source_lib
-  SYSTEM
-  BEFORE
-  PUBLIC
-  "/opt/EVT/eSDK/include"
-)
-target_link_directories(gxf_emergent_source_lib
-  BEFORE
-  PUBLIC
-  "/opt/EVT/eSDK/lib/"
-)
+# target_include_directories(gxf_emergent_source_lib
+#   SYSTEM
+#   BEFORE
+#   PUBLIC
+#   "/opt/EVT/eSDK/include"
+# )
+# target_link_directories(gxf_emergent_source_lib
+#   BEFORE
+#   PUBLIC
+#   "/opt/EVT/eSDK/lib/"
+# )
 
 # Create extension
 add_library(gxf_emergent_source SHARED

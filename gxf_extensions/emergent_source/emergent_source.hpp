@@ -17,11 +17,11 @@
 #ifndef NVIDIA_HOLOSCAN_GXF_EXTENSIONS_EMERGENT_SOURCE_HPP_
 #define NVIDIA_HOLOSCAN_GXF_EXTENSIONS_EMERGENT_SOURCE_HPP_
 
-#include <emergentframe.h>
-#include <emergenterrors.h>
-#include <gigevisiondeviceinfo.h>
-#include <EmergentCamera.h>
-#include <EmergentCameraAPIs.h>
+// #include <emergentframe.h>
+// #include <emergenterrors.h>
+// #include <gigevisiondeviceinfo.h>
+// #include <EmergentCamera.h>
+// #include <EmergentCameraAPIs.h>
 
 #include <string>
 #include <vector>
@@ -65,8 +65,8 @@ class EmergentSource : public gxf::Codelet {
   gxf_result_t stop() override;
 
  private:
-  EVT_ERROR CheckCameraCapabilities();
-  EVT_ERROR OpenEVTCamera();
+  // EVT_ERROR CheckCameraCapabilities();
+  // EVT_ERROR OpenEVTCamera();
   void SetDefaultConfiguration();
 
   gxf::Parameter<gxf::Handle<gxf::Transmitter>> signal_;
@@ -77,9 +77,9 @@ class EmergentSource : public gxf::Codelet {
   gxf::Parameter<uint32_t> exposure_;
   gxf::Parameter<uint32_t> gain_;
 
-  CEmergentCamera camera_;
-  CEmergentFrame evt_frame_[FRAMES_BUFFERS];
-  CEmergentFrame evt_frame_recv_;
+  // CEmergentCamera camera_;
+  // CEmergentFrame evt_frame_[FRAMES_BUFFERS];
+  // CEmergentFrame evt_frame_recv_;
 };
 
 }  // namespace holoscan
