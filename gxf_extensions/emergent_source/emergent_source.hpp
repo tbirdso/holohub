@@ -31,7 +31,7 @@
 
 #define FRAMES_BUFFERS 256
 
-using namespace Emergent;
+// using namespace Emergent;
 
 namespace nvidia {
 namespace holoscan {
@@ -43,7 +43,7 @@ constexpr uint32_t kDefaultWidth = 4200;
 constexpr uint32_t kDefaultHeight = 2160;
 constexpr uint32_t kDefaultFramerate = 240;
 constexpr bool kDefaultRDMA = false;
-constexpr PIXEL_FORMAT kDefaultPixelFormat = GVSP_PIX_BAYGB8;
+// constexpr PIXEL_FORMAT kDefaultPixelFormat = GVSP_PIX_BAYGB8;
 constexpr uint32_t kDefaultExposure = 3072;
 constexpr uint32_t kDefaultGain = 4095;
 
