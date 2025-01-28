@@ -234,10 +234,10 @@ gxf_result_t EmergentSource::start() {
 //     GXF_LOG_ERROR("Acquisition start failed. Error %d\n", err);
 //     return GXF_FAILURE;
 //   }
-//   return GXF_SUCCESS;
-// }
+  return GXF_SUCCESS;
+}
 
-// gxf_result_t EmergentSource::tick() {
+gxf_result_t EmergentSource::tick() {
 //   EVT_ERROR err = EVT_SUCCESS;
 
 //   err = EVT_CameraGetFrame(&camera_, &evt_frame_recv_, EVT_INFINITE);
@@ -276,9 +276,10 @@ gxf_result_t EmergentSource::start() {
 //   }
 
 //   return gxf::ToResultCode(message);
-// }
+return GXF_SUCCESS;
+}
 
-// gxf_result_t EmergentSource::stop() {
+gxf_result_t EmergentSource::stop() {
 //   EVT_ERROR err = EVT_SUCCESS;
 
 //   // Tell camera to stop streaming
