@@ -1,0 +1,82 @@
+#!/bin/bash
+
+# Display usage information
+usage() {
+    echo "Usage: holohub <command> [project] [options]"
+    echo ""
+    echo "Commands:"
+    echo "  build-container <proj>     Build the development container"
+    echo "  run-container <proj>       Launch the development container"
+    echo "  build <proj> [--local]     Build a project (in container or locally)"
+    echo "  run <proj> [--local]       Run a project (in container or locally)"
+    echo ""
+    echo "Options:"
+    echo "  --local                    Execute build/run commands locally instead of in container"
+    exit 1
+}
+
+# Check if at least one argument is provided
+if [ $# -lt 1 ]; then
+    usage
+fi
+
+command=$1
+project=$2
+local_flag=""
+
+# Check for --local flag in any position
+for arg in "$@"; do
+    if [ "$arg" == "--local" ]; then
+        local_flag="--local"
+    fi
+done
+
+case $command in
+    "build-container")
+        if [ -z "$project" ]; then
+            echo "Error: Project name required"
+            usage
+        fi
+        ./dev_container build
+        ;;
+        
+    "run-container")
+        if [ -z "$project" ]; then
+            echo "Error: Project name required"
+            usage
+        fi
+        ./dev_container launch
+        ;;
+        
+    "build")
+        if [ -z "$project" ]; then
+            echo "Error: Project name required"
+            usage
+        fi
+        if [ "$local_flag" == "--local" ]; then
+            ./run build "$project"
+        else
+            # First build and launch the container, then build the project
+            ./dev_container build
+            ./dev_container launch
+            ./dev_container build_and_run "$project" --no_run
+        fi
+        ;;
+        
+    "run")
+        if [ -z "$project" ]; then
+            echo "Error: Project name required"
+            usage
+        fi
+        if [ "$local_flag" == "--local" ]; then
+            ./run launch "$project"
+        else
+            ./dev_container build_and_run "$project"
+        fi
+        ;;
+        
+    *)
+        echo "Error: Unknown command '$command'"
+        usage
+        ;;
+esac 
