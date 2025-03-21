@@ -20,7 +20,7 @@ import codecs
 import json
 import logging
 import os
-
+from pathlib import Path
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
@@ -108,11 +108,11 @@ def gather_metadata(repo_path, exclude_files: None) -> dict:
 
                 readme = extract_readme(file_path)
                 application_name = extract_application_name(file_path)
-                source_folder = os.path.normpath(file_path).split("/")[0]
+                source_folder = Path(file_path).parent
                 data["readme"] = readme
                 data["application_name"] = application_name
                 data["source_folder"] = source_folder
-                if source_folder in ["applications", "workflows"]:
+                if source_folder in ["applications", "benchmarks", "workflows"]:
                     data["build_and_run"] = generate_build_and_run_command(data)
                 metadata.append(data)
             except json.decoder.JSONDecodeError as e:
