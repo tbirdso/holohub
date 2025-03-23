@@ -107,6 +107,14 @@ def get_group_id(group: str) -> Optional[int]:
     except KeyError:
         return None
 
+def normalize_language(language: str) -> Optional[str]:
+    """Normalize language name"""
+    if language.lower() == 'cpp' or language.lower() == 'c++':
+        return 'cpp'
+    elif language.lower() == 'python' or language.lower() == 'py':
+        return 'python'
+    return None
+
 def list_metadata_json_dir(*paths: Path) -> List[Tuple[str, str]]:
     """List all metadata.json files in given paths"""
     results = []

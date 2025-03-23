@@ -134,7 +134,6 @@ def gather_metadata(repo_paths: list[str], exclude_paths: list[str] = None) -> l
                         data["build_and_run"] = generate_build_and_run_command(data)
                     metadata.append(data)
             except json.decoder.JSONDecodeError as e:
-                breakpoint()
                 logger.error('Error parsing JSON file "%s": %s', file_path, e)
                 continue
 
