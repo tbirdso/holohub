@@ -27,6 +27,7 @@ from datetime import datetime
 import json
 import glob
 import traceback
+from collections import defaultdict
 
 sys.path.append(Path(__file__).parent / "utilities")
 import utilities.metadata.gather_metadata as metadata_util
@@ -396,7 +397,8 @@ class HoloHubCLI:
 
     def handle_list(self, args: argparse.Namespace) -> None:
         """Handle list command"""
-        EXCLUDE_FILES = ["applications/holoviz/template"]
+        LIST_TYPES = ["application", "benchmark", "gxf_extension", "package", "operator", "tutorial", "workflow"]
+        EXCLUDE_PATHS = ["applications/holoviz/template"]
         # Known exceptions, such as template files that do not represent a standalone project
 
         app_paths = (
@@ -407,28 +409,19 @@ class HoloHubCLI:
             host_root_dir / "pkg",
             host_root_dir / "workflows"
         )
-        metadata = metadata_util.gather_metadata(app_paths, exclude_paths=["applications/holoviz/template"])
-        breakpoint()
+        metadata = metadata_util.gather_metadata(app_paths, exclude_paths=EXCLUDE_PATHS)
+        grouped_metadata = defaultdict(list)
+        for project in metadata:
+            grouped_metadata[project.get('project_type', '')].append(project)
 
-        print("\n\033[1;37m== APPLICATIONS =================\033[0m\n")
-        for project in metadata:
-            language = project.get('metadata', {}).get('language', '')
-            language = f"({language})" if language else ""
-            print(f'{project["application_name"]} {language}')
-            
-        print("\n\033[1;37m== OPERATORS ====================\033[0m\n")
-        
-        metadata = metadata_util.gather_metadata([host_root_dir / "operators"], exclude_paths=["applications/holoviz/template"])
-        for project in metadata:
-            language = project.get('metadata', {}).get('language', '')
-            language = f"({language})" if language else ""
-            print(f'{project["application_name"]} {language}')
-            
-        print("\n\033[1;37m== PACKAGES =====================\033[0m\n")
-        
-        pkgs = list_cmake_dir_options(host_root_dir, "add_holohub_package")
-        for pkg in pkgs:
-            print(pkg)
+        for project_type in LIST_TYPES:
+            if project_type not in grouped_metadata:
+                continue
+            print(f"\n\033[1;37m== {project_type.upper()}S =================\033[0m\n")
+            for project in grouped_metadata[project_type]:
+                language = project.get('metadata', {}).get('language', '')
+                language = f"({language})" if language else ""
+                print(f'{project["application_name"]} {language}')
             
         print("\n\033[1;37m=================================\033[0m\n")
 
