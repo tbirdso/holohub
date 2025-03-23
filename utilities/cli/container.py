@@ -42,21 +42,13 @@ class HoloHubContainer:
     CONTAINER_PREFIX = 'holohub'
     HOLOHUB_ROOT = Path(__file__).parent.parent.parent
 
-    @staticmethod
-    def host_gpu() -> str:
-        return get_host_gpu()
-
-    @staticmethod
-    def host_compute_capacity() -> str:
-        return get_compute_capacity()
-
     @classmethod
     def default_base_image(cls) -> str:
-        return f"nvcr.io/nvidia/clara-holoscan/holoscan:v3.0.0-{cls.host_gpu()}"
+        return f"nvcr.io/nvidia/clara-holoscan/holoscan:v3.0.0-{get_host_gpu()}"
     
     @classmethod
     def default_image(cls) -> str:
-        return f"{cls.CONTAINER_PREFIX}:ngc-v3.0.0-{cls.host_gpu()}"
+        return f"{cls.CONTAINER_PREFIX}:ngc-v3.0.0-{get_host_gpu()}"
 
     @staticmethod
     def default_dockerfile() -> Path:
@@ -217,7 +209,7 @@ class HoloHubContainer:
         
         run_command(cmd, dry_run=self.dryrun)
 
-    def launch(self,
+    def run(self,
                img: Optional[str] = None,
                local_sdk_root: Optional[Path] = None,
                ssh_x11: bool = False,
@@ -283,10 +275,10 @@ class HoloHubContainer:
             cmd.extend(['-v', f'{volume}:/workspace/volumes/{base}'])
             
         # Add conditional options
-        cmd.extend(self.conditional_options(use_tini, persistent))
+        cmd.extend(self.get_conditional_options(use_tini, persistent))
         
         # Add UCX options
-        cmd.extend(self.ucx_options)
+        cmd.extend(self.ucx_args())
         
         # Add display server options
         cmd.extend(self.get_display_options(ssh_x11))
