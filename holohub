@@ -32,7 +32,7 @@ sys.path.append(Path(__file__).parent / "utilities")
 import utilities.metadata.gather_metadata as metadata_util
 import utilities.cli.util as holohub_cli_util
 from utilities.cli.container import HoloHubContainer
-from utilities.cli.project import ProjectMetadata, ProjectType
+# from utilities.cli.project import ProjectMetadata, ProjectType
 
 host_root_dir = Path(__file__).parent
 
@@ -396,13 +396,19 @@ class HoloHubCLI:
 
     def handle_list(self, args: argparse.Namespace) -> None:
         """Handle list command"""
+        EXCLUDE_FILES = ["applications/holoviz/template"]
+        # Known exceptions, such as template files that do not represent a standalone project
 
         app_paths = (
             host_root_dir / "applications",
             host_root_dir / "benchmarks",
+            host_root_dir / "gxf_extensions",
+            host_root_dir / "operators",
+            host_root_dir / "pkg",
             host_root_dir / "workflows"
         )
-        metadata = metadata_util.gather_metadata(app_paths, exclude_files=["applications/holoviz/template"])
+        metadata = metadata_util.gather_metadata(app_paths, exclude_paths=["applications/holoviz/template"])
+        breakpoint()
 
         print("\n\033[1;37m== APPLICATIONS =================\033[0m\n")
         for project in metadata:
@@ -412,7 +418,7 @@ class HoloHubCLI:
             
         print("\n\033[1;37m== OPERATORS ====================\033[0m\n")
         
-        metadata = metadata_util.gather_metadata([host_root_dir / "operators"], exclude_files=["applications/holoviz/template"])
+        metadata = metadata_util.gather_metadata([host_root_dir / "operators"], exclude_paths=["applications/holoviz/template"])
         for project in metadata:
             language = project.get('metadata', {}).get('language', '')
             language = f"({language})" if language else ""

@@ -28,7 +28,7 @@ import json
 import glob
 import traceback
 
-from .util import get_host_gpu, get_compute_capacity, get_group_id, run_command, check_nvidia_ctk
+from .util import get_host_gpu, get_compute_capacity, get_group_id, run_command, check_nvidia_ctk, fatal
 
 class HoloHubContainer:
     """Manages container operations for HoloHub"""
