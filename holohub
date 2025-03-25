@@ -92,6 +92,8 @@ class HoloHubCLI:
             help='Provides extra arguments to docker build command')
         build_container.add_argument('--dryrun', action='store_true',
             help='Print commands without executing them')
+        build_container.add_argument('--language', choices=['cpp', 'python'],
+            help='Specify language implementation')
         build_container.set_defaults(func=self.handle_build_container)
 
         # run-container command
@@ -220,17 +222,20 @@ class HoloHubCLI:
         """Find a project by name"""
         normalized_language = holohub_cli_util.normalize_language(language) if language else None
         for project in self.projects:
-            if project['application_name'] == project_name:
+            if project['project_name'] == project_name:
                 if normalized_language and holohub_cli_util.normalize_language(project['metadata']['language']) != normalized_language:
                     continue
                 return project
         return None
 
-    def _make_project_container(self, project_name: str, language: Optional[str] = None) -> HoloHubContainer:
+    def _make_project_container(self, project_name: Optional[str] = None, language: Optional[str] = None) -> HoloHubContainer:
         """Define a project container"""
+        if not project_name:
+            return HoloHubContainer(project_metadata=None)
+
         project_data = self._find_project(project_name=project_name, language=language)
         if not project_data:
-            holohub_cli_util.fatal(f"Project '{project_name}' {f'({language})' if hasattr(language) else ''} not found")
+            holohub_cli_util.fatal(f"Project '{project_name}' {f'({language})' if language else ''} not found")
         return HoloHubContainer(project_metadata=project_data)
 
     def handle_build_container(self, args: argparse.Namespace) -> None:
@@ -472,7 +477,7 @@ class HoloHubCLI:
             for project in grouped_metadata[project_type]:
                 language = project.get('metadata', {}).get('language', '')
                 language = f"({language})" if language else ""
-                print(f'{project["application_name"]} {language}')
+                print(f'{project["project_name"]} {language}')
             
         print("\n\033[1;37m=================================\033[0m\n")
 

@@ -53,10 +53,10 @@ def extract_readme(file_path):
             return ""
 
 
-def extract_application_name(metadata_filepath: str) -> str:
-    """Extract the application or workflow name from the README file path.
+def extract_project_name(metadata_filepath: str) -> str:
+    """Extract the project name from the metadata.json file path.
 
-    HoloHub convention is such that an application/workflow `metadata.json` file
+    HoloHub convention is such that a `metadata.json` file
     must be located at either:
     - the named project folder; or
     - a language subfolder one level below the project folder.
@@ -125,10 +125,10 @@ def gather_metadata(repo_paths: list[str], exclude_paths: list[str] = None) -> l
                     data["metadata"] = data.pop(schema_type)
 
                     readme = extract_readme(file_path)
-                    application_name = extract_application_name(file_path)
+                    project_name = extract_project_name(file_path)
                     source_folder = Path(file_path).parent
                     data["readme"] = readme
-                    data["application_name"] = application_name
+                    data["project_name"] = project_name
                     data["source_folder"] = source_folder
                     if source_folder in ["applications", "benchmarks", "workflows"]:
                         data["build_and_run"] = generate_build_and_run_command(data)

@@ -116,7 +116,7 @@ class HoloHubContainer:
     @property
     def image_name(self) -> str:
         if self.dockerfile_path != HoloHubContainer.default_dockerfile():
-            return f"{self.CONTAINER_PREFIX}:{self.metadata.get('name', '')}"
+            return f"{self.CONTAINER_PREFIX}:{self.project_metadata.get('project_name', '')}"
         return HoloHubContainer.default_image()
 
     @property
@@ -128,6 +128,9 @@ class HoloHubContainer:
         3. <app_source>/<language>/Dockerfile
         4. holohub/Dockerfile
         """
+        if not self.project_metadata:
+            return HoloHubContainer.default_dockerfile()
+        
         if self.project_metadata.get('metadata', {}).get('dockerfile'):
             dockerfile = self.project_metadata['metadata']['dockerfile']
             dockerfile = dockerfile.replace("<holohub_app_source>", str(self.project_metadata['source_folder']))
@@ -146,9 +149,11 @@ class HoloHubContainer:
         
         return HoloHubContainer.HOLOHUB_ROOT / 'Dockerfile'
     
-    def __init__(self, project_metadata: dict[str, any]):
-        if not isinstance(project_metadata, dict):
-            raise ValueError("Expected a dictionary of project metadata but received: %s", type(project_metadata))
+    def __init__(self, project_metadata: Optional[dict[str, any]]):
+        if not project_metadata:
+            print("No project provided, proceeding with default container")
+        elif not isinstance(project_metadata, dict):
+            print("No project provided, proceeding with default container")
 
         # Environment defaults
         self.holoscan_py_exe = os.environ.get('HOLOSCAN_PY_EXE', 'python3')
@@ -172,7 +177,7 @@ class HoloHubContainer:
         # Get Dockerfile path
         docker_file_path = docker_file or self.dockerfile_path
         base_img = base_img or self.default_base_image()
-        img = img or self.default_image()
+        img = img or self.image_name
         gpu_type = get_host_gpu()
         compute_capacity = get_compute_capacity()
 
