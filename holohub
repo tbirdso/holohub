@@ -121,6 +121,8 @@ class HoloHubCLI:
             help='Run the container with root permissions')
         run_container.add_argument('--docker_opts',
             help='Additional options to pass to the Docker launch')
+        run_container.add_argument('--language', choices=['cpp', 'python'],
+            help='Specify language implementation')
         run_container.set_defaults(func=self.handle_run_container)
 
         # build command
@@ -260,6 +262,7 @@ class HoloHubCLI:
             language=args.language if hasattr(args, 'language') else None
         )
         container.dryrun = args.dryrun
+        container.build()
         container.run(
             img=args.img,
             local_sdk_root=args.local_sdk_root,
@@ -432,6 +435,7 @@ class HoloHubCLI:
                 language=args.language if hasattr(args, 'language') else None
             )
             container.dryrun = args.dryrun
+            container.build()
             
             # Get language before launching container
             language = holohub_cli_util.normalize_language(container.project_metadata.get('metadata', {}).get('language', None))
