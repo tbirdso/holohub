@@ -629,24 +629,18 @@ class HoloHubCLI:
             build_dir = self.build_dir / args.project
             build_dir.mkdir(parents=True, exist_ok=True)
             
-            if language == 'cpp':
-                # Build and install C++ project
-                holohub_cli_util.run_command([
-                    'cmake', '-B', str(build_dir),
-                    '-S', str(app_source),
-                    f'-DCMAKE_BUILD_TYPE={build_type}',
-                    f'-DCMAKE_PREFIX_PATH={self.holoscan_sdk_install}',
-                    '-DCMAKE_INSTALL_PREFIX=/usr/local'
-                ], dry_run=args.dryrun)
-                holohub_cli_util.run_command(['cmake', '--build', str(build_dir), '--config', build_type],
-                          dry_run=args.dryrun)
-                holohub_cli_util.run_command(['sudo', 'cmake', '--install', str(build_dir)],
-                          dry_run=args.dryrun)
-            else:
-                # For Python projects, install with pip
-                if (app_source / "setup.py").exists():
-                    holohub_cli_util.run_command([sys.executable, '-m', 'pip', 'install', str(app_source)],
-                              dry_run=args.dryrun)
+            # Build and install C++ project
+            holohub_cli_util.run_command([
+                'cmake', '-B', str(build_dir),
+                '-S', str(app_source),
+                f'-DCMAKE_BUILD_TYPE={build_type}',
+                f'-DCMAKE_PREFIX_PATH={self.holoscan_sdk_install}',
+                '-DCMAKE_INSTALL_PREFIX=/usr/local'
+            ], dry_run=args.dryrun)
+            holohub_cli_util.run_command(['cmake', '--build', str(build_dir), '--config', build_type],
+                        dry_run=args.dryrun)
+            holohub_cli_util.run_command(['sudo', 'cmake', '--install', str(build_dir)],
+                        dry_run=args.dryrun)
         else:
             # Install in container
             self.container.do_dry_run = args.dryrun
