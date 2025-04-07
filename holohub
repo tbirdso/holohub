@@ -305,6 +305,7 @@ class HoloHubCLI:
             holohub_cli_util.run_command([
                 'cmake', '-B', str(build_dir),
                 '-S', str(HoloHubCLI.HOLOHUB_ROOT),
+                '-G', 'Ninja',
                 f'-DCMAKE_BUILD_TYPE={build_type}',
                 f'-DCMAKE_PREFIX_PATH={HoloHubCLI.DEFAULT_SDK_DIR}',
                 f'-DAPP_{args.project}=ON'
@@ -342,12 +343,15 @@ class HoloHubCLI:
             holohub_cli_util.run_command(
                 ['cmake', '-B', str(build_dir),
                 '-S', str(HoloHubCLI.HOLOHUB_ROOT),
-                f'-DCMAKE_BUILD_TYPE="{BUILD_TYPE}"',
+                '-G', 'Ninja',
+                f'-DCMAKE_BUILD_TYPE={BUILD_TYPE}',
                 f'-DCMAKE_PREFIX_PATH={HoloHubCLI.DEFAULT_SDK_DIR}',
                 f'-DAPP_{args.project}=ON'
-            ], dry_run=args.dryrun)
-            holohub_cli_util.run_command(['cmake', '--build', str(build_dir)],
-                        dry_run=args.dryrun)
+                ],
+                dry_run=args.dryrun)
+            holohub_cli_util.run_command(
+                ['cmake', '--build', str(build_dir),'--config', BUILD_TYPE],
+                dry_run=args.dryrun)
 
             language = holohub_cli_util.normalize_language(project_data.get('metadata', {}).get('language', None))
             
