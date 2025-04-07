@@ -288,22 +288,9 @@ class HoloHubCLI:
         }
         return build_type_map.get(build_type.lower(), 'Release')
 
-    # def get_app_default_language(self, app_name: str) -> str:
-    #     """Get default language if multiple are available"""
-    #     DEFAULT_LANGUAGE = 'cpp'
-    #     apps = holohub_cli_util.list_metadata_json_dir(
-    #         host_root_dir / "applications",
-    #         host_root_dir / "benchmarks",
-    #         host_root_dir / "workflows"
-    #     )
-    #     for name, lang in apps:
-    #         if name == app_name:
-    #             return lang.strip('()') if lang else DEFAULT_LANGUAGE
-    #     return DEFAULT_LANGUAGE
-
     def handle_build(self, args: argparse.Namespace) -> None:
         """Handle build command"""
-        if args.local:
+        if args.local or os.environ.get('HOLOHUB_BUILD_LOCAL'):
             project_data = self._find_project(
                 project_name=args.project,
                 language=args.language if hasattr(args, 'language') else None
@@ -314,12 +301,13 @@ class HoloHubCLI:
             build_type = self.get_buildtype_str(args.build_type)
             build_dir = HoloHubCLI.DEFAULT_BUILD_PARENT_DIR / args.project
             build_dir.mkdir(parents=True, exist_ok=True)
-        
+
             holohub_cli_util.run_command([
                 'cmake', '-B', str(build_dir),
                 '-S', str(HoloHubCLI.HOLOHUB_ROOT),
                 f'-DCMAKE_BUILD_TYPE={build_type}',
-                f'-DCMAKE_PREFIX_PATH={HoloHubCLI.DEFAULT_SDK_DIR}'
+                f'-DCMAKE_PREFIX_PATH={HoloHubCLI.DEFAULT_SDK_DIR}',
+                f'-DAPP_{args.project}=ON'
             ], dry_run=args.dryrun)
             holohub_cli_util.run_command(['cmake', '--build', str(build_dir), '--config', build_type],
                         dry_run=args.dryrun)
@@ -341,7 +329,7 @@ class HoloHubCLI:
 
     def handle_run(self, args: argparse.Namespace) -> None:
         """Handle run command"""
-        if args.local:
+        if args.local or os.environ.get('HOLOHUB_BUILD_LOCAL'):
             project_data = self._find_project(
                 project_name=args.project,
                 language=args.language if hasattr(args, 'language') else None
@@ -349,15 +337,17 @@ class HoloHubCLI:
             if not project_data:
                 holohub_cli_util.fatal(f"Project '{args.project}' {f'({args.language})' if hasattr(args, 'language') else ''} not found")
 
-            breakpoint()
-
             build_dir = HoloHubCLI.DEFAULT_BUILD_PARENT_DIR / args.project
+            BUILD_TYPE = 'Release'
             holohub_cli_util.run_command(
                 ['cmake', '-B', str(build_dir),
                 '-S', str(HoloHubCLI.HOLOHUB_ROOT),
-                f'-DCMAKE_BUILD_TYPE="Release"',
-                f'-DCMAKE_PREFIX_PATH={HoloHubCLI.DEFAULT_SDK_DIR}'
+                f'-DCMAKE_BUILD_TYPE="{BUILD_TYPE}"',
+                f'-DCMAKE_PREFIX_PATH={HoloHubCLI.DEFAULT_SDK_DIR}',
+                f'-DAPP_{args.project}=ON'
             ], dry_run=args.dryrun)
+            holohub_cli_util.run_command(['cmake', '--build', str(build_dir)],
+                        dry_run=args.dryrun)
 
             language = holohub_cli_util.normalize_language(project_data.get('metadata', {}).get('language', None))
             
@@ -365,7 +355,6 @@ class HoloHubCLI:
             if not run_config:
                 holohub_cli_util.fatal(f"Project '{args.project}' does not have a run configuration")
 
-            breakpoint()
             app_source_path = project_data.get('source_folder', '')
             
             # Process command template

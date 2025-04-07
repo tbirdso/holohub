@@ -271,7 +271,8 @@ class HoloHubContainer:
         # Environment variables
         cmd.extend([
             '-e', 'NVIDIA_DRIVER_CAPABILITIES=graphics,video,compute,utility,display',
-            '-e', 'HOME=/workspace/holohub'
+            '-e', 'HOME=/workspace/holohub',
+            '-e', 'HOLOHUB_BUILD_LOCAL=1'
         ])
         
         # Additional volumes
