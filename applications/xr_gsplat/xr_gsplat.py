@@ -77,7 +77,7 @@ class XrGsplatOp(holoscan.core.Operator):
             view_matrix[:3, 3] = torch.tensor(
                 [
                     view.pose.position.x,
-                    view.pose.position.y,
+                    view.pose.position.y + 0.5,
                     view.pose.position.z,
                 ]
             )
