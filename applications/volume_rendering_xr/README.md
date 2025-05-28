@@ -16,7 +16,11 @@ You can use this viewer to visualize a segmented medical volume with a mixed rea
 
 Review the [HoloHub README document](/README.md#prerequisites) for supported platforms and software requirements.
 
-The application supports x86_64 or IGX dGPU platforms. IGX iGPU, AGX, and RHEL platforms are not fully tested at this time.
+The Holoscan application supports x86_64 or IGX dGPU platforms.
+
+### XR Device
+
+The Holoscan SDK application may be run with any valid OpenXR runtime. We provide instructions below for the Magic Leap 2 and Apple Vision Pro head-mounted displays.
 
 #### Magic Leap 2 Device
 
@@ -33,6 +37,22 @@ The following packages and applications are required to run remote rendering wit
 Refer to the Magic Leap 2 documentation for more information:
 - [Updating your device with Magic Leap Hub](https://www.magicleap.care/hc/en-us/articles/5341445649805-Updating-Your-Device);
 - [Installing `.apk` packages with Magic Leap Hub](https://developer-docs.magicleap.cloud/docs/guides/developer-tools/ml-hub/ml-hub-package-manager/)
+
+#### Apple Vision Pro
+
+The following packages and applications are required to run remote rendering with an Apple Vision Pro device:
+
+| Requirement | Platform | Version | Source |
+|--|------|---------|--|
+| Apple Vision Pro HMD | - | visionOS 2.0 or later | |
+| XCode | Apple Mac | 16.0 or later | |
+| Apple Developer License | - | - | - |
+| NVIDIA Container Toolkit | - | 1.14 or later | - |
+| CloudXR Runtime Container | Ubuntu 22.04 or later, x86_64 | 0.1.0 | https://catalog.ngc.nvidia.com/orgs/nvidia/containers/cloudxr-runtime |
+| ISAAC XR Teleop Sample Client | - | 1.0.0 | https://github.com/isaac-sim/isaac-xr-teleop-sample-client-apple |
+
+Refer to the [sample client project](https://github.com/isaac-sim/isaac-xr-teleop-sample-client-apple) for instructions on how to build and install the
+sample client application to your Apple Vision Pro headset.
 
 ## Quick Start
 
