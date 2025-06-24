@@ -106,3 +106,6 @@ RUN echo 'export JREHOME=$(readlink /etc/alternatives/java | sed -e "s/\/bin\/ja
 
 # Set default Holohub data directory
 ENV HOLOSCAN_INPUT_PATH=/workspace/holohub/data
+
+# Add Python tools for linting to PATH
+ENV PATH=$PATH:/workspace/holohub/.local/bin

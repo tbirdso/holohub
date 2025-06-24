@@ -1184,7 +1184,7 @@ class HoloHubCLI:
             dry_run=dry_run,
         )
         holohub_cli_util.run_command(
-            ["apt", "install", "--no-install-recommends", "-y", "clang-format=1:14.0*"],
+            ["apt", "install", "--no-install-recommends", "-y", "clang-format-14"],
             dry_run=dry_run,
         )
 
