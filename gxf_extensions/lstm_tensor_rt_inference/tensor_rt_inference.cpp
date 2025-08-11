@@ -167,27 +167,51 @@ gxf::Expected<void> SerializeEnginePlan(const std::vector<char>& plan, const std
 void TensorRTInferenceLogger::log(ILogger::Severity severity, const char* msg) throw() {
   switch (severity) {
     case Severity::kINTERNAL_ERROR: {
-      GXF_LOG_ERROR("TRT INTERNAL_ERROR: %s", msg);
+      try {
+        GXF_LOG_ERROR("TRT INTERNAL_ERROR: %s", msg);
+      } catch (const std::exception& e) {
+        GXF_LOG_ERROR("TRT INTERNAL_ERROR: %s", std::string(msg));
+      }
       break;
     }
     case Severity::kERROR: {
-      GXF_LOG_ERROR("TRT ERROR: %s", msg);
+      try {
+        GXF_LOG_ERROR("TRT ERROR: %s", msg);
+      } catch (const std::exception& e) {
+        GXF_LOG_ERROR("TRT ERROR: %s", std::string(msg));
+      }
       break;
     }
     case Severity::kWARNING: {
-      GXF_LOG_WARNING("TRT WARNING: %s", msg);
+      try {
+        GXF_LOG_WARNING("TRT WARNING: %s", msg);
+      } catch (const std::exception& e) {
+        GXF_LOG_WARNING("TRT WARNING: %s", std::string(msg));
+      }
       break;
     }
     case Severity::kINFO: {
-      GXF_LOG_DEBUG("TRT INFO: %s", msg);
+      try {
+        GXF_LOG_DEBUG("TRT INFO: %s", msg);
+      } catch (const std::exception& e) {
+        GXF_LOG_DEBUG("TRT INFO: %s", std::string(msg));
+      }
       break;
     }
     case Severity::kVERBOSE: {
-      if (verbose_) { GXF_LOG_DEBUG("TRT VERBOSE: %s", msg); }
+      try {
+        if (verbose_) { GXF_LOG_DEBUG("TRT VERBOSE: %s", msg); }
+      } catch (const std::exception& e) {
+        if (verbose_) { GXF_LOG_DEBUG("TRT VERBOSE: %s", std::string(msg)); }
+      }
       break;
     }
     default: {
-      GXF_LOG_ERROR("TRT UNKNOWN SEVERITY ERROR: %s", msg);
+      try {
+        GXF_LOG_ERROR("TRT UNKNOWN SEVERITY ERROR: %s", msg);
+      } catch (const std::exception& e) {
+        GXF_LOG_ERROR("TRT UNKNOWN SEVERITY ERROR: %s", std::string(msg));
+      }
       break;
     }
   }
@@ -626,7 +650,7 @@ gxf::Expected<std::vector<char>> TensorRtInference::convertModelToEngine() {
     builderConfig->setFlag(nvinfer1::BuilderFlag::kGPU_FALLBACK);
     builderConfig->setDLACore(dla_core.value());
   }
-  if (enable_fp16_.get()) { builderConfig->setFlag(nvinfer1::BuilderFlag::kFP16); }
+  // if (enable_fp16_.get()) { builderConfig->setFlag(nvinfer1::BuilderFlag::kFP16); }
 
   // Parses ONNX with explicit batch size for support of dynamic shapes/batch
   #if NV_TENSORRT_MAJOR < 10
