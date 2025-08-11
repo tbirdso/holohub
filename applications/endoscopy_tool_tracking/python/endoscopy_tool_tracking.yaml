@@ -157,16 +157,12 @@ lstm_inference:
   enable_fp16_: true
 
 holoviz:
-  headless: true
+  headless: false
   tensors:
     - name: ""
       type: color
       opacity: 1.0
       priority: 0
-    - name: mask
-      type: color
-      opacity: 1.0
-      priority: 1
     - name: scaled_coords
       type: crosses
       opacity: 1.0

@@ -20,8 +20,9 @@ from argparse import ArgumentParser
 
 import cupy as cp
 import numpy as np
+import logging
 
-from holoscan.core import Application, Operator, OperatorSpec
+from holoscan.core import Application, Operator, OperatorSpec, InputContext, OutputContext
 from holoscan.operators import (
     FormatConverterOp,
     HolovizOp,
@@ -39,6 +40,8 @@ from holohub.lstm_tensor_rt_inference import LSTMTensorRTInferenceOp
 from holohub.slang_shader import SlangShaderOp
 from holohub.tool_tracking_postprocessor import ToolTrackingPostprocessorOp
 
+
+logging.basicConfig(level=logging.DEBUG)
 
 def lazy_import(module_name):
     """Lazily import a module by name.
@@ -67,25 +70,28 @@ def lazy_import(module_name):
 
 
 class SinkOp(Operator):
-
-    @classmethod
-    def spec(cls):
-        spec = OperatorSpec(cls)
-        spec.input("receivers")
-        return spec
-
-    def __init__(self, name, **kwargs):
-        super().__init__(name, **kwargs)
-        self.name = name
-        self.kwargs = kwargs
+    def __init__(self, fragment, *args, **kwargs):
+        super().__init__(fragment, *args, **kwargs)
         
-    def compute(self, op_input, op_output, *args, **kwargs):
-        input_msg = op_input.receive("input")
-        mask = input_msg.get("mask")
-        if mask:
-            mask = cp.asnumpy(mask)
-            logging.info(f"Received mask: {mask.shape} {mask.dtype} with min {np.min(mask)} and max {np.max(mask)} and nonzero {np.count_nonzero(mask)}")
+    def setup(self, spec: OperatorSpec):
+        spec.input("receivers")
 
+    def compute(self, op_input: InputContext, op_output: OutputContext, context):
+        in_message = op_input.receive("receivers")
+        source_video = in_message.get("")
+        mask = in_message.get("mask")
+        if source_video is not None:
+            source_video_cp = cp.asarray(source_video)
+            source_video_np = cp.asnumpy(source_video_cp)
+            logging.warning(f"{self.name} Received source_video: {source_video_cp.shape}, {source_video_cp.dtype}")
+            # logging.warning(f"Source video details: {np.min(source_video_np)}, {np.max(source_video_np)}, {np.mean(source_video_np)}, {np.std(source_video_np)}")
+        elif mask is not None:
+            mask_cp = cp.asarray(mask)
+            mask_np = cp.asnumpy(mask_cp)
+            logging.info(f"{self.name} Received mask: {mask_cp.shape} {mask_cp.dtype} with min {np.min(mask_np)} and max {np.max(mask_np)} and nonzero {np.count_nonzero(mask_np)} and zero {np.count_nonzero(mask_np == 0)}")
+        else:
+            logging.info(f"{self.name} Received no mask and no source video")
+        
 
 class EndoscopyApp(Application):
     def __init__(
@@ -300,20 +306,20 @@ class EndoscopyApp(Application):
             visualizer_allocator = BlockMemoryPool(self, name="allocator", **source_pool_kwargs)
 
         if renderer == "holoviz":
-            sink = SinkOp(self, name="sink")
-            # visualizer = HolovizOp(
-            #     self,
-            #     name="holoviz",
-            #     width=width,
-            #     height=height,
-            #     enable_render_buffer_input=(
-            #         is_overlay_enabled if source_name != "deltacast" else None
-            #     ),
-            #     enable_render_buffer_output=is_overlay_enabled or record_type == "visualizer",
-            #     allocator=visualizer_allocator,
-            #     cuda_stream_pool=cuda_stream_pool,
-            #     **self.kwargs("holoviz_overlay" if is_overlay_enabled else "holoviz"),
-            # )
+            # visualizer = SinkOp(self, name="sink")
+            visualizer = HolovizOp(
+                self,
+                name="holoviz",
+                width=width,
+                height=height,
+                enable_render_buffer_input=(
+                    is_overlay_enabled if source_name != "deltacast" else None
+                ),
+                enable_render_buffer_output=is_overlay_enabled or record_type == "visualizer",
+                allocator=visualizer_allocator,
+                cuda_stream_pool=cuda_stream_pool,
+                **self.kwargs("holoviz_overlay" if is_overlay_enabled else "holoviz"),
+            )
         else:
             vtk_renderer = lazy_import("holohub.vtk_renderer")
             visualizer = vtk_renderer.VtkRendererOp(
@@ -333,6 +339,9 @@ class EndoscopyApp(Application):
             visualizer,
             {("out", input_annotations_signal)},
         )
+
+        sink2 = SinkOp(self, name="sink2")
+        self.add_flow(tool_tracking_postprocessor, sink2, {("out", "receivers")})
 
         output_signal = "output" if self.source == "replayer" else "video_buffer_output"
         if source_name == "deltacast":
@@ -398,16 +407,17 @@ class EndoscopyApp(Application):
                     visualizer, source, {("render_buffer_output", "overlay_buffer_input")}
                 )
             else:
-                self.add_flow(
-                    source,
-                    visualizer,
-                    {
-                        (
-                            "video_buffer_output" if self.source != "replayer" else "output",
-                            input_video_signal,
-                        )
-                    },
-                )
+                pass
+                # self.add_flow(
+                #     source,
+                #     visualizer,
+                #     {
+                #         (
+                #             "video_buffer_output" if self.source != "replayer" else "output",
+                #             input_video_signal,
+                #         )
+                #     },
+                # )
         if record_type == "input":
             if self.source != "replayer":
                 self.add_flow(
