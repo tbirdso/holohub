@@ -157,6 +157,7 @@ lstm_inference:
   enable_fp16_: true
 
 holoviz:
+  headless: true
   tensors:
     - name: ""
       type: color

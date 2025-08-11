@@ -18,7 +18,10 @@ import os
 import sys
 from argparse import ArgumentParser
 
-from holoscan.core import Application
+import cupy as cp
+import numpy as np
+
+from holoscan.core import Application, Operator, OperatorSpec
 from holoscan.operators import (
     FormatConverterOp,
     HolovizOp,
@@ -61,6 +64,27 @@ def lazy_import(module_name):
     loader.exec_module(module)
     sys.modules[module_name] = module
     return module
+
+
+class SinkOp(Operator):
+
+    @classmethod
+    def spec(cls):
+        spec = OperatorSpec(cls)
+        spec.input("receivers")
+        return spec
+
+    def __init__(self, name, **kwargs):
+        super().__init__(name, **kwargs)
+        self.name = name
+        self.kwargs = kwargs
+        
+    def compute(self, op_input, op_output, *args, **kwargs):
+        input_msg = op_input.receive("input")
+        mask = input_msg.get("mask")
+        if mask:
+            mask = cp.asnumpy(mask)
+            logging.info(f"Received mask: {mask.shape} {mask.dtype} with min {np.min(mask)} and max {np.max(mask)} and nonzero {np.count_nonzero(mask)}")
 
 
 class EndoscopyApp(Application):
@@ -276,19 +300,20 @@ class EndoscopyApp(Application):
             visualizer_allocator = BlockMemoryPool(self, name="allocator", **source_pool_kwargs)
 
         if renderer == "holoviz":
-            visualizer = HolovizOp(
-                self,
-                name="holoviz",
-                width=width,
-                height=height,
-                enable_render_buffer_input=(
-                    is_overlay_enabled if source_name != "deltacast" else None
-                ),
-                enable_render_buffer_output=is_overlay_enabled or record_type == "visualizer",
-                allocator=visualizer_allocator,
-                cuda_stream_pool=cuda_stream_pool,
-                **self.kwargs("holoviz_overlay" if is_overlay_enabled else "holoviz"),
-            )
+            sink = SinkOp(self, name="sink")
+            # visualizer = HolovizOp(
+            #     self,
+            #     name="holoviz",
+            #     width=width,
+            #     height=height,
+            #     enable_render_buffer_input=(
+            #         is_overlay_enabled if source_name != "deltacast" else None
+            #     ),
+            #     enable_render_buffer_output=is_overlay_enabled or record_type == "visualizer",
+            #     allocator=visualizer_allocator,
+            #     cuda_stream_pool=cuda_stream_pool,
+            #     **self.kwargs("holoviz_overlay" if is_overlay_enabled else "holoviz"),
+            # )
         else:
             vtk_renderer = lazy_import("holohub.vtk_renderer")
             visualizer = vtk_renderer.VtkRendererOp(
