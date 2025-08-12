@@ -650,7 +650,7 @@ gxf::Expected<std::vector<char>> TensorRtInference::convertModelToEngine() {
     builderConfig->setFlag(nvinfer1::BuilderFlag::kGPU_FALLBACK);
     builderConfig->setDLACore(dla_core.value());
   }
-  // if (enable_fp16_.get()) { builderConfig->setFlag(nvinfer1::BuilderFlag::kFP16); }
+  if (false) { builderConfig->setFlag(nvinfer1::BuilderFlag::kFP16); }
 
   // Parses ONNX with explicit batch size for support of dynamic shapes/batch
   #if NV_TENSORRT_MAJOR < 10
