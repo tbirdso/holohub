@@ -72,7 +72,8 @@ COPY holohub /tmp/scripts/
 RUN mkdir -p /tmp/scripts/utilities
 COPY utilities /tmp/scripts/utilities/
 RUN chmod +x /tmp/scripts/holohub
-RUN /tmp/scripts/holohub setup && rm -rf /var/lib/apt/lists/*
+RUN ln -sf /tmp/scripts/holohub /usr/local/bin/holohub
+RUN holohub setup && rm -rf /var/lib/apt/lists/*
 
 # Enable autocomplete
 RUN echo ". /etc/bash_completion.d/holohub_autocomplete" >> /etc/bash.bashrc
