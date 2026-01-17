@@ -31,11 +31,11 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 APP_DIR="$(dirname "$SCRIPT_DIR")"
 HOLOHUB_DIR="$(dirname "$(dirname "$APP_DIR")")"
 
-BUILD_DIR="${1:-${HOLOHUB_DIR}/build}"
+BUILD_DIR="${1:-${HOLOHUB_DIR}/build/bci_visualization}"
 DATA_DIR="${2:-${HOLOHUB_DIR}/data/bci_visualization}"
 
-RECORDING_DIR="${BUILD_DIR}/applications/bci_visualization/reference_recording"
-SOURCE_VIDEO_BASENAME="reference_frames"
+RECORDING_DIR="${BUILD_DIR}/applications/bci_visualization/recording_output"
+SOURCE_VIDEO_BASENAME="python_bci_visualization_output"
 
 echo "=============================================="
 echo "BCI Visualization Reference Frame Generator"
@@ -84,21 +84,17 @@ echo "Step 1: Running application with recording enabled..."
 echo "----------------------------------------------"
 
 cd "${BUILD_DIR}/applications/bci_visualization"
-
-HOLOSCAN_INPUT_PATH="${DATA_DIR}" python3 bci_visualization_test.py \
-    --renderer_config config.json \
-    --record_output \
-    --recording_dir "${RECORDING_DIR}"
+ctest -C Release -R bci_visualization_python_test -V
 
 echo ""
 echo "Step 2: Converting recorded GXF entities to PNG images..."
 echo "----------------------------------------------"
 
 python3 "${HOLOHUB_DIR}/utilities/convert_gxf_entities_to_images.py" \
-    "${RECORDING_DIR}" \
-    "${SOURCE_VIDEO_BASENAME}" \
-    "${RECORDING_DIR}" \
-    "source"
+    --directory "${RECORDING_DIR}" \
+    --basename "${SOURCE_VIDEO_BASENAME}" \
+    --outputdir "${RECORDING_DIR}" \
+    --outputname "source"
 
 echo ""
 echo "Step 3: Copying first 10 frames as reference images..."
