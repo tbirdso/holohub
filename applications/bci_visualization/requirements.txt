@@ -1,3 +1,4 @@
+huggingface_hub>=0.20.0
 nibabel==5.3.2
 numpy==2.3.3
 scipy==1.16.3
