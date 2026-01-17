@@ -78,20 +78,23 @@ Download the correct folder matching your device type along with the other files
 
 ```
 holohub/data/bci_visualization/
-├── anatomy_labels_high_res.nii.gz      # Brain segmentation
-├── data.snirf                          # SNIRF format brain activity data
-├── extinction_coefficients_mua.csv     # Absorption coefficients for HbO/HbR
-├── flow_channel_map.json               # Sensor-source channel mapping
-├── flow_mega_jacobian.npy              # Pre-computed sensitivity matrix (channels → voxels)
-└── voxel_info/                         # Voxel geometry and optical properties
-    ├── affine.npy                      # 4x4 affine transformation matrix
-    ├── idxs_significant_voxels.npy     # Indices of voxels with sufficient sensitivity
-    ├── ijk.npy                         # Voxel coordinates in volume space
-    ├── mua.npy                         # Absorption coefficient per voxel
-    ├── musp.npy                        # Reduced scattering coefficient per voxel
-    ├── resolution.npy                  # Voxel resolution (mm)
-    ├── wavelengths.npy                 # Measurement wavelengths (690nm, 905nm)
-    └── xyz.npy                         # Voxel coordinates in anatomical space (mm)
+├── bci_visualization
+│   └── anatomy_labels_high_res.nii.gz             # Brain segmentation
+├── data.snirf                                     # SNIRF format brain activity data
+├── flow_2
+│   ├── extinction_coefficients_mua.csv            # Absorption coefficients for HbO/HbR
+│   ├── flow_channel_map.json                      # Sensor-source channel mapping
+│   ├── flow_mega_jacobian.npy                     # Pre-computed sensitivity matrix (channels → voxels)
+│   └── voxel_info                                 # Voxel geometry and optical properties
+│       ├── affine.npy                             # 4x4 affine transformation matrix
+│       ├── idxs_significant_voxels.npy            # Indices of voxels with sufficient sensitivity
+│       ├── ijk.npy                                # Voxel coordinates in volume space
+│       ├── mua.npy                                # Absorption coefficient per voxel
+│       ├── musp.npy                               # Reduced scattering coefficient per voxel
+│       ├── resolution.npy                         # Voxel resolution (mm)
+│       ├── wavelengths.npy                        # Measurement wavelengths (690nm, 905nm)
+│       └── xyz.npy                                # Voxel coordinates in anatomical space (mm)
+└── README.md
 ```
 
 ### 2. Run the Application

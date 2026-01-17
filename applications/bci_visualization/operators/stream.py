@@ -23,11 +23,12 @@ class SampleOutput(NamedTuple):
 class StreamOperator(Operator):
     def __init__(
         self,
-        stream: BaseNirsStream,
-        *,
-        fragment: Any | None = None,
+        *args: Any,
+        stream: BaseNirsStream = None,
+        **kwargs: Any,
     ) -> None:
-        super().__init__(fragment, name=self.__class__.__name__)
+        name = kwargs.pop("name", self.__class__.__name__)
+        super().__init__(*args, name=name, **kwargs)
         self._stream = stream
         self._channels: ChannelInfo
 

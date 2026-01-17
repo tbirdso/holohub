@@ -86,7 +86,10 @@ class BciVisualizationApp(Application):
         )
 
         # ========== Reconstruction Pipeline Operators ==========
-        stream_operator = StreamOperator(stream=self._stream, fragment=self)
+        stream_operator = StreamOperator(self,
+            name="stream_operator",
+            stream=self._stream,
+        )
 
         build_rhs_operator = BuildRHSOperator(
             assets=pipeline_assets,
@@ -260,13 +263,14 @@ def main():
     else:
         stream = SNIRFStream(kernel_data / "data.snirf")
 
+    FLOW_SUBFOLDER = "flow_2"
     app = BciVisualizationApp(
         render_config_file=args.renderer_config,
         stream=stream,
-        jacobian_path=kernel_data / "flow_mega_jacobian.npy",
-        channel_mapping_path=kernel_data / "flow_channel_map.json",
-        voxel_info_dir=kernel_data / "voxel_info",
-        coefficients_path=kernel_data / "extinction_coefficients_mua.csv",
+        jacobian_path=kernel_data / FLOW_SUBFOLDER / "flow_mega_jacobian.npy",
+        channel_mapping_path=kernel_data / FLOW_SUBFOLDER / "flow_channel_map.json",
+        voxel_info_dir=kernel_data / FLOW_SUBFOLDER / "voxel_info",
+        coefficients_path=kernel_data / FLOW_SUBFOLDER / "extinction_coefficients_mua.csv",
         mask_path=args.mask_path,
         reg=RegularizedSolverOperator.REG_DEFAULT,
     )
