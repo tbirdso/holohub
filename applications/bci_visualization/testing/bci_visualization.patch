@@ -1,0 +1,64 @@
+10a11
+> from holoscan.conditions import CountCondition
+14c15,16
+< from holoscan.resources import CudaStreamPool, UnboundedAllocator
+---
+> from holoscan.operators import FormatConverterOp, VideoStreamRecorderOp
+> from holoscan.resources import CudaStreamPool, UnboundedAllocator, BlockMemoryPool, MemoryStorageType
+31a34,35
+> FRAME_COUNT = 10
+> 
+51a56,57
+>         record_output: bool = False,
+>         recording_dir: str = "/tmp",
+64a71,73
+>         self._record_output = record_output
+>         self._recording_dir = recording_dir
+> 
+66a76,79
+>     def _get_count_condition(self):
+>         """Get a count condition to limit the number of frames processed."""
+>         return CountCondition(self, count=FRAME_COUNT)
+> 
+91a105
+>             condition=self._get_count_condition(),
+154a169
+>             enable_render_buffer_output=self._record_output,
+226a242,262
+>         # ========== Recording Pipeline (for testing) ==========
+>         if self._record_output:
+>             # Recording pipeline: holoviz -> format_converter -> recorder
+>             recorder_pool = BlockMemoryPool(
+>                 self,
+>                 name="recorder_pool",
+>                 storage_type=MemoryStorageType.DEVICE,
+>                 block_size=1024 * 768 * 4 * 4,  # RGBA float32
+>                 num_blocks=2,
+>             )
+>             recorder_format_converter = FormatConverterOp(
+>                 self,
+>                 name="recorder_format_converter",
+>                 in_dtype="rgba8888",
+>                 out_dtype="rgb888",
+>                 pool=recorder_pool,
+>             )
+>             recorder = VideoStreamRecorderOp(self, name="recorder", directory=self._recording_dir, basename="SOURCE_VIDEO_BASENAME")
+>             self.add_flow(holoviz, recorder_format_converter, {("render_buffer_output", "source_video")})
+>             self.add_flow(recorder_format_converter, recorder)
+> 
+250a287,298
+>         "--record_output",
+>         action="store_true",
+>         default=False,
+>         help="Enable recording of the output for testing",
+>     )
+> 
+>     parser.add_argument(
+>         "--recording_dir",
+>         default="/tmp",
+>         help="Directory to store recorded output",
+>     )
+>     parser.add_argument(
+275a324,325
+>         record_output=args.record_output,
+>         recording_dir=args.recording_dir,
