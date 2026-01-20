@@ -248,6 +248,14 @@ def main():
     )
 
     parser.add_argument(
+        "--app_config",
+        action="store",
+        dest="app_config",
+        default=os.path.join(os.path.dirname(__file__), "bci_visualization.yaml"),
+        help="Path to the YAML configuration file. Defaults to bci_visualization.yaml in the script directory.",
+    )
+
+    parser.add_argument(
         "-h", "--help", action="help", default=argparse.SUPPRESS, help="Help message"
     )
 
@@ -276,9 +284,8 @@ def main():
     )
 
     # Load YAML configuration
-    config_file = os.path.join(os.path.dirname(__file__), "bci_visualization.yaml")
+    app.config(args.app_config)
 
-    app.config(config_file)
     app.scheduler(EventBasedScheduler(app, worker_thread_number=5, stop_on_deadlock=True))
 
     app.run()

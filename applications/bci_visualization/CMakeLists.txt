@@ -77,14 +77,26 @@ if(BUILD_TESTING)
 
   # Patch the application to enable recording for testing
   add_custom_command(OUTPUT bci_visualization_test.py
-    COMMAND patch -u -o bci_visualization_test.py ${CMAKE_CURRENT_SOURCE_DIR}/bci_visualization.py
+    COMMAND patch -o bci_visualization_test.py ${CMAKE_CURRENT_SOURCE_DIR}/bci_visualization.py
+        -i ${CMAKE_SOURCE_DIR}/applications/bci_visualization/testing/bci_visualization.patch
+    DEPENDS
+        ${CMAKE_CURRENT_SOURCE_DIR}/bci_visualization.py
         ${CMAKE_SOURCE_DIR}/applications/bci_visualization/testing/bci_visualization.patch
-    COMMAND sed -i "s#RECORDING_DIR#${RECORDING_DIR}#g" bci_visualization_test.py
-    COMMAND sed -i "s#SOURCE_VIDEO_BASENAME#${SOURCE_VIDEO_BASENAME}#g" bci_visualization_test.py
+  )
+
+  # Generate test YAML config by appending recorder settings to the base config
+  add_custom_command(OUTPUT bci_visualization_test.yaml
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/bci_visualization.yaml bci_visualization_test.yaml
+    COMMAND ${CMAKE_COMMAND} -E echo "" >> bci_visualization_test.yaml
+    COMMAND ${CMAKE_COMMAND} -E echo "recorder:" >> bci_visualization_test.yaml
+    COMMAND ${CMAKE_COMMAND} -E echo "  enabled: true" >> bci_visualization_test.yaml
+    COMMAND ${CMAKE_COMMAND} -E echo "  directory: ${RECORDING_DIR}" >> bci_visualization_test.yaml
+    COMMAND ${CMAKE_COMMAND} -E echo "  basename: ${SOURCE_VIDEO_BASENAME}" >> bci_visualization_test.yaml
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/bci_visualization.yaml
   )
 
   add_custom_target(bci_visualization_test ALL
-    DEPENDS "bci_visualization_test.py"
+    DEPENDS "bci_visualization_test.py" "bci_visualization_test.yaml"
   )
 
   add_dependencies(bci_visualization_test python_bci_visualization)
@@ -92,9 +104,8 @@ if(BUILD_TESTING)
   # Integration test: runs the application end-to-end
   add_test(NAME bci_visualization_python_test
     COMMAND python3 ${CMAKE_CURRENT_BINARY_DIR}/bci_visualization_test.py
+            --app_config ${CMAKE_CURRENT_BINARY_DIR}/bci_visualization_test.yaml
             --renderer_config ${CMAKE_CURRENT_BINARY_DIR}/config.json
-            --record_output
-            --recording_dir ${RECORDING_DIR}
             --mask_path ${HOLOHUB_DATA_DIR}/${PROJECT_NAME}/bci_visualization/anatomy_labels_high_res.nii.gz
     WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
   )

@@ -242,3 +242,21 @@ The three-component approach creates a layered visualization:
 2. **Blue overlay** (100% opacity): Highlights low values [0, 0.4] representing decreased hemoglobin.
 3. **Red overlay** (100% opacity): Highlights high values [0.6, 1] representing increased hemoglobin.
 4. **Neutral range** [0.4, 0.6]: Only shows the white base layer (no significant change)
+
+## Testing
+
+### Running Tests
+
+```bash
+./holohub test bci_visualization
+```
+
+### Updating the Python Test Patch
+
+1. Edit the latest patched test application in `./build/bci_visualization/testing/bci_visualization_test.py`
+2. Update the patch:
+```
+diff -u applications/bci_visualization/bci_visualization.py .build/bci_visualization/applications/bci_visualization/bci_visualization_test.py > applications/bci_visualization/testing/bci_visualization.patch 
+```
+3. Update YAML test parameters in [CMakeLists.txt](CMakeLists.txt)
+4. Commit and push changes
