@@ -166,7 +166,7 @@ void UcxxEndoscopyPublisherApp::compose() {
   const uint32_t width = 854;
   const uint32_t height = 480;
   const uint64_t source_block_size = width * height * 3 * 4;
-  const uint64_t source_num_blocks = 2;
+  const uint64_t source_num_blocks = 3;
 
   // Create allocators
   auto replayer_allocator =

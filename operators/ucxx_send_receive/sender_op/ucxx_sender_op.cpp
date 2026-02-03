@@ -28,6 +28,12 @@ void UcxxSenderOp::setup(holoscan::OperatorSpec& spec) {
   spec.param(tag_, "tag", "Tag", "UCX tag number", 0ul);
   spec.param(endpoint_, "endpoint", "Endpoint", "UcxxEndpoint resource");
   spec.param(allocator_, "allocator", "Allocator", "Allocator for staging buffers");
+  spec.param(max_in_flight_,
+             "max_in_flight",
+             "Max in-flight",
+             "Maximum number of in-flight UCX send requests to retain. When exceeded, new inputs "
+             "are dropped to bound memory retention. Defaults to 1.",
+             1ul);
   spec.param(blocking_,
              "blocking",
              "Blocking",
@@ -109,8 +115,22 @@ void UcxxSenderOp::compute(holoscan::InputContext& input, holoscan::OutputContex
   // If not connected (waiting for subscriber to connect, or after disconnect),
   // drop the message to avoid stalling upstream operators like Holoviz.
   if (!ucxx_endpoint) {
-    // Ensure we don't keep stale in-flight requests around while disconnected.
-    requests_.clear();
+    // Cancel any in-flight sends.
+    for (auto& req : requests_) {
+      if (req.cancel_requested) { continue; }
+      if (req.header_request && !req.header_request->isCompleted()) { req.header_request->cancel(); }
+      if (req.data_request && !req.data_request->isCompleted()) { req.data_request->cancel(); }
+      req.cancel_requested = true;
+    }
+    return;
+  }
+
+  // Bound outstanding buffer retention in case the network/receiver is slow.
+  if (requests_.size() >= static_cast<size_t>(max_in_flight_.get())) {
+    HOLOSCAN_LOG_WARN(
+        "Dropping input: too many in-flight sends ({} >= max_in_flight={})",
+        requests_.size(),
+        max_in_flight_.get());
     return;
   }
 
@@ -145,6 +165,9 @@ void UcxxSenderOp::compute(holoscan::InputContext& input, holoscan::OutputContex
 
   // Create a send request for two-phase transfer
   SendRequest& send = requests_.emplace_back();
+  // Pin the input entity / tensor wrapper so the payload pointer remains valid until the UCX request completes.
+  send.keepalive_entity = in_message;
+  send.keepalive_tensor_wrapper = gxf_tensor_storage;
 
   // Build header from tensor metadata (no data copy)
   send.header = holoscan::ops::ucxx::buildTensorHeader(*gxf_tensor_ptr);

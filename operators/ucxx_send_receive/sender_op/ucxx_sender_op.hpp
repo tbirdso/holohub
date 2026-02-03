@@ -26,6 +26,10 @@
 #include <operators/ucxx_send_receive/serialize_tensor.hpp>
 #include <operators/ucxx_send_receive/ucxx_endpoint.hpp>
 
+namespace nvidia::gxf {
+class Tensor;
+}  // namespace nvidia::gxf
+
 namespace holoscan::ops {
 
 // Sends messages through a UcxxEndpoint.
@@ -43,11 +47,19 @@ class UcxxSenderOp : public holoscan::Operator {
   holoscan::Parameter<std::shared_ptr<UcxxEndpoint>> endpoint_;
   holoscan::Parameter<std::shared_ptr<holoscan::Allocator>> allocator_;
   holoscan::Parameter<bool> blocking_;
+  // Cap number of in-flight requests to bound memory retention when the network/receiver stalls.
+  holoscan::Parameter<uint64_t> max_in_flight_;
 
   struct SendRequest {
     std::shared_ptr<::ucxx::Request> header_request;  // For header
     std::shared_ptr<::ucxx::Request> data_request;    // For tensor data
-    holoscan::ops::ucxx::TensorHeader header;       // Header storage
+    holoscan::ops::ucxx::TensorHeader header;         // Header storage (must outlive header_request)
+    bool cancel_requested = false;
+
+    // Keepalive handles to ensure any buffers passed to UCX remain valid until both requests
+    // are completed.
+    holoscan::gxf::Entity keepalive_entity;
+    std::shared_ptr<nvidia::gxf::Tensor> keepalive_tensor_wrapper;
   };
   std::list<SendRequest> requests_;
 };
