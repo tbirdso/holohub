@@ -58,9 +58,6 @@ void UcxxReceiverOp::setup(holoscan::OperatorSpec& spec) {
   }
 }
 
-void UcxxReceiverOp::start() {
-}
-
 void UcxxReceiverOp::stop() {
   if (header_request_) {
     header_request_->cancel();
@@ -150,10 +147,14 @@ void UcxxReceiverOp::compute([[maybe_unused]] holoscan::InputContext& input,
         endpoint_resource ? endpoint_resource->endpoint() : nullptr;
     if (!ucxx_endpoint) { return; }
 
+    const uint64_t tag_base = tag_.get();
+    const ::ucxx::Tag tag_header{tag_base};
+    const ::ucxx::Tag tag_payload{tag_base + 1};
+
     // Post header receive
     async_condition()->event_state(holoscan::AsynchronousEventState::EVENT_WAITING);
     header_request_ = ucxx_endpoint->tagRecv(
-        header_buffer_.data(), header_buffer_.size(), ::ucxx::Tag{tag_.get()}, ::ucxx::TagMaskFull,
+        header_buffer_.data(), header_buffer_.size(), tag_header, ::ucxx::TagMaskFull,
         /*enablePythonFuture=*/false, [this](ucs_status_t, std::shared_ptr<void>) {
           async_condition()->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
         });
@@ -171,7 +172,7 @@ void UcxxReceiverOp::compute([[maybe_unused]] holoscan::InputContext& input,
     tensor_received_condition_->event_state(holoscan::AsynchronousEventState::EVENT_WAITING);
     tensor_request_ = ucxx_endpoint->tagRecv(
         tensor_buffer_.get(), buffer_size_.get(),
-        ::ucxx::Tag{tag_.get()}, ::ucxx::TagMaskFull,
+        tag_payload, ::ucxx::TagMaskFull,
         /*enablePythonFuture=*/false, [this](ucs_status_t, std::shared_ptr<void>) {
           tensor_received_condition_->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
         });

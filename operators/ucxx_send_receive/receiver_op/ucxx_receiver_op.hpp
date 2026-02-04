@@ -37,7 +37,6 @@ class UcxxReceiverOp : public holoscan::Operator {
   HOLOSCAN_OPERATOR_FORWARD_ARGS(UcxxReceiverOp)
 
   void setup(holoscan::OperatorSpec& spec) override;
-  void start() override;
   void stop() override;
   void compute(holoscan::InputContext& input, holoscan::OutputContext& output,
                holoscan::ExecutionContext& context) override;

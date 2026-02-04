@@ -68,9 +68,6 @@ void UcxxSenderOp::setup(holoscan::OperatorSpec& spec) {
   }
 }
 
-void UcxxSenderOp::start() {
-}
-
 void UcxxSenderOp::compute(holoscan::InputContext& input, holoscan::OutputContext&,
                            holoscan::ExecutionContext&) {
   auto in_message = input.receive<holoscan::gxf::Entity>("in").value();
@@ -172,15 +169,19 @@ void UcxxSenderOp::compute(holoscan::InputContext& input, holoscan::OutputContex
   // Build header from tensor metadata (no data copy)
   send.header = holoscan::ops::ucxx::buildTensorHeader(*gxf_tensor_ptr);
 
+  const uint64_t tag_base = tag_.get();
+  const ::ucxx::Tag tag_header{tag_base};
+  const ::ucxx::Tag tag_payload{tag_base + 1};
+
   // Phase 1: Send header (CPU) - runs in parallel with phase 2
   send.header_request = ucxx_endpoint->tagSend(
-      &send.header, sizeof(holoscan::ops::ucxx::TensorHeader), ::ucxx::Tag{tag_.get()});
+      &send.header, sizeof(holoscan::ops::ucxx::TensorHeader), tag_header);
 
   // Phase 2: Send tensor data (GPU or CPU pointer, UCX handles both)
   const size_t tensor_size =
       gxf_tensor_ptr->element_count() * gxf_tensor_ptr->bytes_per_element();
   send.data_request = ucxx_endpoint->tagSend(
-      gxf_tensor_ptr->pointer(), tensor_size, ::ucxx::Tag{tag_.get()});
+      gxf_tensor_ptr->pointer(), tensor_size, tag_payload);
 }
 
 }  // namespace holoscan::ops

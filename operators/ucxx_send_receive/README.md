@@ -23,7 +23,7 @@ Sends tensor messages through a configured `UcxxEndpoint` using UCXX/UCX. The se
 
 **Parameters:**
 - `endpoint`: Shared pointer to a `UcxxEndpoint` resource
-- `tag`: Message tag for identifying message types (`uint64_t`)
+- `tag`: Base message tag for identifying message types (`uint64_t`). Note: this operator consumes two tags: `tag` (header) and `tag+1` (payload).
 - `blocking`: If true, the operator does not execute until the endpoint is connected. If false (default), it drains inputs and drops sends while disconnected.
 - `max_in_flight`: Maximum number of in-flight async send requests to retain (default: 1). When exceeded, new inputs are dropped to bound memory retention if the network/receiver stalls.
 
@@ -41,7 +41,7 @@ Receives messages through a configured UcxxEndpoint. This operator listens for i
 
 **Parameters:**
 - `endpoint`: Shared pointer to a `UcxxEndpoint` resource
-- `tag`: Message tag for filtering received messages (`uint64_t`)
+- `tag`: Base message tag for filtering received messages (`uint64_t`). Note: this operator consumes two tags: `tag` (header) and `tag+1` (payload).
 - `buffer_size`: Tensor payload buffer size in bytes (required)
 - `receive_on_device`: Allocate the payload buffer on device (GPU) if true, host (CPU) if false (default: true)
 - `allocator`: Allocator used for the receive buffer allocation
