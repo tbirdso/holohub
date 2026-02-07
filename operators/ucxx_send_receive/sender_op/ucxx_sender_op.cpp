@@ -68,6 +68,13 @@ void UcxxSenderOp::setup(holoscan::OperatorSpec& spec) {
   }
 }
 
+void UcxxSenderOp::stop() {
+  for (auto& req : requests_) {
+    if (req.header_request) { req.header_request->cancel(); }
+    if (req.data_request) { req.data_request->cancel(); }
+  }
+}
+
 void UcxxSenderOp::compute(holoscan::InputContext& input, holoscan::OutputContext&,
                            holoscan::ExecutionContext&) {
   auto in_message = input.receive<holoscan::gxf::Entity>("in").value();
