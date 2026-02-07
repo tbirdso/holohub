@@ -37,11 +37,6 @@ void UcxxReceiverOp::setup(holoscan::OperatorSpec& spec) {
   spec.param(allocator_, "allocator", "Allocator", "Allocator for tensor buffers");
   spec.output<holoscan::gxf::Entity>("out");
 
-  // Create tensor received condition for async tensor data receive
-  tensor_received_condition_ = fragment()->make_condition<holoscan::AsynchronousCondition>(
-      fmt::format("{}_tensor_received", name()));
-  add_arg(tensor_received_condition_);
-
   // Add the endpoint's is_alive_condition to this operator so that it will execute only when
   // the endpoint is alive.
   for (auto arg : args()) {
@@ -139,42 +134,69 @@ void UcxxReceiverOp::compute([[maybe_unused]] holoscan::InputContext& input,
     header_request_ = nullptr;
   }
 
-  // Post new receive requests (both header and tensor in parallel)
-  if (!header_request_) {
+  // Post new receive requests
+  if (!header_request_ && !tensor_request_) {
     // Snapshot the UCXX endpoint for the duration of this tick to avoid races with disconnects.
     auto endpoint_resource = endpoint_.get();
     std::shared_ptr<::ucxx::Endpoint> ucxx_endpoint =
         endpoint_resource ? endpoint_resource->endpoint() : nullptr;
     if (!ucxx_endpoint) { return; }
 
+    // Validate allocator exists
+    auto allocator = allocator_.get();
+    if (!allocator) {
+      HOLOSCAN_LOG_ERROR("UcxxReceiverOp: No allocator configured");
+      return;
+    }
+
     const uint64_t tag_base = tag_.get();
     const ::ucxx::Tag tag_header{tag_base};
     const ::ucxx::Tag tag_payload{tag_base + 1};
 
-    // Post header receive
+    // Reset atomic counter for aync condition tracking for both header and tensor receives.
+    // Whoever sets to 0 first will set the async condition to EVENT_DONE.
+    pending_receives_.store(2, std::memory_order_release);
     async_condition()->event_state(holoscan::AsynchronousEventState::EVENT_WAITING);
+
+    // Post header receive with atomic counter callback
     header_request_ = ucxx_endpoint->tagRecv(
         header_buffer_.data(), header_buffer_.size(), tag_header, ::ucxx::TagMaskFull,
-        /*enablePythonFuture=*/false, [this](ucs_status_t, std::shared_ptr<void>) {
-          async_condition()->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
+        /*enablePythonFuture=*/false,
+        [this](ucs_status_t, std::shared_ptr<void>) {
+          if (pending_receives_.fetch_sub(1, std::memory_order_acq_rel) == 1) {
+            async_condition()->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
+          }
         });
 
     // Allocate buffer for tensor data (GPU or Host based on receive_on_device_)
-    tensor_buffer_ = std::shared_ptr<nvidia::byte>(
-        static_cast<nvidia::byte*>(
-            allocator_.get()->allocate(buffer_size_.get(),
-                                       receive_on_device_.get()
-                                           ? holoscan::MemoryStorageType::kDevice
-                                           : holoscan::MemoryStorageType::kHost)),
-        [this](nvidia::byte* ptr) { allocator_.get()->free(ptr); });
+    auto* raw_ptr = allocator->allocate(
+        buffer_size_.get(),
+        receive_on_device_.get() ? holoscan::MemoryStorageType::kDevice
+                                 : holoscan::MemoryStorageType::kHost);
+    if (!raw_ptr) {
+      HOLOSCAN_LOG_ERROR("Failed to allocate {} bytes for receive buffer", buffer_size_.get());
+      if (header_request_) { header_request_->cancel(); }
+      header_request_ = nullptr;
+      async_condition()->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
+      return;
+    }
 
-    // Post tensor data receive (GPU buffer)
-    tensor_received_condition_->event_state(holoscan::AsynchronousEventState::EVENT_WAITING);
+    // Capture allocator in deleter for safety
+    tensor_buffer_ = std::shared_ptr<nvidia::byte>(
+        static_cast<nvidia::byte*>(raw_ptr),
+        [allocator](nvidia::byte* ptr) {
+          if (ptr) { allocator->free(ptr); }
+        });
+
+    // Post tensor data receive with atomic counter callback
     tensor_request_ = ucxx_endpoint->tagRecv(
         tensor_buffer_.get(), buffer_size_.get(),
         tag_payload, ::ucxx::TagMaskFull,
-        /*enablePythonFuture=*/false, [this](ucs_status_t, std::shared_ptr<void>) {
-          tensor_received_condition_->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
+        /*enablePythonFuture=*/false,
+        [this](ucs_status_t, std::shared_ptr<void>) {
+          if (pending_receives_.fetch_sub(1, std::memory_order_acq_rel) == 1) {
+            async_condition()->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
+          }
         });
   }
 }
