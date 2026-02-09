@@ -55,7 +55,7 @@ class UcxxEndpoint : public holoscan::Resource {
 
  private:
   void activate_endpoint(std::shared_ptr<::ucxx::Endpoint> ep);
-  void on_endpoint_closed(ucs_status_t status);
+  void on_endpoint_closed(ucs_status_t status, uint64_t id);
 
   holoscan::Parameter<std::string> hostname_;
   holoscan::Parameter<int> port_;
@@ -67,10 +67,12 @@ class UcxxEndpoint : public holoscan::Resource {
 
   std::shared_ptr<holoscan::AsynchronousCondition> is_alive_condition_;
 
+  std::atomic<uint64_t> endpoint_id_{0};
   std::atomic<bool> stop_listen_{false};
   int listen_fd_{-1};
   std::thread listen_thread_;
 
+  std::mutex endpoint_mutex_;
   mutable std::mutex close_callbacks_mutex_;
   std::vector<std::function<void(ucs_status_t)>> close_callbacks_;
 };
