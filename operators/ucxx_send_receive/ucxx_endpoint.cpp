@@ -135,7 +135,30 @@ bool recv_all(int fd, void* data, size_t size) {
   return true;
 }
 
+bool send_worker_address(int fd, const std::string& address) {
+  const uint64_t len = static_cast<uint64_t>(address.size());
+  return send_all(fd, &len, sizeof(len)) && send_all(fd, address.data(), address.size());
+}
+
+std::string recv_worker_address(int fd) {
+  uint64_t len = 0;
+  if (!recv_all(fd, &len, sizeof(len))) { return {}; }
+  std::string address(len, '\0');
+  if (!recv_all(fd, address.data(), address.size())) { return {}; }
+  return address;
+}
+
 }  // namespace
+
+void UcxxEndpoint::activate_endpoint(std::shared_ptr<::ucxx::Endpoint> ep) {
+  ep->setCloseCallback(
+      [this](ucs_status_t status, std::shared_ptr<void>) { on_endpoint_closed(status); },
+      nullptr);
+
+  std::atomic_store(&endpoint_, ep);
+  HOLOSCAN_LOG_INFO("Endpoint connected");
+  is_alive_condition_->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
+}
 
 void UcxxEndpoint::initialize() {
   if (is_initialized_) {
@@ -145,19 +168,23 @@ void UcxxEndpoint::initialize() {
 
   context_ = ::ucxx::createContext({}, ::ucxx::Context::defaultFeatureFlags);
   worker_ = context_->createWorker();
+  worker_->startProgressThread(/*pollingMode=*/false);
 
   is_alive_condition_->event_state(holoscan::AsynchronousEventState::EVENT_WAITING);
 
   if (listen_) {
     listen_fd_ = create_listen_socket(hostname_.get(), port_.get());
+    const int saved_errno = errno;
     if (listen_fd_ < 0) {
       HOLOSCAN_LOG_ERROR("Failed to open control socket on {}:{} (errno: {})",
-                         hostname_.get(), port_.get(), errno);
+                         hostname_.get(), port_.get(), saved_errno);
       return;
     }
 
     HOLOSCAN_LOG_INFO("Listening on: {}", port_.get());
     listen_thread_ = std::thread([this]() {
+      const std::string local_address_str = worker_->getAddress()->getString();
+
       while (!stop_listen_.load(std::memory_order_acquire)) {
         int client_fd = ::accept(listen_fd_, nullptr, nullptr);
         if (client_fd < 0) {
@@ -165,89 +192,44 @@ void UcxxEndpoint::initialize() {
           continue;
         }
 
-        auto local_address = worker_->getAddress();
-        const std::string local_address_str = local_address->getString();
-
-        uint64_t remote_len = 0;
-        if (!recv_all(client_fd, &remote_len, sizeof(remote_len))) {
+        std::string remote_address_str = recv_worker_address(client_fd);
+        if (remote_address_str.empty() || !send_worker_address(client_fd, local_address_str)) {
           ::close(client_fd);
           continue;
         }
-        std::string remote_address_str(remote_len, '\0');
-        if (!recv_all(client_fd, remote_address_str.data(), remote_address_str.size())) {
-          ::close(client_fd);
-          continue;
-        }
-        const uint64_t local_len_u64 = static_cast<uint64_t>(local_address_str.size());
-        if (!send_all(client_fd, &local_len_u64, sizeof(local_len_u64)) ||
-            !send_all(client_fd, local_address_str.data(), local_address_str.size())) {
-          ::close(client_fd);
-          continue;
-        }
+        ::close(client_fd);
 
         auto remote_address = ::ucxx::createAddressFromString(remote_address_str);
-        auto ep = worker_->createEndpointFromWorkerAddress(remote_address, true);
-        std::atomic_store(&endpoint_, ep);
-
-        HOLOSCAN_LOG_INFO("Endpoint connected");
-        is_alive_condition_->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
-
-        ep->setCloseCallback(
-            [this](ucs_status_t status, std::shared_ptr<void>) { on_endpoint_closed(status); },
-            nullptr);
-
-        ::close(client_fd);
+        activate_endpoint(worker_->createEndpointFromWorkerAddress(remote_address, true));
       }
     });
   } else {
     int fd = connect_socket(hostname_.get(), port_.get());
+    const int saved_errno = errno;
     if (fd < 0) {
       HOLOSCAN_LOG_ERROR("Failed to connect control socket to {}:{} (errno: {})",
-                         hostname_.get(), port_.get(), errno);
+                         hostname_.get(), port_.get(), saved_errno);
       return;
     }
 
-    auto local_address = worker_->getAddress();
-    const std::string local_address_str = local_address->getString();
-
-    const uint64_t local_len_u64 = static_cast<uint64_t>(local_address_str.size());
-    if (!send_all(fd, &local_len_u64, sizeof(local_len_u64)) ||
-        !send_all(fd, local_address_str.data(), local_address_str.size())) {
+    const std::string local_address_str = worker_->getAddress()->getString();
+    if (!send_worker_address(fd, local_address_str)) {
       ::close(fd);
       HOLOSCAN_LOG_ERROR("Failed to send worker address to {}:{}", hostname_.get(), port_.get());
       return;
     }
 
-    uint64_t remote_len = 0;
-    if (!recv_all(fd, &remote_len, sizeof(remote_len))) {
-      ::close(fd);
-      HOLOSCAN_LOG_ERROR("Failed to receive worker address length from {}:{}",
-                         hostname_.get(), port_.get());
-      return;
-    }
-    std::string remote_address_str(remote_len, '\0');
-    if (!recv_all(fd, remote_address_str.data(), remote_address_str.size())) {
-      ::close(fd);
+    std::string remote_address_str = recv_worker_address(fd);
+    ::close(fd);
+    if (remote_address_str.empty()) {
       HOLOSCAN_LOG_ERROR("Failed to receive worker address from {}:{}", hostname_.get(), port_.get());
       return;
     }
-    ::close(fd);
 
     auto remote_address = ::ucxx::createAddressFromString(remote_address_str);
-    auto ep = worker_->createEndpointFromWorkerAddress(remote_address, true);
-    std::atomic_store(&endpoint_, ep);
-
-    HOLOSCAN_LOG_INFO("Connecting to: {}:{}", hostname_.get(), port_.get());
-
-    // Mark operators ready to execute.
-    is_alive_condition_->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
-
-    ep->setCloseCallback(
-        [this](ucs_status_t status, std::shared_ptr<void>) { on_endpoint_closed(status); },
-        nullptr);
+    activate_endpoint(worker_->createEndpointFromWorkerAddress(remote_address, true));
   }
 
-  worker_->startProgressThread(/*pollingMode=*/false);
 }
 
 void UcxxEndpoint::on_endpoint_closed(ucs_status_t status) {
@@ -287,4 +269,4 @@ void UcxxEndpoint::on_endpoint_closed(ucs_status_t status) {
   }
 }
 
-};  // namespace holoscan::ops
+}  // namespace holoscan::ops
