@@ -16,7 +16,7 @@
 
 # Script to generate reference frames for the BCI Visualization integration test.
 # This script runs the application, records the output, converts to PNG, and
-# copies the first 10 frames as reference images.
+# copies the last 10 frames as reference images.
 #
 # Usage:
 #   ./generate_reference_frames.sh [BUILD_DIR] [DATA_DIR]
@@ -97,20 +97,36 @@ python3 "${HOLOHUB_DIR}/utilities/convert_gxf_entities_to_images.py" \
     --outputname "source"
 
 echo ""
-echo "Step 3: Copying first 10 frames as reference images..."
+echo "Step 3: Copying last 10 frames as reference images..."
 echo "----------------------------------------------"
 
-for i in $(seq 1 10); do
-    PADDED=$(printf "%04d" $i)
-    SRC="${RECORDING_DIR}/source${PADDED}.png"
-    DST="${SCRIPT_DIR}/${PADDED}.png"
+# Count total frames available
+TOTAL_FRAMES=$(ls -1 "${RECORDING_DIR}"/source*.png 2>/dev/null | wc -l)
+echo "  Total frames available: ${TOTAL_FRAMES}"
+
+if [ "${TOTAL_FRAMES}" -lt 10 ]; then
+    echo "  WARNING: Less than 10 frames available, copying all ${TOTAL_FRAMES} frames"
+    START_FRAME=1
+else
+    START_FRAME=$((TOTAL_FRAMES - 9))
+fi
+
+echo "  Copying frames ${START_FRAME} to ${TOTAL_FRAMES}..."
+
+REF_INDEX=1
+for i in $(seq 0 ${TOTAL_FRAMES}); do
+    SRC_PADDED=$(printf "%04d" $i)
+    DST_PADDED=$(printf "%04d" ${REF_INDEX})
+    SRC="${RECORDING_DIR}/source${SRC_PADDED}.png"
+    DST="${SCRIPT_DIR}/${DST_PADDED}.png"
     
     if [ -f "${SRC}" ]; then
         cp "${SRC}" "${DST}"
-        echo "  Copied ${PADDED}.png"
+        echo "  Copied source${SRC_PADDED}.png -> ${DST_PADDED}.png"
     else
         echo "  WARNING: Source frame not found: ${SRC}"
     fi
+    REF_INDEX=$((REF_INDEX + 1))
 done
 
 echo ""

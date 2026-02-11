@@ -1,6 +1,15 @@
 --- ../../applications/bci_visualization/bci_visualization.py	2026-01-20 15:26:14.114811021 +0000
-+++ ./bci_visualization.mycopy.py	2026-01-20 15:38:21.031365716 +0000
-@@ -29,6 +29,13 @@
++++ ./bci_visualization.mycopy.py	2026-01-20 16:00:01.829628151 +0000
+@@ -9,7 +9,7 @@
+ import os
+ from pathlib import Path
+ 
+-from holoscan.core import Application, ConditionType
++from holoscan.core import Application, ConditionType, Operator, OperatorSpec
+ from holoscan.operators import HolovizOp
+ from holoscan.resources import CudaStreamPool, UnboundedAllocator
+ from holoscan.schedulers import EventBasedScheduler
+@@ -29,6 +29,44 @@
  from holohub.color_buffer_passthrough import ColorBufferPassthroughOp
  from holohub.volume_renderer import VolumeRendererOp
  
@@ -11,10 +20,41 @@
 +
 +FRAME_COUNT = 10
 +
++
++class BciFilterStartupOp(Operator):
++    """An operator to filter out initial blank frames from test recording validation"""
++    def __init__(self, fragment, *args, **kwargs):
++        super().__init__(fragment, *args, **kwargs)
++        self.nonzero_count = 0
++
++    def setup(self, spec: OperatorSpec):
++        spec.input("in")
++        spec.output("out")
++
++    def compute(self, op_input, op_output, context):
++        import cupy as cp
++
++        input_message = op_input.receive("in")
++
++        # Check if the frame has non-zero content
++        if input_message:
++            # Video buffers use empty string key ""
++            tensor = input_message.get("")
++            if tensor is not None:
++                cp_array = cp.asarray(tensor)
++                if cp.any(cp_array):
++                    self.nonzero_count += 1
++
++        # Only emit after we've seen at least two valid frames
++        if self.nonzero_count >= 2 and input_message:
++            op_output.emit(input_message, "out")
++
++
++
  
  class BciVisualizationApp(Application):
      """Kernel Flow BCI Real-Time Reconstruction and Visualization
-@@ -65,6 +72,9 @@
+@@ -65,6 +103,9 @@
          super().__init__(argv, *args, **kwargs)
  
      def compose(self):
@@ -24,7 +64,7 @@
          # Resources
          volume_allocator = UnboundedAllocator(self, name="allocator")
          cuda_stream_pool = CudaStreamPool(
-@@ -89,6 +99,7 @@
+@@ -89,6 +130,7 @@
          stream_operator = StreamOperator(self,
              name="stream_operator",
              stream=self._stream,
@@ -32,7 +72,7 @@
          )
  
          build_rhs_operator = BuildRHSOperator(
-@@ -136,6 +147,8 @@
+@@ -136,6 +178,8 @@
              cuda_stream_pool=cuda_stream_pool,
              **volume_renderer_kwargs,
          )
@@ -41,7 +81,7 @@
  
          # IMPORTANT changes to avoid deadlocks of volume_renderer and holoviz
          # when running in multi-threading mode
-@@ -153,6 +166,7 @@
+@@ -153,6 +197,7 @@
              window_title="Kernel Flow BCI Real-Time Reconstruction and Visualization",
              enable_camera_pose_output=True,
              cuda_stream_pool=cuda_stream_pool,
@@ -49,12 +89,14 @@
          )
  
          # ========== Connect Reconstruction Pipeline ==========
-@@ -224,6 +238,32 @@
+@@ -224,6 +269,35 @@
          self.add_flow(color_buffer_passthrough, holoviz, {("color_buffer_out", "receivers")})
          self.add_flow(holoviz, volume_renderer, {("camera_pose_output", "camera_pose")})
  
 +        # ========== Recording Pipeline (for testing) ==========
 +        if recorder_config.get("enabled",True):
++
++            bci_filter_startup_op = BciFilterStartupOp(self, name="bci_filter_startup_op")
 +
 +            # Recording pipeline: holoviz -> format_converter -> recorder
 +            recorder_pool = BlockMemoryPool(
@@ -76,7 +118,8 @@
 +                directory=recorder_config.get("directory", "/tmp"),
 +                basename=recorder_config.get("basename", "SOURCE_VIDEO_BASENAME"),
 +            )
-+            self.add_flow(holoviz, recorder_format_converter, {("render_buffer_output", "source_video")})
++            self.add_flow(holoviz, bci_filter_startup_op, {("render_buffer_output", "in")})
++            self.add_flow(bci_filter_startup_op, recorder_format_converter, {("out", "in")})
 +            self.add_flow(recorder_format_converter, recorder)
 +
  
