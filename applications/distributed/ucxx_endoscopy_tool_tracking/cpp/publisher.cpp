@@ -289,7 +289,6 @@ void UcxxEndoscopyPublisherApp::compose() {
       "ucxx_sender_holoviz",
       Arg("tag", 1ul),
       Arg("endpoint") = ucxx_endpoint_holoviz,
-      Arg("allocator") = replayer_allocator,
       Arg("blocking") = from_config("publisher.blocking").as<bool>());
 
   // -------------------------------------------------------------------------------------------
@@ -313,7 +312,6 @@ void UcxxEndoscopyPublisherApp::compose() {
       "ucxx_sender_overlay",
       Arg("tag", 1ul),
       Arg("endpoint") = ucxx_endpoint_overlay,
-      Arg("allocator") = replayer_allocator,
       Arg("blocking") = from_config("publisher.blocking").as<bool>());
 
   // UCXX receiver to receive frame-counter overlay from overlay subscriber.

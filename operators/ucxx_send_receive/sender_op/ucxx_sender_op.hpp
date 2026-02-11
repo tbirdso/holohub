@@ -18,8 +18,6 @@
 #pragma once
 
 #include <list>
-#include <string>
-#include <vector>
 
 #include "holoscan/holoscan.hpp"
 
@@ -45,7 +43,6 @@ class UcxxSenderOp : public holoscan::Operator {
  private:
   holoscan::Parameter<uint64_t> tag_;
   holoscan::Parameter<std::shared_ptr<UcxxEndpoint>> endpoint_;
-  holoscan::Parameter<std::shared_ptr<holoscan::Allocator>> allocator_;
   holoscan::Parameter<bool> blocking_;
   // Cap number of in-flight requests to bound memory retention when the network/receiver stalls.
   holoscan::Parameter<uint64_t> max_in_flight_;

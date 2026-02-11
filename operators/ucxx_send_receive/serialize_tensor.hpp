@@ -18,7 +18,6 @@
 #pragma once
 
 #include <cstdint>
-#include <cstddef>
 
 #include "holoscan/holoscan.hpp"
 #include "gxf/std/tensor.hpp"

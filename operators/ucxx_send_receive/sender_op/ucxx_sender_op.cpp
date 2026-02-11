@@ -17,7 +17,6 @@
 
 #include "ucxx_sender_op.hpp"
 
-#include <cuda_runtime.h>
 #include <holoscan/holoscan.hpp>
 
 #include <operators/ucxx_send_receive/serialize_tensor.hpp>
@@ -27,7 +26,6 @@ namespace holoscan::ops {
 void UcxxSenderOp::setup(holoscan::OperatorSpec& spec) {
   spec.param(tag_, "tag", "Tag", "UCX tag number", 0ul);
   spec.param(endpoint_, "endpoint", "Endpoint", "UcxxEndpoint resource");
-  spec.param(allocator_, "allocator", "Allocator", "Allocator for staging buffers");
   spec.param(max_in_flight_,
              "max_in_flight",
              "Max in-flight",

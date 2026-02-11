@@ -20,8 +20,6 @@
 #include <array>
 #include <atomic>
 #include <memory>
-#include <optional>
-#include <string>
 
 #include "holoscan/holoscan.hpp"
 #include "gxf/std/tensor.hpp"

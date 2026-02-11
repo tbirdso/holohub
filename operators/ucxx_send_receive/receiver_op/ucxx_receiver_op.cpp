@@ -19,8 +19,6 @@
 
 #include <cstring>
 
-#include <cuda_runtime.h>
-#include <fmt/format.h>
 #include <holoscan/holoscan.hpp>
 
 #include <operators/ucxx_send_receive/serialize_tensor.hpp>

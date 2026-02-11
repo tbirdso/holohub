@@ -24,7 +24,6 @@
 #include <unistd.h>
 
 #include <cerrno>
-#include <cstring>
 #include <stdexcept>
 #include <vector>
 
@@ -125,11 +124,13 @@ bool send_all(int fd, const void* data, size_t size) {
   const auto* buffer = static_cast<const uint8_t*>(data);
   size_t sent = 0;
   while (sent < size) {
-    const ssize_t n = ::send(fd, buffer + sent, size - sent, 0);
-    if (n <= 0) {
+    const ssize_t bytes_sent = ::send(fd, buffer + sent, size - sent, 0);
+    if (bytes_sent < 0) {
+      if (errno == EINTR) { continue; }
       return false;
     }
-    sent += static_cast<size_t>(n);
+    if (bytes_sent == 0) { return false; }
+    sent += static_cast<size_t>(bytes_sent);
   }
   return true;
 }
@@ -138,13 +139,24 @@ bool recv_all(int fd, void* data, size_t size) {
   auto* buffer = static_cast<uint8_t*>(data);
   size_t received = 0;
   while (received < size) {
-    const ssize_t n = ::recv(fd, buffer + received, size - received, 0);
-    if (n <= 0) {
+    const ssize_t bytes_received = ::recv(fd, buffer + received, size - received, 0);
+    if (bytes_received < 0) {
+      if (errno == EINTR) { continue; }
       return false;
     }
-    received += static_cast<size_t>(n);
+    if (bytes_received == 0) { return false; }
+    received += static_cast<size_t>(bytes_received);
   }
   return true;
+}
+
+// Set SO_RCVTIMEO and SO_SNDTIMEO on a socket fd to bound blocking I/O during handshake.
+void set_handshake_timeout(int socket_fd, int timeout_seconds) {
+  struct timeval timeout{};
+  timeout.tv_sec = timeout_seconds;
+  timeout.tv_usec = 0;
+  ::setsockopt(socket_fd, SOL_SOCKET, SO_RCVTIMEO, &timeout, sizeof(timeout));
+  ::setsockopt(socket_fd, SOL_SOCKET, SO_SNDTIMEO, &timeout, sizeof(timeout));
 }
 
 bool send_worker_address(int fd, const std::string& address) {
@@ -225,6 +237,7 @@ void UcxxEndpoint::initialize() {
           continue;
         }
 
+        set_handshake_timeout(client_fd, 5);
         std::string remote_address_str = recv_worker_address(client_fd);
         if (remote_address_str.empty() || !send_worker_address(client_fd, local_address_str)) {
           ::close(client_fd);
@@ -250,6 +263,7 @@ void UcxxEndpoint::initialize() {
                                            saved_errno));
     }
 
+    set_handshake_timeout(fd, 5);
     const std::string local_address_str = worker_->getAddress()->getString();
     if (!send_worker_address(fd, local_address_str)) {
       ::close(fd);

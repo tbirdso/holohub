@@ -169,7 +169,6 @@ void UcxxEndoscopyOverlayApp::compose() {
       "ucxx_sender_back",
       Arg("tag", 2ul),
       Arg("endpoint") = ucxx_endpoint,
-      Arg("allocator") = make_resource<UnboundedAllocator>("tx_allocator"),
       Arg("blocking") = false);
 
   // Receives frames from publisher and sends frame-counter overlay (overlay_out) back to publisher.

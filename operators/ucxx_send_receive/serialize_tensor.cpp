@@ -17,8 +17,6 @@
 
 #include "serialize_tensor.hpp"
 
-#include <cstring>
-
 namespace holoscan::ops::ucxx {
 
 TensorHeader buildTensorHeader(const nvidia::gxf::Tensor& tensor) {
