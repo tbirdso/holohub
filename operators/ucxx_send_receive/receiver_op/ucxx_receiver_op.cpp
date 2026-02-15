@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-#include "ucxx_receiver_op.hpp"
-
 #include <cstring>
-#include <holoscan/holoscan.hpp>
-#include <operators/ucxx_send_receive/serialize_tensor.hpp>
+
+#include "holoscan/holoscan.hpp"
+#include "ucxx_receiver_op.hpp"
+#include "operators/ucxx_send_receive/serialize_tensor.hpp"
 
 namespace holoscan::ops {
 
@@ -156,6 +156,25 @@ void UcxxReceiverOp::compute([[maybe_unused]] holoscan::InputContext& input,
       return;
     }
 
+    // Allocate buffer for tensor data before posting receives.
+    // GPU or Host based on receive_on_device_
+    auto* raw_ptr =
+        allocator->allocate(buffer_size_.get(),
+                            receive_on_device_.get() ? holoscan::MemoryStorageType::kDevice
+                                                     : holoscan::MemoryStorageType::kHost);
+    if (!raw_ptr) {
+      HOLOSCAN_LOG_ERROR("Failed to allocate {} bytes for receive buffer", buffer_size_.get());
+      return;
+    }
+
+    // Capture allocator in deleter for safety
+    tensor_buffer_ = std::shared_ptr<nvidia::byte>(static_cast<nvidia::byte*>(raw_ptr),
+                                                   [allocator](nvidia::byte* ptr) {
+                                                     if (ptr) {
+                                                       allocator->free(ptr);
+                                                     }
+                                                   });
+
     const uint64_t tag_base = tag_.get();
     const ::ucxx::Tag tag_header{tag_base};
     const ::ucxx::Tag tag_payload{tag_base + 1};
@@ -175,30 +194,6 @@ void UcxxReceiverOp::compute([[maybe_unused]] holoscan::InputContext& input,
         [this](ucs_status_t, std::shared_ptr<void>) {
           async_condition()->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
         });
-
-    // Allocate buffer for tensor data (GPU or Host based on receive_on_device_)
-    auto* raw_ptr =
-        allocator->allocate(buffer_size_.get(),
-                            receive_on_device_.get() ? holoscan::MemoryStorageType::kDevice
-                                                     : holoscan::MemoryStorageType::kHost);
-    if (!raw_ptr) {
-      HOLOSCAN_LOG_ERROR("Failed to allocate {} bytes for receive buffer", buffer_size_.get());
-      if (header_request_) {
-        header_request_->cancel();
-      }
-      header_request_ = nullptr;
-      async_condition()->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
-      tensor_received_condition_->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
-      return;
-    }
-
-    // Capture allocator in deleter for safety
-    tensor_buffer_ = std::shared_ptr<nvidia::byte>(static_cast<nvidia::byte*>(raw_ptr),
-                                                   [allocator](nvidia::byte* ptr) {
-                                                     if (ptr) {
-                                                       allocator->free(ptr);
-                                                     }
-                                                   });
 
     // Post tensor data receive
     tensor_request_ = ucxx_endpoint->tagRecv(
