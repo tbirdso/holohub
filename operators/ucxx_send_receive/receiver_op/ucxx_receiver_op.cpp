@@ -1,6 +1,6 @@
 /*
- * SPDX-FileCopyrightText: Copyright (c) 2025-2026, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
- * SPDX-License-Identifier: Apache-2.0
+ * SPDX-FileCopyrightText: Copyright (c) 2025-2026, NVIDIA CORPORATION & AFFILIATES. All rights
+ * reserved. SPDX-License-Identifier: Apache-2.0
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,19 +18,22 @@
 #include "ucxx_receiver_op.hpp"
 
 #include <cstring>
-
 #include <holoscan/holoscan.hpp>
-
 #include <operators/ucxx_send_receive/serialize_tensor.hpp>
 
 namespace holoscan::ops {
 
 void UcxxReceiverOp::setup(holoscan::OperatorSpec& spec) {
   spec.param(tag_, "tag", "Tag", "UCX tag number", 0ul);
-  spec.param(buffer_size_, "buffer_size", "Buffer size",
+  spec.param(buffer_size_,
+             "buffer_size",
+             "Buffer size",
              "Tensor data buffer size in bytes");  // Required, no default
-  spec.param(receive_on_device_, "receive_on_device", "Receive on device",
-             "Allocate tensor buffer on device (GPU) if true, host (CPU) if false", true);
+  spec.param(receive_on_device_,
+             "receive_on_device",
+             "Receive on device",
+             "Allocate tensor buffer on device (GPU) if true, host (CPU) if false",
+             true);
   spec.param(endpoint_, "endpoint", "Endpoint", "UcxxEndpoint resource");
   spec.param(allocator_, "allocator", "Allocator", "Allocator for tensor buffers");
   spec.output<holoscan::gxf::Entity>("out");
@@ -49,6 +52,12 @@ void UcxxReceiverOp::setup(holoscan::OperatorSpec& spec) {
       break;
     }
   }
+
+  // Second async condition for tensor data receive. The built-in async_condition() gates the
+  // header receive. Holoscan scheduler AND-combines both: compute() runs only when both are DONE.
+  tensor_received_condition_ = fragment()->make_condition<holoscan::AsynchronousCondition>(
+      fmt::format("{}_tensor_received", name()));
+  add_arg(tensor_received_condition_);
 }
 
 void UcxxReceiverOp::stop() {
@@ -61,11 +70,10 @@ void UcxxReceiverOp::stop() {
 }
 
 void UcxxReceiverOp::compute([[maybe_unused]] holoscan::InputContext& input,
-                             holoscan::OutputContext& output,
-                             holoscan::ExecutionContext& context) {
+                             holoscan::OutputContext& output, holoscan::ExecutionContext& context) {
   // Wait for both header and tensor data to complete
-  if (header_request_ && header_request_->isCompleted() &&
-      tensor_request_ && tensor_request_->isCompleted()) {
+  if (header_request_ && header_request_->isCompleted() && tensor_request_ &&
+      tensor_request_->isCompleted()) {
     auto header_status = header_request_->getStatus();
     auto data_status = tensor_request_->getStatus();
 
@@ -94,18 +102,18 @@ void UcxxReceiverOp::compute([[maybe_unused]] holoscan::InputContext& input,
 
       // Wrap the received buffer in the tensor
       auto buffer_ref = tensor_buffer_;
-      auto result = tensor_handle.value()->wrapMemory(
-          shape,
-          header->element_type,
-          header->bytes_per_element,
-          strides,
-          receive_on_device_.get() ? nvidia::gxf::MemoryStorageType::kDevice
-                                   : nvidia::gxf::MemoryStorageType::kHost,
-          tensor_buffer_.get(),
-          [buffer_ref](void*) mutable {
-            buffer_ref.reset();
-            return nvidia::gxf::Success;
-          });
+      auto result = tensor_handle.value()->wrapMemory(shape,
+                                                      header->element_type,
+                                                      header->bytes_per_element,
+                                                      strides,
+                                                      receive_on_device_.get()
+                                                          ? nvidia::gxf::MemoryStorageType::kDevice
+                                                          : nvidia::gxf::MemoryStorageType::kHost,
+                                                      tensor_buffer_.get(),
+                                                      [buffer_ref](void*) mutable {
+                                                        buffer_ref.reset();
+                                                        return nvidia::gxf::Success;
+                                                      });
 
       if (!result) {
         HOLOSCAN_LOG_ERROR("Failed to wrap memory in tensor");
@@ -122,8 +130,7 @@ void UcxxReceiverOp::compute([[maybe_unused]] holoscan::InputContext& input,
                            ucs_status_string(header_status));
       }
       if (data_status != UCS_OK) {
-        HOLOSCAN_LOG_ERROR("Data receive failed with status: {}",
-                           ucs_status_string(data_status));
+        HOLOSCAN_LOG_ERROR("Data receive failed with status: {}", ucs_status_string(data_status));
       }
     }
 
@@ -138,7 +145,9 @@ void UcxxReceiverOp::compute([[maybe_unused]] holoscan::InputContext& input,
     auto endpoint_resource = endpoint_.get();
     std::shared_ptr<::ucxx::Endpoint> ucxx_endpoint =
         endpoint_resource ? endpoint_resource->endpoint() : nullptr;
-    if (!ucxx_endpoint) { return; }
+    if (!ucxx_endpoint) {
+      return;
+    }
 
     // Validate allocator exists
     auto allocator = allocator_.get();
@@ -151,50 +160,55 @@ void UcxxReceiverOp::compute([[maybe_unused]] holoscan::InputContext& input,
     const ::ucxx::Tag tag_header{tag_base};
     const ::ucxx::Tag tag_payload{tag_base + 1};
 
-    // Reset atomic counter for aync condition tracking for both header and tensor receives.
-    // Whoever sets to 0 first will set the async condition to EVENT_DONE.
-    pending_receives_.store(2, std::memory_order_release);
+    // Set both async conditions to EVENT_WAITING before posting receives.
+    // Set WAITING before tagRecv so a fast callback doesn't get overwritten.
     async_condition()->event_state(holoscan::AsynchronousEventState::EVENT_WAITING);
+    tensor_received_condition_->event_state(holoscan::AsynchronousEventState::EVENT_WAITING);
 
-    // Post header receive with atomic counter callback
+    // Post header receive
     header_request_ = ucxx_endpoint->tagRecv(
-        header_buffer_.data(), header_buffer_.size(), tag_header, ::ucxx::TagMaskFull,
+        header_buffer_.data(),
+        header_buffer_.size(),
+        tag_header,
+        ::ucxx::TagMaskFull,
         /*enablePythonFuture=*/false,
         [this](ucs_status_t, std::shared_ptr<void>) {
-          if (pending_receives_.fetch_sub(1, std::memory_order_acq_rel) == 1) {
-            async_condition()->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
-          }
+          async_condition()->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
         });
 
     // Allocate buffer for tensor data (GPU or Host based on receive_on_device_)
-    auto* raw_ptr = allocator->allocate(
-        buffer_size_.get(),
-        receive_on_device_.get() ? holoscan::MemoryStorageType::kDevice
-                                 : holoscan::MemoryStorageType::kHost);
+    auto* raw_ptr =
+        allocator->allocate(buffer_size_.get(),
+                            receive_on_device_.get() ? holoscan::MemoryStorageType::kDevice
+                                                     : holoscan::MemoryStorageType::kHost);
     if (!raw_ptr) {
       HOLOSCAN_LOG_ERROR("Failed to allocate {} bytes for receive buffer", buffer_size_.get());
-      if (header_request_) { header_request_->cancel(); }
+      if (header_request_) {
+        header_request_->cancel();
+      }
       header_request_ = nullptr;
       async_condition()->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
+      tensor_received_condition_->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
       return;
     }
 
     // Capture allocator in deleter for safety
-    tensor_buffer_ = std::shared_ptr<nvidia::byte>(
-        static_cast<nvidia::byte*>(raw_ptr),
-        [allocator](nvidia::byte* ptr) {
-          if (ptr) { allocator->free(ptr); }
-        });
+    tensor_buffer_ = std::shared_ptr<nvidia::byte>(static_cast<nvidia::byte*>(raw_ptr),
+                                                   [allocator](nvidia::byte* ptr) {
+                                                     if (ptr) {
+                                                       allocator->free(ptr);
+                                                     }
+                                                   });
 
-    // Post tensor data receive with atomic counter callback
+    // Post tensor data receive
     tensor_request_ = ucxx_endpoint->tagRecv(
-        tensor_buffer_.get(), buffer_size_.get(),
-        tag_payload, ::ucxx::TagMaskFull,
+        tensor_buffer_.get(),
+        buffer_size_.get(),
+        tag_payload,
+        ::ucxx::TagMaskFull,
         /*enablePythonFuture=*/false,
         [this](ucs_status_t, std::shared_ptr<void>) {
-          if (pending_receives_.fetch_sub(1, std::memory_order_acq_rel) == 1) {
-            async_condition()->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
-          }
+          tensor_received_condition_->event_state(holoscan::AsynchronousEventState::EVENT_DONE);
         });
   }
 }

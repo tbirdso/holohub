@@ -18,7 +18,6 @@
 #pragma once
 
 #include <array>
-#include <atomic>
 #include <memory>
 
 #include "holoscan/holoscan.hpp"
@@ -48,12 +47,12 @@ class UcxxReceiverOp : public holoscan::Operator {
   holoscan::Parameter<std::shared_ptr<holoscan::Allocator>> allocator_;
 
   std::array<uint8_t, sizeof(ucxx::TensorHeader)> header_buffer_;  // Header buffer (CPU)
-  std::shared_ptr<nvidia::byte> tensor_buffer_;    // Tensor data buffer (GPU or Host)
+  std::shared_ptr<nvidia::byte> tensor_buffer_;      // Tensor data buffer (GPU or Host)
   std::shared_ptr<::ucxx::Request> header_request_;  // Header request
   std::shared_ptr<::ucxx::Request> tensor_request_;  // Tensor data request
 
-  // Atomic counter for tracking completion of both header and tensor receives
-  std::atomic<int> pending_receives_{0};
+  // Second async condition for tensor data receive (header uses the built-in async_condition()).
+  std::shared_ptr<holoscan::AsynchronousCondition> tensor_received_condition_;
 };
 
 }  // namespace holoscan::ops

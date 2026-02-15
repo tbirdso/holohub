@@ -18,9 +18,11 @@
 #pragma once
 
 #include <cstdint>
+#include <optional>
 
 #include "holoscan/holoscan.hpp"
 #include "gxf/std/tensor.hpp"
+#include "gxf/multimedia/video.hpp"
 
 namespace holoscan::ops::ucxx {
 
@@ -51,5 +53,25 @@ struct TensorHeader {
 // Returns:
 //   TensorHeader containing the tensor's metadata.
 TensorHeader buildTensorHeader(const nvidia::gxf::Tensor& tensor);
+
+// Build TensorHeader from holoscan::Tensor (DLPack) metadata.
+TensorHeader buildTensorHeader(const holoscan::Tensor& tensor);
+
+// Build TensorHeader from VideoBuffer metadata (packed RGB/RGBA only).
+// Returns header with dims[2]==0 for unsupported formats.
+TensorHeader buildTensorHeader(const nvidia::gxf::VideoBuffer& video_buffer);
+
+// Uniform descriptor for any sendable buffer in an entity.
+struct BufferDescriptor {
+  TensorHeader header;
+  void* data_ptr;
+  size_t data_size;
+};
+
+// Resolve a sendable buffer from a Holoscan entity.
+// Tries: holoscan::Tensor, nvidia::gxf::Tensor, nvidia::gxf::VideoBuffer (packed).
+// The entity must outlive the descriptor (data_ptr points into entity-owned memory).
+std::optional<BufferDescriptor> resolveEntityBuffer(
+    holoscan::gxf::Entity& entity, const char* tensor_name = "");
 
 }  // namespace holoscan::ops::ucxx

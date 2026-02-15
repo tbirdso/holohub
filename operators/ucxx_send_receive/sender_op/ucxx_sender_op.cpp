@@ -136,57 +136,21 @@ void UcxxSenderOp::compute(holoscan::InputContext& input, holoscan::OutputContex
     return;
   }
 
-  // Try to get tensor - first as holoscan::Tensor, then as nvidia::gxf::Tensor
-  // Use a pointer to handle both cases uniformly
-  nvidia::gxf::Tensor* gxf_tensor_ptr = nullptr;
-  std::shared_ptr<nvidia::gxf::Tensor> gxf_tensor_storage;  // For holoscan::Tensor case
-
-  const char* tensor_name = "";
-
-  auto maybe_holoscan_tensor = in_message.get<holoscan::Tensor>(tensor_name);
-  if (maybe_holoscan_tensor) {
-    // Convert holoscan::Tensor to nvidia::gxf::Tensor for serialization
-    gxf_tensor_storage = std::make_shared<nvidia::gxf::Tensor>(maybe_holoscan_tensor->dl_ctx());
-    if (!gxf_tensor_storage) {
-      HOLOSCAN_LOG_ERROR("Failed to convert holoscan::Tensor to nvidia::gxf::Tensor");
-      return;
-    }
-    gxf_tensor_ptr = gxf_tensor_storage.get();
-  } else {
-    // Try to get nvidia::gxf::Tensor directly by casting to nvidia::gxf::Entity
-    auto maybe_gxf_tensor =
-        static_cast<nvidia::gxf::Entity&>(in_message).get<nvidia::gxf::Tensor>(tensor_name);
-    if (!maybe_gxf_tensor) {
-      HOLOSCAN_LOG_ERROR("Failed to get tensor from input message (tried both "
-                         "holoscan::Tensor and nvidia::gxf::Tensor)");
-      return;
-    }
-    // Use the GXF tensor directly (Handle provides pointer-like access)
-    gxf_tensor_ptr = maybe_gxf_tensor.value().get();
+  auto resolved = holoscan::ops::ucxx::resolveEntityBuffer(in_message);
+  if (!resolved) {
+    HOLOSCAN_LOG_ERROR("No sendable buffer found in input message");
+    return;
   }
 
-  // Create a send request for two-phase transfer
   SendRequest& send = requests_.emplace_back();
-  // Pin the input entity / tensor wrapper so the payload pointer remains valid until the UCX request completes.
   send.keepalive_entity = in_message;
-  send.keepalive_tensor_wrapper = gxf_tensor_storage;
-
-  // Build header from tensor metadata (no data copy)
-  send.header = holoscan::ops::ucxx::buildTensorHeader(*gxf_tensor_ptr);
+  send.header = resolved->header;
 
   const uint64_t tag_base = tag_.get();
-  const ::ucxx::Tag tag_header{tag_base};
-  const ::ucxx::Tag tag_payload{tag_base + 1};
-
-  // Phase 1: Send header (CPU) - runs in parallel with phase 2
   send.header_request = ucxx_endpoint->tagSend(
-      &send.header, sizeof(holoscan::ops::ucxx::TensorHeader), tag_header);
-
-  // Phase 2: Send tensor data (GPU or CPU pointer, UCX handles both)
-  const size_t tensor_size =
-      gxf_tensor_ptr->element_count() * gxf_tensor_ptr->bytes_per_element();
+      &send.header, sizeof(holoscan::ops::ucxx::TensorHeader), ::ucxx::Tag{tag_base});
   send.data_request = ucxx_endpoint->tagSend(
-      gxf_tensor_ptr->pointer(), tensor_size, tag_payload);
+      resolved->data_ptr, resolved->data_size, ::ucxx::Tag{tag_base + 1});
 }
 
 }  // namespace holoscan::ops

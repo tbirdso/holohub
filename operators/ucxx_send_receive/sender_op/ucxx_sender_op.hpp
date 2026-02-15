@@ -21,12 +21,8 @@
 
 #include "holoscan/holoscan.hpp"
 
-#include <operators/ucxx_send_receive/serialize_tensor.hpp>
-#include <operators/ucxx_send_receive/ucxx_endpoint.hpp>
-
-namespace nvidia::gxf {
-class Tensor;
-}  // namespace nvidia::gxf
+#include "operators/ucxx_send_receive/serialize_tensor.hpp"
+#include "operators/ucxx_send_receive/ucxx_endpoint.hpp"
 
 namespace holoscan::ops {
 
@@ -53,10 +49,9 @@ class UcxxSenderOp : public holoscan::Operator {
     holoscan::ops::ucxx::TensorHeader header;         // Header storage (must outlive header_request)
     bool cancel_requested = false;
 
-    // Keepalive handles to ensure any buffers passed to UCX remain valid until both requests
+    // Keepalive handle to ensure any buffers passed to UCX remain valid until both requests
     // are completed.
     holoscan::gxf::Entity keepalive_entity;
-    std::shared_ptr<nvidia::gxf::Tensor> keepalive_tensor_wrapper;
   };
   std::list<SendRequest> requests_;
 };

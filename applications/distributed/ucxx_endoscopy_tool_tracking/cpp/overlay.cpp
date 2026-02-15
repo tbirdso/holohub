@@ -152,8 +152,8 @@ void UcxxEndoscopyOverlayApp::compose() {
   auto ucxx_endpoint = make_resource<holoscan::ops::UcxxEndpoint>(
       "ucxx_endpoint", Arg("hostname", hostname_), Arg("port", port_), Arg("listen", false));
 
-  // Buffer size: RGBA frame (width * height * 4 channels)
-  const int buffer_size = width * height * 4;
+  // Buffer size: RGB frame (width * height * 3 channels)
+  const int buffer_size = width * height * 3;
   auto ucxx_receiver = make_operator<holoscan::ops::UcxxReceiverOp>(
       "ucxx_receiver",
       Arg("tag", 1ul),

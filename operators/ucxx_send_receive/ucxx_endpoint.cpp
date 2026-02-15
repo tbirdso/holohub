@@ -18,7 +18,6 @@
 #include "ucxx_endpoint.hpp"
 
 #include <arpa/inet.h>
-#include <cuda_runtime.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
