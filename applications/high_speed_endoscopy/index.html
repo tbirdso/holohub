@@ -1,4 +1,3 @@
-<!-- Custom HTML site displayed as the Home chapter -->
 
 <!doctype html>
 <html lang="en" class="no-js">
@@ -9,29 +8,31 @@
       
       
       
-        <link rel="canonical" href="https://nvidia-holoscan.github.io/holohub/">
+        <link rel="canonical" href="https://nvidia-holoscan.github.io/holohub/applications/high_speed_endoscopy/">
       
       
+        <link rel="prev" href="../h264/h264_video_decode/">
       
-        <link rel="next" href="workflows/">
+      
+        <link rel="next" href="cpp/">
       
       
         
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>Home - NVIDIA Holoscan Reference Applications</title>
+        <title>High-Speed Endoscopy (latest) - NVIDIA Holoscan Reference Applications</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -50,17 +51,17 @@
       
     
     
-      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="assets/css/color-schemes.css">
+      <link rel="stylesheet" href="../../assets/css/color-schemes.css">
     
-      <link rel="stylesheet" href="assets/css/fonts.css">
+      <link rel="stylesheet" href="../../assets/css/fonts.css">
     
-      <link rel="stylesheet" href="assets/css/custom-material.css">
+      <link rel="stylesheet" href="../../assets/css/custom-material.css">
     
-      <link rel="stylesheet" href="assets/css/jupyter-themes.css">
+      <link rel="stylesheet" href="../../assets/css/jupyter-themes.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
@@ -76,10 +77,6 @@
 
     
     
-  <script src="https://kit.fontawesome.com/1512963100.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  
-
   </head>
   
   
@@ -98,6 +95,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#high-speed-endoscopy" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -112,7 +114,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="NVIDIA Holoscan Reference Applications" class="md-header__button md-logo" aria-label="NVIDIA Holoscan Reference Applications" data-md-component="logo">
+    <a href="../.." title="NVIDIA Holoscan Reference Applications" class="md-header__button md-logo" aria-label="NVIDIA Holoscan Reference Applications" data-md-component="logo">
       
   
   <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -140,7 +142,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              High-Speed Endoscopy (latest)
             
           </span>
         </div>
@@ -240,7 +242,6 @@
     <div class="md-container" data-md-component="container">
       
       
-
         
           
             
@@ -252,11 +253,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="." class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -277,7 +276,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="workflows/" class="md-tabs__link">
+        <a href="../../workflows/" class="md-tabs__link">
           
   
   
@@ -295,11 +294,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="applications/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
           
   
   
@@ -321,7 +322,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="operators/" class="md-tabs__link">
+        <a href="../../operators/" class="md-tabs__link">
           
   
   
@@ -343,7 +344,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="tutorials/" class="md-tabs__link">
+        <a href="../../tutorials/" class="md-tabs__link">
           
   
   
@@ -365,7 +366,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="benchmarks/" class="md-tabs__link">
+        <a href="../../benchmarks/" class="md-tabs__link">
           
   
   
@@ -385,719 +386,6 @@
           
         
       
-<style>
-
-    .md-main {
-        flex-grow: 0
-    }
-
-    .md-main__inner {
-        display: flex;
-        height: 100%;
-    }
-
-    .tx-container {
-        padding-top: .0rem;
-        background: var(--md-default-fg-color--lightest);
-    }
-
-    .tx-hero {
-        margin: 32px 2.8rem;
-        color: var(--md-default-fg-color);
-        justify-content: center;
-    }
-
-    .tx-hero h1 {
-        line-height: 1.25;
-        margin-bottom: 1rem;
-        color: currentColor;
-        font-weight: 700
-    }
-
-    @media (min-width: 576px){ .tx-hero h1 { font-size: 28px; } }
-    @media (min-width: 720px){ .tx-hero h1 { font-size: 36px; } }
-    @media (min-width: 992px){ .tx-hero h1 { font-size: 48px; } }
-
-    .tx-hero p {
-        line-height: 1.75;
-        font-weight: 400
-    }
-
-    @media (min-width: 576px){ .tx-hero p { font-size: 18px; } }
-    @media (min-width: 720px){ .tx-hero p { font-size: 20px; } }
-    @media (min-width: 992px){ .tx-hero p { font-size: 22px; } }
-
-    .tx-hero__content {
-        padding-bottom: 1rem;
-        margin: 0 auto;
-    }
-
-    .tx-hero__image{
-        width: 17rem !important;
-        height: 17rem !important;
-        order: 1 !important;
-        padding-right: 2.5rem !important;
-    }
-
-    .tx-hero__image img {
-       border: 0px !important;
-    }
-
-    .tx-hero__ytvideo{
-        position: relative;
-        width: 100%;
-        height: 100%;
-    }
-
-    .video {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    .tx-hero .md-button {
-        margin-top: .5rem;
-        margin-right: .5rem;
-        padding-left: 0.75rem;
-        padding-right: 0.75rem;
-        color: var(--md-default-fg-color);
-        border-color: var(--md-accent-fg-color);
-        text-decoration: none;
-        line-height: 1.25;
-        font-weight: 700;
-    }
-
-    @media (min-width: 576px){ .tx-hero .md-button { font-size: 14px; } }
-    @media (min-width: 720px){ .tx-hero .md-button { font-size: 16px; } }
-    @media (min-width: 992px){ .tx-hero .md-button { font-size: 18px; } }
-
-    .tx-hero .md-button:focus,
-    .tx-hero .md-button:hover {
-        background-color: var(--md-default-bg-color--light) !important;
-        color: var(--md-default-fg-color--light);
-        border-color: var(--md-default-fg-color);
-        text-decoration: none;
-    }
-
-    .tx-hero .md-button--primary {
-        background-color: var(--md-accent-fg-color);
-        border-color: var(--md-accent-fg-color);
-        border-width: 0;
-    }
-
-    .tx-hero .md-button--primary:focus,
-    .tx-hero .md-button--primary:hover {
-        background-color: var(--md-accent-fg-color--light);
-    }
-
-    .feature-item h2 svg {
-        height: 30px;
-        float: left;
-        margin-right: 10px;
-        transform: translateY(10%);
-    }
-
-    .top-hr {
-        margin: 14px 0px 10px;
-    }
-    @media (min-width: 576px){ .top-hr { margin: 14px 0px 10px ; } }
-    @media (min-width: 720px){ .top-hr { margin: 21px 0px 15px; } }
-    @media (min-width: 992px){ .top-hr { margin: 21px 0px 15px; } }
-
-    .row {
-        display:-ms-flexbox;
-        display:flex;
-        -ms-flex-wrap:wrap;
-        flex-wrap:wrap;
-        /* margin-right:-15px;
-        margin-left:-15px */
-    }
-
-    .justify-content-center {
-        -ms-flex-pack:center!important;justify-content:center!important
-    }
-
-    .col-12 {
-        position: relative;
-        width: 100%;
-        min-height: 1px;
-        padding-right: 15px;
-        padding-left: 15px;
-    }
-
-    .col-12 {
-        -ms-flex:0 0 100%;
-        flex:0 0 100%;
-        max-width:100%
-    }
-
-    .text-center {
-        text-align: center!important;
-    }
-
-    .section-title {
-        margin-bottom: 32px;
-        line-height: 1.25;
-        font-weight: 700;
-    }
-    @media (min-width: 576px){ .section-title  { font-size: 24px; } }
-    @media (min-width: 720px){ .section-title  { font-size: 28px; } }
-    @media (min-width: 992px){ .section-title  { font-size: 36px; } }
-
-    [data-md-color-scheme="dark"] .section-title,
-    [data-md-color-scheme="dark"] .section-title a {
-        color: white;
-    }
-
-    [data-md-color-scheme="dark"] .section-gray .section-title,
-    [data-md-color-scheme="dark"] .section-gray .section-title a {
-        color: white;
-    }
-
-    .section-gray {
-        background: #EFEFEF;
-    }
-
-    [data-md-color-scheme="dark"] .section-gray {
-        background: #606060;
-    }
-
-    .col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
-        position: relative;
-        width: 100%;
-        min-height: 1px;
-        padding: 15px;
-    }
-
-    @media (min-width: 576px) {
-        .col-sm-6 {
-            -ms-flex: 0 0 50%;
-            flex: 0 0 50%;
-            max-width: 50%;
-        }
-        .col-sm-12 {
-            -ms-flex: 0 0 100%;
-            flex: 0 0 100%;
-            max-width: 100%;
-        }
-    }
-    @media (min-width: 720px) {
-        .col-lg-3 {
-            -ms-flex: 0 0 33.333333%;
-            flex: 0 0 33.333333%;
-            max-width: 33.333333%;
-        }
-    }
-    @media (min-width: 768px) {
-        .col-md-6 {
-            -ms-flex: 0 0 50%;
-            flex: 0 0 50%;
-            max-width: 50%;
-        }
-    }
-    @media (min-width: 992px) {
-        .col-lg-4 {
-            -ms-flex: 0 0 33.333333%;
-            flex: 0 0 33.333333%;
-            max-width: 33.333333%;
-        }
-        .col-lg-6 {
-            -ms-flex: 0 0 50%;
-            flex: 0 0 50%;
-            max-width: 50%;
-        }
-        .col-lg-3 {
-            -ms-flex: 0 0 25%;
-            flex: 0 0 25%;
-            max-width: 25%;
-        }
-    }
-    @media (min-width: 1200px) {
-        .col-xl-4 {
-            -ms-flex: 0 0 33.333333%;
-            flex: 0 0 33.333333%;
-            max-width: 33.333333%;
-        }
-    }
-
-    .bg-white{background-color:#fff!important}
-    .px-4{padding-left:1.5rem!important}
-    .py-5{padding-top:3rem!important}
-    .no-padding{padding:0rem!important}
-
-    .shadow {
-        box-shadow: 0 5px 15px rgba(0, 0, 0, .1) !important;
-        transition: .3s ease;
-        display: block !important;
-    }
-
-    .shadow:hover {
-        box-shadow: 0 5px 15px rgba(0, 0, 0, .3) !important;
-        transition: .3s ease;
-        display: block !important;
-    }
-
-    .padding-feature-box-item{
-        padding-left: 0.8rem!important;
-        padding-right: 0.8rem!important;
-        padding-top: 0.8rem!important;
-        padding-bottom: 0.8rem!important;
-    }
-
-    .padding-graph{
-        padding-left: 0.5rem!important;
-        padding-right: 0.5rem!important;
-        padding-top: 0.5rem!important;
-        padding-bottom: 0.5rem!important;
-    }
-
-    .icon {
-        font-size: 40px;
-    }
-
-    .d-block {
-        display: block!important;
-    }
-
-    /* .mb-3, .my-3 {
-        margin-bottom: 1rem!important;
-    } */
-
-    .mb-0, .my-0 {
-        margin-bottom: 0!important;
-    }
-
-    .feature-item {
-        font-family: 'Lato', sans-serif;
-        font-weight: 300;
-        box-sizing: border-box;
-        padding: 0 15px;
-        word-break: break-word
-    }
-
-    h2 {
-        color: #333;
-        font-weight: 700;
-        font-size: 1.2rem;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        line-height: normal;
-        font-family: inherit;
-    }
-
-    .feature-box {
-        text-align: left;
-        display:flex;
-        justify-content: center!important;
-        flex-shrink: 0;
-    }
-
-    .feature-box a{
-        height: 320px;
-        width: 100%;
-        flex-shrink: 0;
-    }
-
-    [data-md-color-scheme="dark"] .feature-box a.bg-white {
-        background-color: #cbcbcb !important;
-    }
-
-    .feature-box a i {
-        color: #76b900!important;
-        font-size: 0.6rem;
-        -webkit-transition: .4s ease-out;
-        transition: all ease-out .4s !important
-    }
-
-    .feature-box a:hover i {
-        color: #000!important;
-        transform: translate(0.5em);
-    }
-
-    .feature-box a p.feature-card-desc{
-        min-height: 80px;
-        font-size: 15px;
-        line-height: 1.667;
-        font-weight: 400;
-    }
-
-    .feature-box a .nv-teaser-text-link {
-        margin-block-start: 0em;
-        margin-block-end: 0em;
-        font-weight: 700;
-        padding-bottom: 15px !important;
-        padding-top: 0px !important;
-    }
-    @media (min-width: 576px){ .nv-teaser-text-link  { font-size: 12px; } }
-    @media (min-width: 720px){ .nv-teaser-text-link  { font-size: 14px; } }
-    @media (min-width: 992px){ .nv-teaser-text-link  { font-size: 16px; } }
-
-    .feature-box h3 {
-        color: #333;
-        line-height: 1.25;
-        font-weight: 700;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        margin-top: 0.5rem;
-        margin-bottom: 0.5rem;
-        font-family: inherit;
-        text-align: left;
-        font-size: 16px;
-    }
-    @media (min-width: 576px){ .feature-box h3 { font-size: 16px; } }
-    @media (min-width: 720px){ .feature-box h3 { font-size: 18px; } }
-    @media (min-width: 992px){ .feature-box h3 { font-size: 20px; } }
-
-    .feature-box p {
-        font-size: 0.6rem;
-        font-weight: 300;
-        line-height: 1.8em;
-        text-rendering: optimizeLegibility;
-        -webkit-font-smoothing: antialiased;
-        color: #111;
-        margin: 0 0 10px;
-        display: block;
-        text-align: left;
-    }
-
-    @media screen and (max-width:30em) {
-        .tx-hero h1 {
-            font-size: 1.4rem
-        }
-    }
-
-    @media screen and (min-width:60em) {
-        .md-sidebar--secondary {
-            display: none
-        }
-
-        .tx-hero {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .tx-hero__content {
-            max-width: 30rem;
-            margin-top: 3.5rem;
-            margin-bottom: 3.5rem;
-            margin-left: 1.0rem;
-            margin-right: 4.0rem;
-            align-items: center;
-        }
-    }
-
-    @media screen and (min-width:76.25em) {
-        .md-sidebar--primary {
-            display: none
-        }
-
-        .top-hr {
-            width: 100%;
-            display: flex;
-            max-width: 61rem;
-            margin-right: auto;
-            margin-left: auto;
-            padding: 0 .2rem;
-        }
-
-        .bottom-hr {
-            margin-top: 10px;
-            width: 100%;
-            display: flex;
-            max-width: 61rem;
-            margin-right: auto;
-            margin-left: auto;
-            padding: 0 .2rem;
-        }
-
-        .feature-item {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .feature-item:hover {
-            background-color: #526cfe47;
-            border-radius: 3px;
-        }
-    }
-
-    .hr {
-        border-bottom: 1px solid #eee;
-        width: 100%;
-        margin: 20px 0;
-    }
-
-    .logos {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-flow: row wrap;
-        margin: 0 auto;
-    }
-
-    .logos img {
-        flex: 1 1 auto;
-        padding: 25px;
-        max-height: 130px;
-        vertical-align: middle;
-    }
-
-    .hr-logos {
-        margin-top: 0;
-        margin-bottom: 30px;
-    }
-
-    .md-footer__inner {
-        display: none !important;
-    }
-
-    .md-footer-meta__inner {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        margin-top: 1.0rem;
-    }
-
-    .md-footer-social {
-        padding-top: 20px;
-    }
-
-    .twemoji {
-        display: inline-flex;
-        height: 0.6rem;
-        vertical-align: text-top;
-    }
-
-    /* Card backgrounds - light mode */
-    .app-card {
-        background-color: #fff;
-        border-radius: 0.5rem;
-        border: 1px solid transparent;
-    }
-
-    /* Card backgrounds - dark mode */
-    [data-md-color-scheme="dark"] .app-card {
-        background-color: var(--md-default-bg-color);
-        border: 1px solid #969696;
-    }
-
-    /* Card title in dark mode */
-    [data-md-color-scheme="dark"] .app-card h3 {
-        color: #fff !important;
-    }
-
-    /* Card description in dark mode */
-    [data-md-color-scheme="dark"] .app-card .feature-card-desc {
-        color: #d3d3d3 !important;
-    }
-
-    /* Image backgrounds in dark mode for better visibility of default images only */
-    [data-md-color-scheme="dark"] .app-card img[src*="_default.png"] {
-        background-color: #e8e8e8;
-        padding: 0.5rem;
-    }
-</style>
-
-<!-- Main site Entry button descriptions -->
-<section class="tx-container">
-    <div class="md-grid md-typeset">
-      <div class="tx-hero">
-        <div class="tx-hero__content">
-            <h1>Accelerate Sensor Processing</h1>
-            <p>Bring Real-time AI to the world with NVIDIA Holoscan</p>
-            <a href="applications" title="Explore applications" class="md-button md-button--primary" style="padding-top: 0.7rem; padding-bottom: 0.7rem;">
-                Explore Applications
-            </a>
-            <a href="https://developer.nvidia.com/holoscan-sdk" style="padding-top: 0.6rem; padding-bottom: 0.6rem;" title="Explore Holoscan" class="md-button" target="_blank">
-                <i class="bi"></i>&nbsp;Learn more about Holoscan
-            </a>
-        </div>
-        <div class="tx-hero__image">
-            <img src="./assets/images/jetson-for-dev-ai-labs-icon-2974266-r3_ai-lab-text-generation-28.png" draggable="false">
-        </div>
-      </div>
-    </div>
-</section>
-
-<section class="section">
-    <div class="top-hr">
-        <div class="row justify-content-center">
-            <div class="col-12 text-center">
-                <h2 class="section-title"><a href="applications">Latest Applications</a></h2>
-            </div>
-            
-            
- <div class="col-xl-4 col-lg-6 col-sm-12 mb-1 feature-box" data-recent="true">
-                <div class="shadow padding-feature-box-item text-center d-block match-height app-card" style="cursor: pointer; position: relative;" onclick="window.location.href='/holohub/applications/foxglove_endoscopy_tool_tracking';">
-                    <span class="new-badge" style="position: absolute; top: 10px; right: 10px; background-color: #76b900; color: white; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.65rem; font-weight: 600;">New</span>
-                    <img src="https://raw.githubusercontent.com/nvidia-holoscan/holohub/main/applications/foxglove_endoscopy_tool_tracking/docs/foxglove_endoscopy_tool_tracking.png" alt="Foxglove endoscopy tool tracking" width="120" height="120">
-                    <h3 class="mb-1 mt-0" style="font-size: 0.8rem;">Foxglove endoscopy tool tracking</h3>
-                    <span style="display: inline-block; background-color: var(--md-code-bg-color); color: var(--md-code-fg-color); padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.65rem; font-weight: 600; margin-bottom: 0.5rem;">Python, C++</span>
-                    <p class="feature-card-desc">Endoscopy tool-tracking graph that publishes video, tool annotations and state to Foxglove Studio.</p>
-                    <div class="md-tags md-nav__link md-typeset" style="line-height: 1.5; display: block;" onclick="event.stopPropagation();"><a href="/holohub/tags/#tag:visualization" class="md-tag" style="display: none;">visualization</a> <a href="/holohub/tags/#tag:observability" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">observability</a> <a href="/holohub/tags/#tag:video" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">video</a> <a href="/holohub/tags/#tag:inference" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">inference</a></div>
-                    <!-- <p class="nv-teaser-text-link">Learn More <i class="fa-solid fa-angle-right"></i></p> -->
-                </div>
-            </div>
- <div class="col-xl-4 col-lg-6 col-sm-12 mb-1 feature-box" data-recent="true">
-                <div class="shadow padding-feature-box-item text-center d-block match-height app-card" style="cursor: pointer; position: relative;" onclick="window.location.href='/holohub/applications/atracsys_visualizer';">
-                    <span class="new-badge" style="position: absolute; top: 10px; right: 10px; background-color: #76b900; color: white; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.65rem; font-weight: 600;">New</span>
-                    <img src="https://raw.githubusercontent.com/nvidia-holoscan/holohub/main/applications/atracsys_visualizer/demo.gif" alt="Atracsys Visualizer" width="120" height="120">
-                    <h3 class="mb-1 mt-0" style="font-size: 0.8rem;">Atracsys Visualizer</h3>
-                    <span style="display: inline-block; background-color: var(--md-code-bg-color); color: var(--md-code-fg-color); padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.65rem; font-weight: 600; margin-bottom: 0.5rem;">C++</span>
-                    <p class="feature-card-desc">Replay-first visualization application for Atracsys visible, infrared, structured-light, and tracking data with an optional live camera mode.</p>
-                    <div class="md-tags md-nav__link md-typeset" style="line-height: 1.5; display: block;" onclick="event.stopPropagation();"><a href="/holohub/tags/#tag:camera" class="md-tag" style="display: none;">camera</a> <a href="/holohub/tags/#tag:visualization" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">visualization</a> <a href="/holohub/tags/#tag:tracking" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">tracking</a> <a href="/holohub/tags/#tag:structured-light" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">structured light</a> <a href="/holohub/tags/#tag:holoviz" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">holoviz</a></div>
-                    <!-- <p class="nv-teaser-text-link">Learn More <i class="fa-solid fa-angle-right"></i></p> -->
-                </div>
-            </div>
- <div class="col-xl-4 col-lg-6 col-sm-12 mb-1 feature-box" data-recent="true">
-                <div class="shadow padding-feature-box-item text-center d-block match-height app-card" style="cursor: pointer; position: relative;" onclick="window.location.href='/holohub/applications/gstreamer/gst_video_recorder';">
-                    <span class="new-badge" style="position: absolute; top: 10px; right: 10px; background-color: #76b900; color: white; padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.65rem; font-weight: 600;">New</span>
-                    <img src="https://raw.githubusercontent.com/nvidia-holoscan/holohub/main/applications/gstreamer/gst_video_recorder/docs/pipeline_diagram.png" alt="GStreamer Video Recorder" width="120" height="120">
-                    <h3 class="mb-1 mt-0" style="font-size: 0.8rem;">GStreamer Video Recorder</h3>
-                    <span style="display: inline-block; background-color: var(--md-code-bg-color); color: var(--md-code-fg-color); padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.65rem; font-weight: 600; margin-bottom: 0.5rem;">Python, C++</span>
-                    <p class="feature-card-desc">Record Holoscan video streams to file using GStreamer encoding. Supports multiple codecs (H.264, H.265, VP8, VP9) and both host/device memory for efficient video recording.</p>
-                    <div class="md-tags md-nav__link md-typeset" style="line-height: 1.5; display: block;" onclick="event.stopPropagation();"><a href="/holohub/tags/#tag:video" class="md-tag" style="display: none;">video</a> <a href="/holohub/tags/#tag:gstreamer" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">gstreamer</a> <a href="/holohub/tags/#tag:recording" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">recording</a> <a href="/holohub/tags/#tag:encoding" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">encoding</a> <a href="/holohub/tags/#tag:file" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">file</a></div>
-                    <!-- <p class="nv-teaser-text-link">Learn More <i class="fa-solid fa-angle-right"></i></p> -->
-                </div>
-            </div>
-             <div class="tx-hero">
-                
-                <a href="applications" title="Browse all applications" class="md-button md-button--primary" style="padding-top: 0.7rem; padding-bottom: 0.7rem; margin-right: 0.5rem;">
-                  Browse all applications (112)
-               </a>
-               </div>
-            </div>
-       </div>
-</section>
-
-<!-- feature-box -->
-<section class="section-gray">
-    <div class="top-hr">
-        <div class="row justify-content-center">
-            <div class="col-12 text-center">
-                <h2 class="section-title"><a href="tutorials">Latest Tutorials</a></h2>
-            </div>
-            
-            
- <div class="col-xl-4 col-lg-6 col-sm-12 mb-1 feature-box">
-                <div class="shadow padding-feature-box-item text-center d-block match-height app-card" style="cursor: pointer; position: relative;" onclick="window.location.href='/holohub/tutorials/async_buffer_deadline_tutorial';">
-                    
-                    <img src="https://raw.githubusercontent.com/nvidia-holoscan/holohub/main/tutorials/async_buffer_deadline_tutorial/tx1_latency_vs_tx2_period.png" alt="Asynchronous Lock-free Buffer" width="120" height="120">
-                    <h3 class="mb-1 mt-0" style="font-size: 0.8rem;">Asynchronous Lock-free Buffer</h3>
-                    
-                    <p class="feature-card-desc">This tutorial demonstrates the impact of using an asynchronous lock-free buffer with SCHED_DEADLINE scheduling policy in Linux on the message latency.</p>
-                    <div class="md-tags md-nav__link md-typeset" style="line-height: 1.5; display: block;" onclick="event.stopPropagation();"><a href="/holohub/tags/#tag:optimization" class="md-tag" style="display: none;">optimization</a> <a href="/holohub/tags/#tag:real-time" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">real-time</a> <a href="/holohub/tags/#tag:performance" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">performance</a> <a href="/holohub/tags/#tag:sched_deadline" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">sched_deadline</a> <a href="/holohub/tags/#tag:buffer" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">buffer</a> <a href="/holohub/tags/#tag:latency" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">latency</a> <a href="/holohub/tags/#tag:linux" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">linux</a></div>
-                    <!-- <p class="nv-teaser-text-link">Learn More <i class="fa-solid fa-angle-right"></i></p> -->
-                </div>
-            </div>
- <div class="col-xl-4 col-lg-6 col-sm-12 mb-1 feature-box">
-                <div class="shadow padding-feature-box-item text-center d-block match-height app-card" style="cursor: pointer; position: relative;" onclick="window.location.href='/holohub/tutorials/cloudxr_runtime_for_xr_applications';">
-                    
-                    <img src="https://raw.githubusercontent.com/nvidia-holoscan/holohub/main/applications/xr_gsplat/doc/gsplat-demo.gif" alt="NVIDIA CloudXR Runtime for XR Applications" width="120" height="120">
-                    <h3 class="mb-1 mt-0" style="font-size: 0.8rem;">NVIDIA CloudXR Runtime for XR Applications</h3>
-                    <span style="display: inline-block; background-color: var(--md-code-bg-color); color: var(--md-code-fg-color); padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.65rem; font-weight: 600; margin-bottom: 0.5rem;">N/A</span>
-                    <p class="feature-card-desc">In this tutorial, we will walk through the process of setting up the NVIDIA CloudXR OpenXR Runtime for XR Applications.</p>
-                    <div class="md-tags md-nav__link md-typeset" style="line-height: 1.5; display: block;" onclick="event.stopPropagation();"><a href="/holohub/tags/#tag:xr" class="md-tag" style="display: none;">xr</a> <a href="/holohub/tags/#tag:cloudxr" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">cloudxr</a> <a href="/holohub/tags/#tag:apple-vision-pro" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">apple vision pro</a></div>
-                    <!-- <p class="nv-teaser-text-link">Learn More <i class="fa-solid fa-angle-right"></i></p> -->
-                </div>
-            </div>
- <div class="col-xl-4 col-lg-6 col-sm-12 mb-1 feature-box">
-                <div class="shadow padding-feature-box-item text-center d-block match-height app-card" style="cursor: pointer; position: relative;" onclick="window.location.href='/holohub/tutorials/holohub_operators_external_applications';">
-                    
-                    <img src="/holohub/assets/images/tutorial_default.png" alt="Using holohub operators in external applications" width="120" height="120">
-                    <h3 class="mb-1 mt-0" style="font-size: 0.8rem;">Using holohub operators in external applications</h3>
-                    <span style="display: inline-block; background-color: var(--md-code-bg-color); color: var(--md-code-fg-color); padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.65rem; font-weight: 600; margin-bottom: 0.5rem;">C++</span>
-                    <p class="feature-card-desc">In this tutorial, we will walk through the process of using holohub operators in external applications.</p>
-                    <div class="md-tags md-nav__link md-typeset" style="line-height: 1.5; display: block;" onclick="event.stopPropagation();"><a href="/holohub/tags/#tag:development" class="md-tag" style="display: none;">development</a> <a href="/holohub/tags/#tag:interoperability" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">interoperability</a></div>
-                    <!-- <p class="nv-teaser-text-link">Learn More <i class="fa-solid fa-angle-right"></i></p> -->
-                </div>
-            </div>
-             <div class="tx-hero">
-                
-                <a href="tutorials" title="Browse all tutorials" class="md-button md-button--primary" style="padding-top: 0.7rem; padding-bottom: 0.7rem; margin-right: 0.5rem;">
-                  Browse all tutorials (18)
-               </a>
-               </div>
-            </div>
-       </div>
-   </section>
-<!-- /feature-box -->
-
-
-<!-- feature-box -->
-<section class="section">
-    <div class="top-hr">
-        <div class="row justify-content-center">
-            <div class="col-12 text-center">
-                <h2 class="section-title"><a href="benchmarks">Latest Benchmarks</a></h2>
-            </div>
-            
-            
- <div class="col-xl-4 col-lg-6 col-sm-12 mb-1 feature-box">
-                <div class="shadow padding-feature-box-item text-center d-block match-height app-card" style="cursor: pointer; position: relative;" onclick="window.location.href='/holohub/benchmarks/green_context_benchmarking';">
-                    
-                    <img src="/holohub/assets/images/benchmark_default.png" alt="Green Context Benchmarking" width="120" height="120">
-                    <h3 class="mb-1 mt-0" style="font-size: 0.8rem;">Green Context Benchmarking</h3>
-                    <span style="display: inline-block; background-color: var(--md-code-bg-color); color: var(--md-code-fg-color); padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.65rem; font-weight: 600; margin-bottom: 0.5rem;">cpp</span>
-                    <p class="feature-card-desc">Benchmark CUDA Green Context scheduling latency and performance with CUPTI profiling</p>
-                    <div class="md-tags md-nav__link md-typeset" style="line-height: 1.5; display: block;" onclick="event.stopPropagation();"><a href="/holohub/tags/#tag:benchmarking" class="md-tag" style="display: none;">benchmarking</a> <a href="/holohub/tags/#tag:cuda" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">cuda</a> <a href="/holohub/tags/#tag:green-context" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">green context</a> <a href="/holohub/tags/#tag:scheduling" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">scheduling</a> <a href="/holohub/tags/#tag:cupti" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">cupti</a> <a href="/holohub/tags/#tag:performance" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">performance</a></div>
-                    <!-- <p class="nv-teaser-text-link">Learn More <i class="fa-solid fa-angle-right"></i></p> -->
-                </div>
-            </div>
- <div class="col-xl-4 col-lg-6 col-sm-12 mb-1 feature-box">
-                <div class="shadow padding-feature-box-item text-center d-block match-height app-card" style="cursor: pointer; position: relative;" onclick="window.location.href='/holohub/benchmarks/realtime_threads_benchmarking';">
-                    
-                    <img src="https://raw.githubusercontent.com/nvidia-holoscan/holohub/main/benchmarks/realtime_threads_benchmarking/normal_mode.png" alt="Real-time Thread Scheduling Benchmark" width="120" height="120">
-                    <h3 class="mb-1 mt-0" style="font-size: 0.8rem;">Real-time Thread Scheduling Benchmark</h3>
-                    <span style="display: inline-block; background-color: var(--md-code-bg-color); color: var(--md-code-fg-color); padding: 0.2rem 0.5rem; border-radius: 0.25rem; font-size: 0.65rem; font-weight: 600; margin-bottom: 0.5rem;">cpp</span>
-                    <p class="feature-card-desc">This benchmark application demonstrates and evaluates the effectiveness of real-time thread scheduling in Holoscan ap...</p>
-                    <div class="md-tags md-nav__link md-typeset" style="line-height: 1.5; display: block;" onclick="event.stopPropagation();"><a href="/holohub/tags/#tag:threading" class="md-tag" style="display: none;">threading</a> <a href="/holohub/tags/#tag:benchmarking" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">benchmarking</a> <a href="/holohub/tags/#tag:real-time" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">real-time</a> <a href="/holohub/tags/#tag:performance" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">performance</a></div>
-                    <!-- <p class="nv-teaser-text-link">Learn More <i class="fa-solid fa-angle-right"></i></p> -->
-                </div>
-            </div>
- <div class="col-xl-4 col-lg-6 col-sm-12 mb-1 feature-box">
-                <div class="shadow padding-feature-box-item text-center d-block match-height app-card" style="cursor: pointer; position: relative;" onclick="window.location.href='/holohub/benchmarks/release_benchmarking';">
-                    
-                    <img src="/holohub/assets/images/benchmark_default.png" alt="Holoscan Release Benchmarking" width="120" height="120">
-                    <h3 class="mb-1 mt-0" style="font-size: 0.8rem;">Holoscan Release Benchmarking</h3>
-                    
-                    <p class="feature-card-desc">Reproducible benchmarking workflow to evaluate HoloHub performance with a Holoscan SDK release.</p>
-                    <div class="md-tags md-nav__link md-typeset" style="line-height: 1.5; display: block;" onclick="event.stopPropagation();"><a href="/holohub/tags/#tag:benchmarking" class="md-tag" style="display: none;">benchmarking</a> <a href="/holohub/tags/#tag:performance" class="md-tag" style="display: inline-block; margin: 0.1rem; font-size: 0.55rem; padding: 0.05rem 0.25rem; cursor: pointer; transition: background-color 0.2s; text-decoration: none; line-height: normal; height: auto; width: auto;" onmouseover="this.style.backgroundColor='#5a9100';" onmouseout="this.style.backgroundColor='';" onclick="event.stopPropagation();">performance</a></div>
-                    <!-- <p class="nv-teaser-text-link">Learn More <i class="fa-solid fa-angle-right"></i></p> -->
-                </div>
-            </div>
-             <div class="tx-hero">
-                
-                <a href="benchmarks" title="Browse all benchmarks" class="md-button md-button--primary" style="padding-top: 0.7rem; padding-bottom: 0.7rem; margin-right: 0.5rem;">
-                  Browse all benchmarks (6)
-               </a>
-               </div>
-            </div>
-       </div>
-   </section>
-<!-- /feature-box -->
-
-<script type="text/javascript">
-function nat_at_top() {
-    var navtab  = document.getElementsByClassName('md-tabs');
-    navtab[0].classList.add("topped");
-}
-window.onload = nat_at_top;
-window.addEventListener('scroll', function(){
-    var scroll = document.body.scrollTop || document.documentElement.scrollTop
-    var navtab  = document.getElementsByClassName('md-tabs');
-    console.log(scroll, navtab[0].offsetHeight);
-    console.log(navtab);
-    navtab[0].classList.toggle("topped", scroll < navtab[0].offsetHeight);
-});
-</script>
-
-
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
           
@@ -1114,7 +402,7 @@ window.addEventListener('scroll', function(){
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="NVIDIA Holoscan Reference Applications" class="md-nav__button md-logo" aria-label="NVIDIA Holoscan Reference Applications" data-md-component="logo">
+    <a href="../.." title="NVIDIA Holoscan Reference Applications" class="md-nav__button md-logo" aria-label="NVIDIA Holoscan Reference Applications" data-md-component="logo">
       
   
   <?xml version="1.0" encoding="UTF-8" standalone="no"?>
@@ -1149,17 +437,10 @@ window.addEventListener('scroll', function(){
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -1175,7 +456,6 @@ window.addEventListener('scroll', function(){
   
 
       </a>
-      
     </li>
   
 
@@ -1210,7 +490,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="workflows/" class="md-nav__link ">
+            <a href="../../workflows/" class="md-nav__link ">
               
   
   
@@ -1275,7 +555,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="workflows/ai_surgical_video/" class="md-nav__link ">
+            <a href="../../workflows/ai_surgical_video/" class="md-nav__link ">
               
   
   
@@ -1326,6 +606,8 @@ window.addEventListener('scroll', function(){
       
   
   
+    
+  
   
   
     
@@ -1509,18 +791,21 @@ window.addEventListener('scroll', function(){
     
     
       
+        
+        
+      
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -1538,13 +823,13 @@ window.addEventListener('scroll', function(){
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1585,7 +870,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/adv_networking_bench/" class="md-nav__link ">
+            <a href="../adv_networking_bench/" class="md-nav__link ">
               
   
   
@@ -1653,7 +938,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/aja_video_capture/" class="md-nav__link ">
+            <a href="../aja_video_capture/" class="md-nav__link ">
               
   
   
@@ -1721,7 +1006,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/async_buffer_deadline/" class="md-nav__link ">
+            <a href="../async_buffer_deadline/" class="md-nav__link ">
               
   
   
@@ -1789,7 +1074,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/atracsys_visualizer/" class="md-nav__link ">
+            <a href="../atracsys_visualizer/" class="md-nav__link ">
               
   
   
@@ -1857,7 +1142,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/basic_networking_ping/" class="md-nav__link ">
+            <a href="../basic_networking_ping/" class="md-nav__link ">
               
   
   
@@ -1925,7 +1210,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/simple_pdw_pipeline/" class="md-nav__link ">
+            <a href="../simple_pdw_pipeline/" class="md-nav__link ">
               
   
   
@@ -1993,7 +1278,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/body_pose_estimation/" class="md-nav__link ">
+            <a href="../body_pose_estimation/" class="md-nav__link ">
               
   
   
@@ -2061,7 +1346,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/colonoscopy_segmentation/" class="md-nav__link ">
+            <a href="../colonoscopy_segmentation/" class="md-nav__link ">
               
   
   
@@ -2129,7 +1414,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/cuda_quantum/" class="md-nav__link ">
+            <a href="../cuda_quantum/" class="md-nav__link ">
               
   
   
@@ -2251,7 +1536,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/dds/dds_video/" class="md-nav__link ">
+            <a href="../dds/dds_video/" class="md-nav__link ">
               
   
   
@@ -2327,7 +1612,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/deltacast_receiver/" class="md-nav__link ">
+            <a href="../deltacast_receiver/" class="md-nav__link ">
               
   
   
@@ -2395,7 +1680,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/deltacast_transmitter/" class="md-nav__link ">
+            <a href="../deltacast_transmitter/" class="md-nav__link ">
               
   
   
@@ -2463,7 +1748,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/depth_anything_v2/" class="md-nav__link ">
+            <a href="../depth_anything_v2/" class="md-nav__link ">
               
   
   
@@ -2645,7 +1930,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/distributed/grpc/grpc_endoscopy_tool_tracking/" class="md-nav__link ">
+            <a href="../distributed/grpc/grpc_endoscopy_tool_tracking/" class="md-nav__link ">
               
   
   
@@ -2713,7 +1998,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/distributed/grpc/grpc_h264_endoscopy_tool_tracking/" class="md-nav__link ">
+            <a href="../distributed/grpc/grpc_h264_endoscopy_tool_tracking/" class="md-nav__link ">
               
   
   
@@ -2789,7 +2074,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/distributed/ucxx_endoscopy_tool_tracking/" class="md-nav__link ">
+            <a href="../distributed/ucxx_endoscopy_tool_tracking/" class="md-nav__link ">
               
   
   
@@ -2913,7 +2198,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/distributed/ucx/ucx_h264_endoscopy_tool_tracking/" class="md-nav__link ">
+            <a href="../distributed/ucx/ucx_h264_endoscopy_tool_tracking/" class="md-nav__link ">
               
   
   
@@ -2985,7 +2270,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/distributed/ucx/ucx_endoscopy_tool_tracking/" class="md-nav__link ">
+            <a href="../distributed/ucx/ucx_endoscopy_tool_tracking/" class="md-nav__link ">
               
   
   
@@ -3050,7 +2335,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/distributed/ucx/ucx_endoscopy_tool_tracking/cpp/" class="md-nav__link ">
+            <a href="../distributed/ucx/ucx_endoscopy_tool_tracking/cpp/" class="md-nav__link ">
               
   
   
@@ -3118,7 +2403,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/distributed/ucx/ucx_endoscopy_tool_tracking/python/" class="md-nav__link ">
+            <a href="../distributed/ucx/ucx_endoscopy_tool_tracking/python/" class="md-nav__link ">
               
   
   
@@ -3266,7 +2551,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/ehr_query_llm/lmm/" class="md-nav__link ">
+            <a href="../ehr_query_llm/lmm/" class="md-nav__link ">
               
   
   
@@ -3334,7 +2619,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/ehr_query_llm/fhir/" class="md-nav__link ">
+            <a href="../ehr_query_llm/fhir/" class="md-nav__link ">
               
   
   
@@ -3410,7 +2695,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/endoscopy_depth_estimation/" class="md-nav__link ">
+            <a href="../endoscopy_depth_estimation/" class="md-nav__link ">
               
   
   
@@ -3482,7 +2767,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/endoscopy_out_of_body_detection/" class="md-nav__link ">
+            <a href="../endoscopy_out_of_body_detection/" class="md-nav__link ">
               
   
   
@@ -3547,7 +2832,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/endoscopy_out_of_body_detection/cpp/" class="md-nav__link ">
+            <a href="../endoscopy_out_of_body_detection/cpp/" class="md-nav__link ">
               
   
   
@@ -3615,7 +2900,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/endoscopy_out_of_body_detection/python/" class="md-nav__link ">
+            <a href="../endoscopy_out_of_body_detection/python/" class="md-nav__link ">
               
   
   
@@ -3691,7 +2976,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/monai_endoscopic_tool_seg/" class="md-nav__link ">
+            <a href="../monai_endoscopic_tool_seg/" class="md-nav__link ">
               
   
   
@@ -3763,7 +3048,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/endoscopy_tool_tracking/" class="md-nav__link ">
+            <a href="../endoscopy_tool_tracking/" class="md-nav__link ">
               
   
   
@@ -3828,7 +3113,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/endoscopy_tool_tracking/cpp/" class="md-nav__link ">
+            <a href="../endoscopy_tool_tracking/cpp/" class="md-nav__link ">
               
   
   
@@ -3896,7 +3181,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/endoscopy_tool_tracking/python/" class="md-nav__link ">
+            <a href="../endoscopy_tool_tracking/python/" class="md-nav__link ">
               
   
   
@@ -3972,7 +3257,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/florence-2-vision/" class="md-nav__link ">
+            <a href="../florence-2-vision/" class="md-nav__link ">
               
   
   
@@ -4040,7 +3325,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/fm_asr/" class="md-nav__link ">
+            <a href="../fm_asr/" class="md-nav__link ">
               
   
   
@@ -4108,7 +3393,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/foxglove_endoscopy_tool_tracking/" class="md-nav__link ">
+            <a href="../foxglove_endoscopy_tool_tracking/" class="md-nav__link ">
               
   
   
@@ -4176,7 +3461,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/surgical_scene_recon/" class="md-nav__link ">
+            <a href="../surgical_scene_recon/" class="md-nav__link ">
               
   
   
@@ -4244,7 +3529,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/orthorectification_with_optix/" class="md-nav__link ">
+            <a href="../orthorectification_with_optix/" class="md-nav__link ">
               
   
   
@@ -4370,7 +3655,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/gstreamer/gst_to_holo/" class="md-nav__link ">
+            <a href="../gstreamer/gst_to_holo/" class="md-nav__link ">
               
   
   
@@ -4438,7 +3723,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/gstreamer/gst_video_recorder/" class="md-nav__link ">
+            <a href="../gstreamer/gst_video_recorder/" class="md-nav__link ">
               
   
   
@@ -4506,7 +3791,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/gstreamer/holo_to_gst/" class="md-nav__link ">
+            <a href="../gstreamer/holo_to_gst/" class="md-nav__link ">
               
   
   
@@ -4638,7 +3923,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/h264/h264_endoscopy_tool_tracking/" class="md-nav__link ">
+            <a href="../h264/h264_endoscopy_tool_tracking/" class="md-nav__link ">
               
   
   
@@ -4706,7 +3991,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/h264/h264_video_decode/" class="md-nav__link ">
+            <a href="../h264/h264_video_decode/" class="md-nav__link ">
               
   
   
@@ -4758,6 +4043,8 @@ window.addEventListener('scroll', function(){
                 
   
   
+    
+  
   
   
     
@@ -4778,15 +4065,15 @@ window.addEventListener('scroll', function(){
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_28" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_28" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/high_speed_endoscopy/" class="md-nav__link ">
+            <a href="./" class="md-nav__link md-nav__link--active">
               
   
   
@@ -4804,13 +4091,13 @@ window.addEventListener('scroll', function(){
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3_28" id="__nav_3_28_label" tabindex="0">
+              <label class="md-nav__link md-nav__link--active" for="__nav_3_28" id="__nav_3_28_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_28_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_28_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3_28">
             <span class="md-nav__icon md-icon"></span>
             
@@ -4851,7 +4138,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/high_speed_endoscopy/cpp/" class="md-nav__link ">
+            <a href="cpp/" class="md-nav__link ">
               
   
   
@@ -4919,7 +4206,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/high_speed_endoscopy/python/" class="md-nav__link ">
+            <a href="python/" class="md-nav__link ">
               
   
   
@@ -4995,7 +4282,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/holocat/" class="md-nav__link ">
+            <a href="../holocat/" class="md-nav__link ">
               
   
   
@@ -5063,7 +4350,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/holochat/" class="md-nav__link ">
+            <a href="../holochat/" class="md-nav__link ">
               
   
   
@@ -5187,7 +4474,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/holoscan_ros2/pubsub/" class="md-nav__link ">
+            <a href="../holoscan_ros2/pubsub/" class="md-nav__link ">
               
   
   
@@ -5255,7 +4542,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/holoscan_ros2/vb1940/" class="md-nav__link ">
+            <a href="../holoscan_ros2/vb1940/" class="md-nav__link ">
               
   
   
@@ -5393,7 +4680,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/holoviz/holoviz_hdr/" class="md-nav__link ">
+            <a href="../holoviz/holoviz_hdr/" class="md-nav__link ">
               
   
   
@@ -5461,7 +4748,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/holoviz/holoviz_srgb/" class="md-nav__link ">
+            <a href="../holoviz/holoviz_srgb/" class="md-nav__link ">
               
   
   
@@ -5529,7 +4816,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/holoviz/holoviz_ui/" class="md-nav__link ">
+            <a href="../holoviz/holoviz_ui/" class="md-nav__link ">
               
   
   
@@ -5597,7 +4884,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/holoviz/holoviz_vsync/" class="md-nav__link ">
+            <a href="../holoviz/holoviz_vsync/" class="md-nav__link ">
               
   
   
@@ -5665,7 +4952,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/holoviz/holoviz_yuv/" class="md-nav__link ">
+            <a href="../holoviz/holoviz_yuv/" class="md-nav__link ">
               
   
   
@@ -5741,7 +5028,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/hyperspectral_segmentation/" class="md-nav__link ">
+            <a href="../hyperspectral_segmentation/" class="md-nav__link ">
               
   
   
@@ -5809,7 +5096,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/imx274_gpu_resident/" class="md-nav__link ">
+            <a href="../imx274_gpu_resident/" class="md-nav__link ">
               
   
   
@@ -5877,7 +5164,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/imaging_ai_segmentator/" class="md-nav__link ">
+            <a href="../imaging_ai_segmentator/" class="md-nav__link ">
               
   
   
@@ -5945,7 +5232,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/iio/" class="md-nav__link ">
+            <a href="../iio/" class="md-nav__link ">
               
   
   
@@ -6013,7 +5300,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/realsense_visualizer/" class="md-nav__link ">
+            <a href="../realsense_visualizer/" class="md-nav__link ">
               
   
   
@@ -6081,7 +5368,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/isaac_sim_holoscan_bridge/" class="md-nav__link ">
+            <a href="../isaac_sim_holoscan_bridge/" class="md-nav__link ">
               
   
   
@@ -6149,7 +5436,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/bci_visualization/" class="md-nav__link ">
+            <a href="../bci_visualization/" class="md-nav__link ">
               
   
   
@@ -6275,7 +5562,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/laser_detection_latency/evt_cam_calibration/" class="md-nav__link ">
+            <a href="../laser_detection_latency/evt_cam_calibration/" class="md-nav__link ">
               
   
   
@@ -6343,7 +5630,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/laser_detection_latency/laser_detection/" class="md-nav__link ">
+            <a href="../laser_detection_latency/laser_detection/" class="md-nav__link ">
               
   
   
@@ -6411,7 +5698,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/laser_detection_latency/usb_cam_calibration/" class="md-nav__link ">
+            <a href="../laser_detection_latency/usb_cam_calibration/" class="md-nav__link ">
               
   
   
@@ -6487,7 +5774,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/pipeline_visualization/" class="md-nav__link ">
+            <a href="../pipeline_visualization/" class="md-nav__link ">
               
   
   
@@ -6611,7 +5898,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/matlab_gpu_coder/matlab_image_processing/" class="md-nav__link ">
+            <a href="../matlab_gpu_coder/matlab_image_processing/" class="md-nav__link ">
               
   
   
@@ -6679,7 +5966,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/matlab_gpu_coder/matlab_beamform/" class="md-nav__link ">
+            <a href="../matlab_gpu_coder/matlab_beamform/" class="md-nav__link ">
               
   
   
@@ -6759,7 +6046,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/volume_rendering_xr/" class="md-nav__link ">
+            <a href="../volume_rendering_xr/" class="md-nav__link ">
               
   
   
@@ -6884,7 +6171,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/volume_rendering_xr/operators/XrTransformOp/" class="md-nav__link ">
+            <a href="../volume_rendering_xr/operators/XrTransformOp/" class="md-nav__link ">
               
   
   
@@ -6949,7 +6236,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/volume_rendering_xr/operators/XrTransformOp/XrTransformControlOp/" class="md-nav__link ">
+            <a href="../volume_rendering_xr/operators/XrTransformOp/XrTransformControlOp/" class="md-nav__link ">
               
   
   
@@ -7017,7 +6304,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/volume_rendering_xr/operators/XrTransformOp/XrTransformRenderOp/" class="md-nav__link ">
+            <a href="../volume_rendering_xr/operators/XrTransformOp/XrTransformRenderOp/" class="md-nav__link ">
               
   
   
@@ -7099,7 +6386,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/volume_rendering_xr/operators/XrFrameOp/" class="md-nav__link ">
+            <a href="../volume_rendering_xr/operators/XrFrameOp/" class="md-nav__link ">
               
   
   
@@ -7164,7 +6451,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/volume_rendering_xr/operators/XrFrameOp/convert_depth/" class="md-nav__link ">
+            <a href="../volume_rendering_xr/operators/XrFrameOp/convert_depth/" class="md-nav__link ">
               
   
   
@@ -7232,7 +6519,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/volume_rendering_xr/operators/XrFrameOp/begin_frame/" class="md-nav__link ">
+            <a href="../volume_rendering_xr/operators/XrFrameOp/begin_frame/" class="md-nav__link ">
               
   
   
@@ -7300,7 +6587,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/volume_rendering_xr/operators/XrFrameOp/end_frame/" class="md-nav__link ">
+            <a href="../volume_rendering_xr/operators/XrFrameOp/end_frame/" class="md-nav__link ">
               
   
   
@@ -7440,7 +6727,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/volume_rendering_xr/utils/xr_hello_holoscan/" class="md-nav__link ">
+            <a href="../volume_rendering_xr/utils/xr_hello_holoscan/" class="md-nav__link ">
               
   
   
@@ -7505,7 +6792,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/volume_rendering_xr/utils/xr_hello_holoscan/xr_basic_render/" class="md-nav__link ">
+            <a href="../volume_rendering_xr/utils/xr_hello_holoscan/xr_basic_render/" class="md-nav__link ">
               
   
   
@@ -7597,7 +6884,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/multiai_endoscopy/" class="md-nav__link ">
+            <a href="../multiai_endoscopy/" class="md-nav__link ">
               
   
   
@@ -7671,7 +6958,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/multiai_ultrasound/" class="md-nav__link ">
+            <a href="../multiai_ultrasound/" class="md-nav__link ">
               
   
   
@@ -7736,7 +7023,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/multiai_ultrasound/cpp/" class="md-nav__link ">
+            <a href="../multiai_ultrasound/cpp/" class="md-nav__link ">
               
   
   
@@ -7804,7 +7091,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/multiai_ultrasound/python/" class="md-nav__link ">
+            <a href="../multiai_ultrasound/python/" class="md-nav__link ">
               
   
   
@@ -7926,7 +7213,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/multiai_ultrasound/operators/visualizer_icardio/" class="md-nav__link ">
+            <a href="../multiai_ultrasound/operators/visualizer_icardio/" class="md-nav__link ">
               
   
   
@@ -8010,7 +7297,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/tak/" class="md-nav__link ">
+            <a href="../tak/" class="md-nav__link ">
               
   
   
@@ -8136,7 +7423,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/nvidia_nim/nvidia_nim_chat/" class="md-nav__link ">
+            <a href="../nvidia_nim/nvidia_nim_chat/" class="md-nav__link ">
               
   
   
@@ -8204,7 +7491,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/nvidia_nim/nvidia_nim_imaging/" class="md-nav__link ">
+            <a href="../nvidia_nim/nvidia_nim_imaging/" class="md-nav__link ">
               
   
   
@@ -8272,7 +7559,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/nvidia_nim/nvidia_nim_nvclip/" class="md-nav__link ">
+            <a href="../nvidia_nim/nvidia_nim_nvclip/" class="md-nav__link ">
               
   
   
@@ -8408,7 +7695,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/nvidia_video_codec/nvc_encode_decode/" class="md-nav__link ">
+            <a href="../nvidia_video_codec/nvc_encode_decode/" class="md-nav__link ">
               
   
   
@@ -8476,7 +7763,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/nvidia_video_codec/nvc_endoscopy_tool_tracking/" class="md-nav__link ">
+            <a href="../nvidia_video_codec/nvc_endoscopy_tool_tracking/" class="md-nav__link ">
               
   
   
@@ -8544,7 +7831,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/nvidia_video_codec/nvc_decode/" class="md-nav__link ">
+            <a href="../nvidia_video_codec/nvc_decode/" class="md-nav__link ">
               
   
   
@@ -8612,7 +7899,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/nvidia_video_codec/nvc_encode_writer/" class="md-nav__link ">
+            <a href="../nvidia_video_codec/nvc_encode_writer/" class="md-nav__link ">
               
   
   
@@ -8688,7 +7975,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/object_detection_torch/" class="md-nav__link ">
+            <a href="../object_detection_torch/" class="md-nav__link ">
               
   
   
@@ -8756,7 +8043,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/openigtlink_3dslicer/" class="md-nav__link ">
+            <a href="../openigtlink_3dslicer/" class="md-nav__link ">
               
   
   
@@ -8882,7 +8169,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/orsi/orsi_in_out_body/" class="md-nav__link ">
+            <a href="../orsi/orsi_in_out_body/" class="md-nav__link ">
               
   
   
@@ -8950,7 +8237,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/orsi/orsi_multi_ai_ar/" class="md-nav__link ">
+            <a href="../orsi/orsi_multi_ai_ar/" class="md-nav__link ">
               
   
   
@@ -9018,7 +8305,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/orsi/orsi_segmentation_ar/" class="md-nav__link ">
+            <a href="../orsi/orsi_segmentation_ar/" class="md-nav__link ">
               
   
   
@@ -9094,7 +8381,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/polyp_detection/" class="md-nav__link ">
+            <a href="../polyp_detection/" class="md-nav__link ">
               
   
   
@@ -9162,7 +8449,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/cunumeric_integration/" class="md-nav__link ">
+            <a href="../cunumeric_integration/" class="md-nav__link ">
               
   
   
@@ -9230,7 +8517,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/prohawk_video_replayer/" class="md-nav__link ">
+            <a href="../prohawk_video_replayer/" class="md-nav__link ">
               
   
   
@@ -9298,7 +8585,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/pva_video_filter/" class="md-nav__link ">
+            <a href="../pva_video_filter/" class="md-nav__link ">
               
   
   
@@ -9366,7 +8653,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/pva_radar_pipeline/" class="md-nav__link ">
+            <a href="../pva_radar_pipeline/" class="md-nav__link ">
               
   
   
@@ -9434,7 +8721,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/qt_video_replayer/" class="md-nav__link ">
+            <a href="../qt_video_replayer/" class="md-nav__link ">
               
   
   
@@ -9502,7 +8789,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/network_radar_pipeline/" class="md-nav__link ">
+            <a href="../network_radar_pipeline/" class="md-nav__link ">
               
   
   
@@ -9570,7 +8857,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/video_deidentification/" class="md-nav__link ">
+            <a href="../video_deidentification/" class="md-nav__link ">
               
   
   
@@ -9638,7 +8925,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/asr_to_llm/" class="md-nav__link ">
+            <a href="../asr_to_llm/" class="md-nav__link ">
               
   
   
@@ -9706,7 +8993,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/sam2/" class="md-nav__link ">
+            <a href="../sam2/" class="md-nav__link ">
               
   
   
@@ -9774,7 +9061,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/cvcuda_basic/" class="md-nav__link ">
+            <a href="../cvcuda_basic/" class="md-nav__link ">
               
   
   
@@ -9898,7 +9185,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/simple_radar_pipeline/cpp/" class="md-nav__link ">
+            <a href="../simple_radar_pipeline/cpp/" class="md-nav__link ">
               
   
   
@@ -9966,7 +9253,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/simple_radar_pipeline/python/" class="md-nav__link ">
+            <a href="../simple_radar_pipeline/python/" class="md-nav__link ">
               
   
   
@@ -10098,7 +9385,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/slang/slang_gamma_correction/" class="md-nav__link ">
+            <a href="../slang/slang_gamma_correction/" class="md-nav__link ">
               
   
   
@@ -10166,7 +9453,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/slang/slang_simple/" class="md-nav__link ">
+            <a href="../slang/slang_simple/" class="md-nav__link ">
               
   
   
@@ -10242,7 +9529,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/sdr_fm_demodulation/" class="md-nav__link ">
+            <a href="../sdr_fm_demodulation/" class="md-nav__link ">
               
   
   
@@ -10310,7 +9597,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/speech_to_text_llm/" class="md-nav__link ">
+            <a href="../speech_to_text_llm/" class="md-nav__link ">
               
   
   
@@ -10378,7 +9665,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/ssd_detection_endoscopy_tools/" class="md-nav__link ">
+            <a href="../ssd_detection_endoscopy_tools/" class="md-nav__link ">
               
   
   
@@ -10446,7 +9733,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/st2110_demo/" class="md-nav__link ">
+            <a href="../st2110_demo/" class="md-nav__link ">
               
   
   
@@ -10514,7 +9801,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/stereo_vision/" class="md-nav__link ">
+            <a href="../stereo_vision/" class="md-nav__link ">
               
   
   
@@ -10582,7 +9869,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/synthetic_aperture_radar/" class="md-nav__link ">
+            <a href="../synthetic_aperture_radar/" class="md-nav__link ">
               
   
   
@@ -10650,7 +9937,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/tao_peoplenet/" class="md-nav__link ">
+            <a href="../tao_peoplenet/" class="md-nav__link ">
               
   
   
@@ -10718,7 +10005,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/tracks2endo4d/" class="md-nav__link ">
+            <a href="../tracks2endo4d/" class="md-nav__link ">
               
   
   
@@ -10790,7 +10077,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/ultrasound_segmentation/" class="md-nav__link ">
+            <a href="../ultrasound_segmentation/" class="md-nav__link ">
               
   
   
@@ -10855,7 +10142,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/ultrasound_segmentation/cpp/" class="md-nav__link ">
+            <a href="../ultrasound_segmentation/cpp/" class="md-nav__link ">
               
   
   
@@ -10923,7 +10210,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/ultrasound_segmentation/python/" class="md-nav__link ">
+            <a href="../ultrasound_segmentation/python/" class="md-nav__link ">
               
   
   
@@ -10999,7 +10286,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/ultrasound_postprocessing/" class="md-nav__link ">
+            <a href="../ultrasound_postprocessing/" class="md-nav__link ">
               
   
   
@@ -11067,7 +10354,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/velodyne_lidar_app/" class="md-nav__link ">
+            <a href="../velodyne_lidar_app/" class="md-nav__link ">
               
   
   
@@ -11135,7 +10422,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/vila_live/" class="md-nav__link ">
+            <a href="../vila_live/" class="md-nav__link ">
               
   
   
@@ -11205,7 +10492,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/psd_pipeline/" class="md-nav__link ">
+            <a href="../psd_pipeline/" class="md-nav__link ">
               
   
   
@@ -11270,7 +10557,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/psd_pipeline/data_writer/" class="md-nav__link ">
+            <a href="../psd_pipeline/data_writer/" class="md-nav__link ">
               
   
   
@@ -11350,7 +10637,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/video_streaming/" class="md-nav__link ">
+            <a href="../video_streaming/" class="md-nav__link ">
               
   
   
@@ -11415,7 +10702,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/video_streaming/video_streaming_client/" class="md-nav__link ">
+            <a href="../video_streaming/video_streaming_client/" class="md-nav__link ">
               
   
   
@@ -11483,7 +10770,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/video_streaming/video_streaming_server/" class="md-nav__link ">
+            <a href="../video_streaming/video_streaming_server/" class="md-nav__link ">
               
   
   
@@ -11559,7 +10846,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/volume_rendering/" class="md-nav__link ">
+            <a href="../volume_rendering/" class="md-nav__link ">
               
   
   
@@ -11627,7 +10914,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/vpi_stereo/" class="md-nav__link ">
+            <a href="../vpi_stereo/" class="md-nav__link ">
               
   
   
@@ -11695,7 +10982,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/webrtc_holoviz_server/" class="md-nav__link ">
+            <a href="../webrtc_holoviz_server/" class="md-nav__link ">
               
   
   
@@ -11763,7 +11050,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/webrtc_video_client/" class="md-nav__link ">
+            <a href="../webrtc_video_client/" class="md-nav__link ">
               
   
   
@@ -11831,7 +11118,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/webrtc_video_server/" class="md-nav__link ">
+            <a href="../webrtc_video_server/" class="md-nav__link ">
               
   
   
@@ -11899,7 +11186,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/xr_gsplat/" class="md-nav__link ">
+            <a href="../xr_gsplat/" class="md-nav__link ">
               
   
   
@@ -11967,7 +11254,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/xr_holoviz/" class="md-nav__link ">
+            <a href="../xr_holoviz/" class="md-nav__link ">
               
   
   
@@ -12035,7 +11322,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="applications/yolo_model_deployment/" class="md-nav__link ">
+            <a href="../yolo_model_deployment/" class="md-nav__link ">
               
   
   
@@ -12226,7 +11513,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/" class="md-nav__link ">
+            <a href="../../operators/" class="md-nav__link ">
               
   
   
@@ -12291,7 +11578,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/advanced_network/" class="md-nav__link ">
+            <a href="../../operators/advanced_network/" class="md-nav__link ">
               
   
   
@@ -12359,7 +11646,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/aja_source/" class="md-nav__link ">
+            <a href="../../operators/aja_source/" class="md-nav__link ">
               
   
   
@@ -12427,7 +11714,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/apriltag_detector/" class="md-nav__link ">
+            <a href="../../operators/apriltag_detector/" class="md-nav__link ">
               
   
   
@@ -12495,7 +11782,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/atracsys_camera/" class="md-nav__link ">
+            <a href="../../operators/atracsys_camera/" class="md-nav__link ">
               
   
   
@@ -12563,7 +11850,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/atracsys_mode_switcher/" class="md-nav__link ">
+            <a href="../../operators/atracsys_mode_switcher/" class="md-nav__link ">
               
   
   
@@ -12631,7 +11918,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/basic_network/" class="md-nav__link ">
+            <a href="../../operators/basic_network/" class="md-nav__link ">
               
   
   
@@ -12699,7 +11986,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/lstm_tensor_rt_inference/" class="md-nav__link ">
+            <a href="../../operators/lstm_tensor_rt_inference/" class="md-nav__link ">
               
   
   
@@ -12767,7 +12054,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/cvcuda_holoscan_interop/" class="md-nav__link ">
+            <a href="../../operators/cvcuda_holoscan_interop/" class="md-nav__link ">
               
   
   
@@ -12841,7 +12128,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/dds/" class="md-nav__link ">
+            <a href="../../operators/dds/" class="md-nav__link ">
               
   
   
@@ -12906,7 +12193,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/dds/base/" class="md-nav__link ">
+            <a href="../../operators/dds/base/" class="md-nav__link ">
               
   
   
@@ -12974,7 +12261,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/dds/dds_shapes_subscriber/" class="md-nav__link ">
+            <a href="../../operators/dds/dds_shapes_subscriber/" class="md-nav__link ">
               
   
   
@@ -13042,7 +12329,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/dds/video/" class="md-nav__link ">
+            <a href="../../operators/dds/video/" class="md-nav__link ">
               
   
   
@@ -13118,7 +12405,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/deltacast_videomaster/" class="md-nav__link ">
+            <a href="../../operators/deltacast_videomaster/" class="md-nav__link ">
               
   
   
@@ -13240,7 +12527,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/deidentification/pixelator/" class="md-nav__link ">
+            <a href="../../operators/deidentification/pixelator/" class="md-nav__link ">
               
   
   
@@ -13324,7 +12611,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/ehr_query_llm/" class="md-nav__link ">
+            <a href="../../operators/ehr_query_llm/" class="md-nav__link ">
               
   
   
@@ -13389,7 +12676,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/ehr_query_llm/fhir_client_op/" class="md-nav__link ">
+            <a href="../../operators/ehr_query_llm/fhir_client_op/" class="md-nav__link ">
               
   
   
@@ -13457,7 +12744,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/ehr_query_llm/fhir_resource_sanitizer_op/" class="md-nav__link ">
+            <a href="../../operators/ehr_query_llm/fhir_resource_sanitizer_op/" class="md-nav__link ">
               
   
   
@@ -13525,7 +12812,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/ehr_query_llm/zero_mq_publisher_op/" class="md-nav__link ">
+            <a href="../../operators/ehr_query_llm/zero_mq_publisher_op/" class="md-nav__link ">
               
   
   
@@ -13593,7 +12880,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/ehr_query_llm/zero_mq_subscriber_op/" class="md-nav__link ">
+            <a href="../../operators/ehr_query_llm/zero_mq_subscriber_op/" class="md-nav__link ">
               
   
   
@@ -13669,7 +12956,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/emergent_source/" class="md-nav__link ">
+            <a href="../../operators/emergent_source/" class="md-nav__link ">
               
   
   
@@ -13737,7 +13024,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/fft/" class="md-nav__link ">
+            <a href="../../operators/fft/" class="md-nav__link ">
               
   
   
@@ -13805,7 +13092,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/foxglove/" class="md-nav__link ">
+            <a href="../../operators/foxglove/" class="md-nav__link ">
               
   
   
@@ -13873,7 +13160,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/gamma_correction/" class="md-nav__link ">
+            <a href="../../operators/gamma_correction/" class="md-nav__link ">
               
   
   
@@ -13941,7 +13228,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/display_gpu_resident/" class="md-nav__link ">
+            <a href="../../operators/display_gpu_resident/" class="md-nav__link ">
               
   
   
@@ -14009,7 +13296,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/gstreamer/" class="md-nav__link ">
+            <a href="../../operators/gstreamer/" class="md-nav__link ">
               
   
   
@@ -14077,7 +13364,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/tensor_to_video_buffer/" class="md-nav__link ">
+            <a href="../../operators/tensor_to_video_buffer/" class="md-nav__link ">
               
   
   
@@ -14145,7 +13432,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/high_rate_psd/" class="md-nav__link ">
+            <a href="../../operators/high_rate_psd/" class="md-nav__link ">
               
   
   
@@ -14213,7 +13500,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/grpc_operators/" class="md-nav__link ">
+            <a href="../../operators/grpc_operators/" class="md-nav__link ">
               
   
   
@@ -14281,7 +13568,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/csi_to_bayer_gpu_resident/" class="md-nav__link ">
+            <a href="../../operators/csi_to_bayer_gpu_resident/" class="md-nav__link ">
               
   
   
@@ -14349,7 +13636,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/image_processor_gpu_resident/" class="md-nav__link ">
+            <a href="../../operators/image_processor_gpu_resident/" class="md-nav__link ">
               
   
   
@@ -14417,7 +13704,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/holoscan_ros2/" class="md-nav__link ">
+            <a href="../../operators/holoscan_ros2/" class="md-nav__link ">
               
   
   
@@ -14485,7 +13772,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/hsb_roce_receiver_doca_gpunetio/" class="md-nav__link ">
+            <a href="../../operators/hsb_roce_receiver_doca_gpunetio/" class="md-nav__link ">
               
   
   
@@ -14553,7 +13840,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/hsb_roce_receiver_nmd/" class="md-nav__link ">
+            <a href="../../operators/hsb_roce_receiver_nmd/" class="md-nav__link ">
               
   
   
@@ -14621,7 +13908,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/iio_controller/" class="md-nav__link ">
+            <a href="../../operators/iio_controller/" class="md-nav__link ">
               
   
   
@@ -14689,7 +13976,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/realsense_camera/" class="md-nav__link ">
+            <a href="../../operators/realsense_camera/" class="md-nav__link ">
               
   
   
@@ -14757,7 +14044,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/low_rate_psd/" class="md-nav__link ">
+            <a href="../../operators/low_rate_psd/" class="md-nav__link ">
               
   
   
@@ -14853,7 +14140,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/medical_imaging/" class="md-nav__link ">
+            <a href="../../operators/medical_imaging/" class="md-nav__link ">
               
   
   
@@ -14918,7 +14205,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/medical_imaging/clara_viz_operator/" class="md-nav__link ">
+            <a href="../../operators/medical_imaging/clara_viz_operator/" class="md-nav__link ">
               
   
   
@@ -14986,7 +14273,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/medical_imaging/dicom_data_loader_operator/" class="md-nav__link ">
+            <a href="../../operators/medical_imaging/dicom_data_loader_operator/" class="md-nav__link ">
               
   
   
@@ -15054,7 +14341,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/medical_imaging/dicom_encapsulated_pdf_writer_operator/" class="md-nav__link ">
+            <a href="../../operators/medical_imaging/dicom_encapsulated_pdf_writer_operator/" class="md-nav__link ">
               
   
   
@@ -15122,7 +14409,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/medical_imaging/dicom_seg_writer_operator/" class="md-nav__link ">
+            <a href="../../operators/medical_imaging/dicom_seg_writer_operator/" class="md-nav__link ">
               
   
   
@@ -15190,7 +14477,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/medical_imaging/dicom_series_selector_operator/" class="md-nav__link ">
+            <a href="../../operators/medical_imaging/dicom_series_selector_operator/" class="md-nav__link ">
               
   
   
@@ -15258,7 +14545,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/medical_imaging/dicom_series_to_volume_operator/" class="md-nav__link ">
+            <a href="../../operators/medical_imaging/dicom_series_to_volume_operator/" class="md-nav__link ">
               
   
   
@@ -15326,7 +14613,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/medical_imaging/dicom_text_sr_writer_operator/" class="md-nav__link ">
+            <a href="../../operators/medical_imaging/dicom_text_sr_writer_operator/" class="md-nav__link ">
               
   
   
@@ -15394,7 +14681,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/medical_imaging/inference_operator/" class="md-nav__link ">
+            <a href="../../operators/medical_imaging/inference_operator/" class="md-nav__link ">
               
   
   
@@ -15462,7 +14749,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/medical_imaging/monai_bundle_inference_operator/" class="md-nav__link ">
+            <a href="../../operators/medical_imaging/monai_bundle_inference_operator/" class="md-nav__link ">
               
   
   
@@ -15530,7 +14817,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/medical_imaging/monai_seg_inference_operator/" class="md-nav__link ">
+            <a href="../../operators/medical_imaging/monai_seg_inference_operator/" class="md-nav__link ">
               
   
   
@@ -15598,7 +14885,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/medical_imaging/nii_data_loader_operator/" class="md-nav__link ">
+            <a href="../../operators/medical_imaging/nii_data_loader_operator/" class="md-nav__link ">
               
   
   
@@ -15666,7 +14953,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/medical_imaging/png_converter_operator/" class="md-nav__link ">
+            <a href="../../operators/medical_imaging/png_converter_operator/" class="md-nav__link ">
               
   
   
@@ -15734,7 +15021,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/medical_imaging/publisher_operator/" class="md-nav__link ">
+            <a href="../../operators/medical_imaging/publisher_operator/" class="md-nav__link ">
               
   
   
@@ -15802,7 +15089,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/medical_imaging/stl_conversion_operator/" class="md-nav__link ">
+            <a href="../../operators/medical_imaging/stl_conversion_operator/" class="md-nav__link ">
               
   
   
@@ -15878,7 +15165,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/mesh_to_usd/" class="md-nav__link ">
+            <a href="../../operators/mesh_to_usd/" class="md-nav__link ">
               
   
   
@@ -15946,7 +15233,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/npp_filter/" class="md-nav__link ">
+            <a href="../../operators/npp_filter/" class="md-nav__link ">
               
   
   
@@ -16014,7 +15301,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/nvidia_video_codec/" class="md-nav__link ">
+            <a href="../../operators/nvidia_video_codec/" class="md-nav__link ">
               
   
   
@@ -16082,7 +15369,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/openigtlink/" class="md-nav__link ">
+            <a href="../../operators/openigtlink/" class="md-nav__link ">
               
   
   
@@ -16150,7 +15437,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/xr/" class="md-nav__link ">
+            <a href="../../operators/xr/" class="md-nav__link ">
               
   
   
@@ -16218,7 +15505,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/orsi/" class="md-nav__link ">
+            <a href="../../operators/orsi/" class="md-nav__link ">
               
   
   
@@ -16286,7 +15573,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/prohawk_video_processing/" class="md-nav__link ">
+            <a href="../../operators/prohawk_video_processing/" class="md-nav__link ">
               
   
   
@@ -16354,7 +15641,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/qt_video/" class="md-nav__link ">
+            <a href="../../operators/qt_video/" class="md-nav__link ">
               
   
   
@@ -16422,7 +15709,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/pva_radar/" class="md-nav__link ">
+            <a href="../../operators/pva_radar/" class="md-nav__link ">
               
   
   
@@ -16490,7 +15777,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/slang_shader/" class="md-nav__link ">
+            <a href="../../operators/slang_shader/" class="md-nav__link ">
               
   
   
@@ -16558,7 +15845,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/st2110_source/" class="md-nav__link ">
+            <a href="../../operators/st2110_source/" class="md-nav__link ">
               
   
   
@@ -16626,7 +15913,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/streaming_server/" class="md-nav__link ">
+            <a href="../../operators/streaming_server/" class="md-nav__link ">
               
   
   
@@ -16694,7 +15981,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/streaming_client/" class="md-nav__link ">
+            <a href="../../operators/streaming_client/" class="md-nav__link ">
               
   
   
@@ -16762,7 +16049,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/tapnext_inference/" class="md-nav__link ">
+            <a href="../../operators/tapnext_inference/" class="md-nav__link ">
               
   
   
@@ -16830,7 +16117,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/tensor_to_file/" class="md-nav__link ">
+            <a href="../../operators/tensor_to_file/" class="md-nav__link ">
               
   
   
@@ -16898,7 +16185,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/tool_tracking_postprocessor/" class="md-nav__link ">
+            <a href="../../operators/tool_tracking_postprocessor/" class="md-nav__link ">
               
   
   
@@ -16966,7 +16253,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/ucxx_send_receive/" class="md-nav__link ">
+            <a href="../../operators/ucxx_send_receive/" class="md-nav__link ">
               
   
   
@@ -17034,7 +16321,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/unzip/" class="md-nav__link ">
+            <a href="../../operators/unzip/" class="md-nav__link ">
               
   
   
@@ -17156,7 +16443,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/velodyne_lidar/cpp/" class="md-nav__link ">
+            <a href="../../operators/velodyne_lidar/cpp/" class="md-nav__link ">
               
   
   
@@ -17232,7 +16519,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/vita49_psd_packetizer/" class="md-nav__link ">
+            <a href="../../operators/vita49_psd_packetizer/" class="md-nav__link ">
               
   
   
@@ -17354,7 +16641,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/video_encoder/video_encoder_request/" class="md-nav__link ">
+            <a href="../../operators/video_encoder/video_encoder_request/" class="md-nav__link ">
               
   
   
@@ -17434,7 +16721,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/video_streaming/" class="md-nav__link ">
+            <a href="../../operators/video_streaming/" class="md-nav__link ">
               
   
   
@@ -17499,7 +16786,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/video_streaming/video_streaming_server/" class="md-nav__link ">
+            <a href="../../operators/video_streaming/video_streaming_server/" class="md-nav__link ">
               
   
   
@@ -17567,7 +16854,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/video_streaming/video_streaming_client/" class="md-nav__link ">
+            <a href="../../operators/video_streaming/video_streaming_client/" class="md-nav__link ">
               
   
   
@@ -17643,7 +16930,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/volume_loader/" class="md-nav__link ">
+            <a href="../../operators/volume_loader/" class="md-nav__link ">
               
   
   
@@ -17711,7 +16998,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/volume_renderer/" class="md-nav__link ">
+            <a href="../../operators/volume_renderer/" class="md-nav__link ">
               
   
   
@@ -17779,7 +17066,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/vtk_renderer/" class="md-nav__link ">
+            <a href="../../operators/vtk_renderer/" class="md-nav__link ">
               
   
   
@@ -17847,7 +17134,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/webrtc_client/" class="md-nav__link ">
+            <a href="../../operators/webrtc_client/" class="md-nav__link ">
               
   
   
@@ -17915,7 +17202,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/webrtc_server/" class="md-nav__link ">
+            <a href="../../operators/webrtc_server/" class="md-nav__link ">
               
   
   
@@ -17983,7 +17270,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="operators/yuan_qcap/" class="md-nav__link ">
+            <a href="../../operators/yuan_qcap/" class="md-nav__link ">
               
   
   
@@ -18092,7 +17379,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/" class="md-nav__link ">
+            <a href="../../tutorials/" class="md-nav__link ">
               
   
   
@@ -18157,7 +17444,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/async_buffer_deadline_tutorial/" class="md-nav__link ">
+            <a href="../../tutorials/async_buffer_deadline_tutorial/" class="md-nav__link ">
               
   
   
@@ -18225,7 +17512,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/gui_for_python_applications/" class="md-nav__link ">
+            <a href="../../tutorials/gui_for_python_applications/" class="md-nav__link ">
               
   
   
@@ -18293,7 +17580,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/integrate_external_libs_into_pipeline/" class="md-nav__link ">
+            <a href="../../tutorials/integrate_external_libs_into_pipeline/" class="md-nav__link ">
               
   
   
@@ -18361,7 +17648,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/creating-multi-node-applications/" class="md-nav__link ">
+            <a href="../../tutorials/creating-multi-node-applications/" class="md-nav__link ">
               
   
   
@@ -18429,7 +17716,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/cuda_mps/" class="md-nav__link ">
+            <a href="../../tutorials/cuda_mps/" class="md-nav__link ">
               
   
   
@@ -18553,7 +17840,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/debugging/holoscan_container_vscode/" class="md-nav__link ">
+            <a href="../../tutorials/debugging/holoscan_container_vscode/" class="md-nav__link ">
               
   
   
@@ -18621,7 +17908,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/debugging/cli_debugging/" class="md-nav__link ">
+            <a href="../../tutorials/debugging/cli_debugging/" class="md-nav__link ">
               
   
   
@@ -18697,7 +17984,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/local-llama/" class="md-nav__link ">
+            <a href="../../tutorials/local-llama/" class="md-nav__link ">
               
   
   
@@ -18767,7 +18054,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/high_performance_networking/" class="md-nav__link ">
+            <a href="../../tutorials/high_performance_networking/" class="md-nav__link ">
               
   
   
@@ -18811,7 +18098,7 @@ window.addEventListener('scroll', function(){
   
   
     <li class="md-nav__item">
-      <a href="tutorials/high_performance_networking/0.1/" class="md-nav__link">
+      <a href="../../tutorials/high_performance_networking/0.1/" class="md-nav__link">
         
   
   
@@ -18868,7 +18155,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/holoscan-playground-on-aws/" class="md-nav__link ">
+            <a href="../../tutorials/holoscan-playground-on-aws/" class="md-nav__link ">
               
   
   
@@ -18936,7 +18223,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/holoscan_response_time_analysis/" class="md-nav__link ">
+            <a href="../../tutorials/holoscan_response_time_analysis/" class="md-nav__link ">
               
   
   
@@ -19004,7 +18291,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/windows_vm/" class="md-nav__link ">
+            <a href="../../tutorials/windows_vm/" class="md-nav__link ">
               
   
   
@@ -19072,7 +18359,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/holoscan-bootcamp/" class="md-nav__link ">
+            <a href="../../tutorials/holoscan-bootcamp/" class="md-nav__link ">
               
   
   
@@ -19194,7 +18481,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/pretrained_foundational_models/self_supervised_training/" class="md-nav__link ">
+            <a href="../../tutorials/pretrained_foundational_models/self_supervised_training/" class="md-nav__link ">
               
   
   
@@ -19270,7 +18557,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/dicom_to_usd_with_monai_and_holoscan/" class="md-nav__link ">
+            <a href="../../tutorials/dicom_to_usd_with_monai_and_holoscan/" class="md-nav__link ">
               
   
   
@@ -19338,7 +18625,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/cloudxr_runtime_for_xr_applications/" class="md-nav__link ">
+            <a href="../../tutorials/cloudxr_runtime_for_xr_applications/" class="md-nav__link ">
               
   
   
@@ -19406,7 +18693,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/gpu_direct_storage_on_holoscan/" class="md-nav__link ">
+            <a href="../../tutorials/gpu_direct_storage_on_holoscan/" class="md-nav__link ">
               
   
   
@@ -19474,7 +18761,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="tutorials/holohub_operators_external_applications/" class="md-nav__link ">
+            <a href="../../tutorials/holohub_operators_external_applications/" class="md-nav__link ">
               
   
   
@@ -19561,7 +18848,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="benchmarks/" class="md-nav__link ">
+            <a href="../../benchmarks/" class="md-nav__link ">
               
   
   
@@ -19626,7 +18913,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="benchmarks/model_benchmarking/" class="md-nav__link ">
+            <a href="../../benchmarks/model_benchmarking/" class="md-nav__link ">
               
   
   
@@ -19694,7 +18981,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="benchmarks/exclusive_display/" class="md-nav__link ">
+            <a href="../../benchmarks/exclusive_display/" class="md-nav__link ">
               
   
   
@@ -19762,7 +19049,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="benchmarks/green_context_benchmarking/" class="md-nav__link ">
+            <a href="../../benchmarks/green_context_benchmarking/" class="md-nav__link ">
               
   
   
@@ -19830,7 +19117,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="benchmarks/holoscan_flow_benchmarking/" class="md-nav__link ">
+            <a href="../../benchmarks/holoscan_flow_benchmarking/" class="md-nav__link ">
               
   
   
@@ -19898,7 +19185,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="benchmarks/realtime_threads_benchmarking/" class="md-nav__link ">
+            <a href="../../benchmarks/realtime_threads_benchmarking/" class="md-nav__link ">
               
   
   
@@ -19966,7 +19253,7 @@ window.addEventListener('scroll', function(){
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="benchmarks/release_benchmarking/" class="md-nav__link ">
+            <a href="../../benchmarks/release_benchmarking/" class="md-nav__link ">
               
   
   
@@ -20032,6 +19319,116 @@ window.addEventListener('scroll', function(){
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      On this page
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#building-and-running-the-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Building and Running the Application
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Building and Running the Application">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#set-up-the-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Set up the environment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile-the-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Compile the application
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Compile the application">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-holohub-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using HoloHub CLI
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#explicit-commands-on-the-host-machine" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Explicit commands on the host machine
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-the-application" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run the application
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#known-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Known Issues
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -20049,10 +19446,235 @@ window.addEventListener('scroll', function(){
   
 
 
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Applications
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="./" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    High Speed Endoscopy
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
               
               <article class="md-content__inner md-typeset">
                 
+                  
 
+  <nav class="md-tags" >
+    
+      
+      
+      
+      
+        <a href="../../tags/#tag:bayer-rgb-pipeline-optimization" class="md-tag">Bayer RGB Pipeline Optimization</a>
+      
+    
+      
+      
+      
+      
+        <a href="../../tags/#tag:endoscopy" class="md-tag">Endoscopy</a>
+      
+    
+      
+      
+      
+      
+        <a href="../../tags/#tag:healthcare-ai" class="md-tag">Healthcare AI</a>
+      
+    
+      
+      
+      
+      
+        <a href="../../tags/#tag:holoviz" class="md-tag">Holoviz</a>
+      
+    
+      
+      
+      
+      
+        <a href="../../tags/#tag:rdma" class="md-tag">RDMA</a>
+      
+    
+      
+      
+      
+      
+        <a href="../../tags/#tag:video" class="md-tag">Video</a>
+      
+    
+  </nav>
+
+
+
+<h1 id="high-speed-endoscopy"><a href="https://github.com/nvidia-holoscan/holohub/blob/main/applications/high_speed_endoscopy">High Speed Endoscopy</a><a class="headerlink" href="#high-speed-endoscopy" title="Permanent link">#</a></h1>
+<p><button class="run-locally-button"
+    data-app-name="High-Speed Endoscopy"
+    data-app-short-name="high_speed_endoscopy"
+    data-app-language="Python"
+    data-component-type="application"
+    data-needs-language-flag="false"
+    data-modes="[]">
+    ▶ Run Locally
+</button>
+<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.5a5.5 5.5 0 0 1 3.096 10.047 9.005 9.005 0 0 1 5.9 8.181.75.75 0 1 1-1.499.044 7.5 7.5 0 0 0-14.993 0 .75.75 0 0 1-1.5-.045 9.005 9.005 0 0 1 5.9-8.18A5.5 5.5 0 0 1 12 2.5M8 8a4 4 0 1 0 8 0 4 4 0 0 0-8 0"/></svg></span> <strong>Authors:</strong> Holoscan Team (NVIDIA)<br><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8.954 17H2.75A1.75 1.75 0 0 1 1 15.25V3.75C1 2.784 1.784 2 2.75 2h18.5c.966 0 1.75.784 1.75 1.75v11.5A1.75 1.75 0 0 1 21.25 17h-6.204c.171 1.375.805 2.652 1.769 3.757A.752.752 0 0 1 16.25 22h-8.5a.75.75 0 0 1-.565-1.243c.964-1.105 1.598-2.382 1.769-3.757M21.5 3.75a.25.25 0 0 0-.25-.25H2.75a.25.25 0 0 0-.25.25v11.5c0 .138.112.25.25.25h18.5a.25.25 0 0 0 .25-.25ZM13.537 17h-3.074c-.126 1.266-.564 2.445-1.223 3.5h5.52c-.659-1.055-1.098-2.234-1.223-3.5"/></svg></span> <strong>Supported platforms:</strong> x86_64, aarch64<br><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.3 8.24a.75.75 0 0 1-.04 1.06L7.352 12l2.908 2.7a.75.75 0 1 1-1.02 1.1l-3.5-3.25a.75.75 0 0 1 0-1.1l3.5-3.25a.75.75 0 0 1 1.06.04m3.44 1.06a.75.75 0 1 1 1.02-1.1l3.5 3.25a.75.75 0 0 1 0 1.1l-3.5 3.25a.75.75 0 1 1-1.02-1.1l2.908-2.7z"/><path d="M2 3.75C2 2.784 2.784 2 3.75 2h16.5c.966 0 1.75.784 1.75 1.75v16.5A1.75 1.75 0 0 1 20.25 22H3.75A1.75 1.75 0 0 1 2 20.25Zm1.75-.25a.25.25 0 0 0-.25.25v16.5c0 .138.112.25.25.25h16.5a.25.25 0 0 0 .25-.25V3.75a.25.25 0 0 0-.25-.25Z"/></svg></span> <strong>Language:</strong> Python, C++<br><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.5 7.25a.75.75 0 0 0-1.5 0v5.5c0 .27.144.518.378.651l3.5 2a.75.75 0 0 0 .744-1.302L12.5 12.315z"/><path d="M12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1M2.5 12a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5A9.5 9.5 0 0 0 12 2.5 9.5 9.5 0 0 0 2.5 12"/></svg></span> <strong>Last modified:</strong> May 9, 2026<br><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7.75 6.5a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5"/><path d="M2.5 1h8.44a1.5 1.5 0 0 1 1.06.44l10.25 10.25a1.5 1.5 0 0 1 0 2.12l-8.44 8.44a1.5 1.5 0 0 1-2.12 0L1.44 12A1.5 1.5 0 0 1 1 10.94V2.5A1.5 1.5 0 0 1 2.5 1m0 1.5v8.44l10.25 10.25 8.44-8.44L10.94 2.5Z"/></svg></span> <strong>Latest version:</strong> 1.0<br><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11.063 1.456a1.75 1.75 0 0 1 1.874 0l8.383 5.316a1.75 1.75 0 0 1 0 2.956l-8.383 5.316a1.75 1.75 0 0 1-1.874 0L2.68 9.728a1.75 1.75 0 0 1 0-2.956Zm1.071 1.267a.25.25 0 0 0-.268 0L3.483 8.039a.25.25 0 0 0 0 .422l8.383 5.316a.25.25 0 0 0 .268 0l8.383-5.316a.25.25 0 0 0 0-.422Z"/><path d="M1.867 12.324a.75.75 0 0 1 1.035-.232l8.964 5.685a.25.25 0 0 0 .268 0l8.964-5.685a.75.75 0 0 1 .804 1.267l-8.965 5.685a1.75 1.75 0 0 1-1.874 0l-8.965-5.685a.75.75 0 0 1-.231-1.035"/><path d="M1.867 16.324a.75.75 0 0 1 1.035-.232l8.964 5.685a.25.25 0 0 0 .268 0l8.964-5.685a.75.75 0 0 1 .804 1.267l-8.965 5.685a1.75 1.75 0 0 1-1.874 0l-8.965-5.685a.75.75 0 0 1-.231-1.035"/></svg></span> <strong>Minimum Holoscan SDK version:</strong> 0.5.0<br><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 8.807V3.5h-.563a.75.75 0 0 1 0-1.5h9.125a.75.75 0 0 1 0 1.5H16v5.307l5.125 9.301c.964 1.75-.302 3.892-2.299 3.892H5.174c-1.998 0-3.263-2.142-2.3-3.892ZM4.189 18.832a1.123 1.123 0 0 0 .985 1.668h13.652a1.123 1.123 0 0 0 .985-1.668L17.7 15H6.3ZM14.5 3.5h-5V9a.75.75 0 0 1-.093.362L7.127 13.5h9.746l-2.28-4.138A.75.75 0 0 1 14.5 9Z"/></svg></span> <strong>Tested Holoscan SDK versions:</strong> 0.5.0, 3.10.0, 3.11.0, 4.0.0, 4.1.0, 4.2.0<br><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11.296 1.924c.24-.656 1.168-.656 1.408 0l.717 1.958a11.25 11.25 0 0 0 6.697 6.697l1.958.717c.657.24.657 1.168 0 1.408l-1.958.717a11.25 11.25 0 0 0-6.697 6.697l-.717 1.958c-.24.657-1.168.657-1.408 0l-.717-1.958a11.25 11.25 0 0 0-6.697-6.697l-1.958-.717c-.656-.24-.656-1.168 0-1.408l1.958-.717a11.25 11.25 0 0 0 6.697-6.697z"/></svg></span> <strong>Contribution metric:</strong> Level 1 - Highly Reliable<br><br></p>
+<p>The high speed endoscopy application showcases how high resolution cameras can be used to capture the scene, post-processed on GPU, and displayed at high frame rate.</p>
+<p>This application requires:</p>
+<ol>
+<li>an Emergent Vision Technologies camera (see {ref}<code>setup instructions&lt;emergent-vision-tech&gt;</code>)</li>
+<li>an NVIDIA ConnectX SmartNIC with Rivermax SDK and drivers installed</li>
+<li>a display with high refresh rate to keep up with the camera's framerate</li>
+<li>{ref}<code>additional setups&lt;additional_setup&gt;</code> to reduce latency</li>
+</ol>
+<blockquote>
+<p><strong>Tip</strong>
+Tested on the Holoscan DevKits (ConnectX included) with:</p>
+</blockquote>
+<ul>
+<li>EVT HB-9000-G-C: 25GigE camera with Gpixel GMAX2509</li>
+<li>SFP28 cable and QSFP28 to SFP28 adaptor</li>
+<li><a href="https://rog.asus.com/us/monitors/27-to-31-5-inches/rog-swift-pg279qm-model/">Asus ROG Swift PG279QM</a> and <a href="https://rog.asus.com/us/monitors/23-to-24-5-inches/rog-swift-360hz-pg259qnr-model/">Asus ROG Swift 360 Hz PG259QNR</a> monitors with NVIDIA G-SYNC technology</li>
+</ul>
+<p><img alt="High Speed Endoscopy workflow" src="https://github.com/nvidia-holoscan/holohub/blob/main/applications/high_speed_endoscopy/docs/workflow_high_speed_endoscopy_app.png?raw=true" />
+Fig. 1 Hi-Speed Endoscopy App</p>
+<p>The data acquisition happens using <code>emergent-source</code>, by default it is set to 4200x2160 at 240Hz.
+The acquired data is then demosaiced in GPU using CUDA via <code>bayer-demosaic</code> and displayed through
+<code>holoviz-viewer</code>.</p>
+<p>The peak performance that can be obtained by running these applications with the
+recommended hardware, GSYNC and RDMA enabled on exclusive display mode is 10ms on
+Clara AGX Devkit and 8ms on NVIDIA IGX Orin DevKit ES. This is the photon-to-glass latency of
+a frame from scene acquisition to display on monitor.</p>
+<h2 id="building-and-running-the-application">Building and Running the Application<a class="headerlink" href="#building-and-running-the-application" title="Permanent link">#</a></h2>
+<p>This application cannot be compiled within the Holohub container. It needs to be compiled on the
+host machine.</p>
+<h3 id="set-up-the-environment">Set up the environment<a class="headerlink" href="#set-up-the-environment" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/opt/EVT/eSDK:<span class="nv">$LD_LIBRARY_PATH</span>
+</code></pre></div>
+<h3 id="compile-the-application">Compile the application<a class="headerlink" href="#compile-the-application" title="Permanent link">#</a></h3>
+<h4 id="using-holohub-cli">Using HoloHub CLI<a class="headerlink" href="#using-holohub-cli" title="Permanent link">#</a></h4>
+<p>HoloHub CLI command can also be used to build the application.</p>
+<div class="highlight"><pre><span></span><code>./holohub<span class="w"> </span>build<span class="w"> </span>high_speed_endoscopy<span class="w"> </span>--local
+</code></pre></div>
+<p>If the above command does not work, please file an issue and try the steps below.</p>
+<h4 id="explicit-commands-on-the-host-machine">Explicit commands on the host machine<a class="headerlink" href="#explicit-commands-on-the-host-machine" title="Permanent link">#</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>&lt;HOLOHUB_SOURCE_DIR&gt;
+rm<span class="w"> </span>-rf<span class="w"> </span>build/high_speed_endoscopy
+mkdir<span class="w"> </span>-p<span class="w"> </span>build/high_speed_endoscopy
+<span class="nb">cd</span><span class="w"> </span>build/high_speed_endoscopy
+cmake<span class="w"> </span>../..<span class="w"> </span>-DAPP_high_speed_endoscopy<span class="o">=</span>ON
+make<span class="w"> </span>-j
+</code></pre></div>
+<h3 id="run-the-application">Run the application<a class="headerlink" href="#run-the-application" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>&lt;HOLOHUB_SOURCE_DIR&gt;
+sudo<span class="w"> </span>./holohub<span class="w"> </span>run<span class="w"> </span>high_speed_endoscopy<span class="w"> </span>--local<span class="w"> </span>--language<span class="w"> </span>cpp
+</code></pre></div>
+<p>For python version:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>&lt;HOLOHUB_SOURCE_DIR&gt;
+sudo<span class="w"> </span>./holohub<span class="w"> </span>run<span class="w"> </span>high_speed_endoscopy<span class="w"> </span>--local<span class="w"> </span>--language<span class="w"> </span>python
+</code></pre></div>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">#</a></h2>
+<ol>
+<li>
+<p><strong>Problem:</strong> The application fails to find the EVT camera.</p>
+<ul>
+<li>Make sure that the MLNX ConnectX SmartNIC is configured with the correct IP address. Follow section <a href="https://docs.nvidia.com/holoscan/sdk-user-guide/emergent_setup.html#post-evt-software-installation-steps">Post EVT Software Installation Steps</a></li>
+</ul>
+</li>
+<li>
+<p><strong>Problem:</strong> The application fails to open the EVT camera.</p>
+<ul>
+<li>Make sure that the application was run with <code>sudo</code> privileges.</li>
+<li>Make sure a valid Rivermax license file is located at <code>/opt/mellanox/rivermax/rivermax.lic</code>.</li>
+<li>Make sure that a previously run <code>high_speed_endoscopy</code> application has been terminated successfully. One might need to run <code>sudo kill -9 &lt;PID&gt;</code> to terminate the application.</li>
+</ul>
+</li>
+<li>
+<p><strong>Problem:</strong> The application fails to connect to the EVT camera with error message “GVCP ack error”.</p>
+<ul>
+<li>It could be an issue with the HR12 power connection to the camera. Disconnect the HR12 power connector from the camera and try reconnecting it.</li>
+</ul>
+</li>
+<li>
+<p><strong>Problem:</strong> The applications fails with a segmentation fault at runtime, in the HoloViz visualization operator.</p>
+<ul>
+<li>It could be an issue with the configured BAR size on the GPU. Use the <a href="https://developer.nvidia.com/displaymodeselector">display mode selector tool</a> to increase the BAR size.</li>
+<li>If you are using a lower resolution monitor, then you might need to decrease the resolution of the vistualization in the <code>high_speed_endoscopy.yaml</code> file.</li>
+</ul>
+</li>
+</ol>
+<h2 id="known-issues">Known Issues<a class="headerlink" href="#known-issues" title="Permanent link">#</a></h2>
+<ul>
+<li>When the application is closed from the 'X' button in the visualization window, the application might not terminate gracefully and throw an error.
+In this case, one might need to power-cycle the camera before running the application again.</li>
+</ul>
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+
+
+
+
+                
               </article>
             </div>
           
@@ -20074,15 +19696,31 @@ window.addEventListener('scroll', function(){
       
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
+          
+          <a href="../h264/h264_video_decode/" class="md-footer__link md-footer__link--prev" aria-label="Previous: H.264 Video Decode (latest)">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                H.264 Video Decode (latest)
+              </div>
+            </div>
+          </a>
+        
         
           
-          <a href="workflows/" class="md-footer__link md-footer__link--next" aria-label="Next: Workflows">
+          <a href="cpp/" class="md-footer__link md-footer__link--next" aria-label="Next: High-Speed Endoscopy (latest)">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Workflows
+                High-Speed Endoscopy (latest)
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -20135,12 +19773,12 @@ window.addEventListener('scroll', function(){
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["content.code.annotate", "navigation.tabs", "navigation.indexes", "navigation.path", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "latest", "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.annotate", "navigation.tabs", "navigation.indexes", "navigation.path", "navigation.top", "navigation.footer", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"alias": true, "default": "latest", "provider": "mike"}}</script>
     
     
-      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
-        <script src="assets/js/run-locally.js"></script>
+        <script src="../../assets/js/run-locally.js"></script>
       
     
   </body>
