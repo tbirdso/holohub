@@ -7,3 +7,6 @@ MD013:
   heading_line_length: 800
 MD046:
   style: fenced
+# Table pipe alignment is cosmetic and cannot be guaranteed for tables whose
+# cells are filled from cookiecutter variables of varying width.
+MD060: false

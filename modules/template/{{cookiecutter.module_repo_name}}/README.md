@@ -29,12 +29,10 @@ A **Holoscan Module** — a self-contained, redistributable library that extends
 |---|---|---|---|
 | `{{ op_class }}` | {% if cookiecutter.language == 'cpp' %}C++ + pybind11{% else %}Pure Python{% endif %} | TODO | TODO |
 
-**Namespace**
-{% if cookiecutter.language == 'cpp' %}
+### Namespace
 
-- C++: `holoscan::{{ cookiecutter.module_slug }}`
-{% endif %}
-- Python: `holoscan.{{ cookiecutter.module_slug }}`
+{% if cookiecutter.language == 'cpp' %}- C++: `holoscan::{{ cookiecutter.module_slug }}`
+{% endif %}- Python: `holoscan.{{ cookiecutter.module_slug }}`
 
 ---
 
@@ -55,9 +53,7 @@ class MyApp(Application):
 
 MyApp().run()
 ```
-
 {% if cookiecutter.language == 'cpp' %}
-
 ### C++
 
 ```cpp
@@ -74,9 +70,7 @@ class MyApp : public holoscan::Application {
 
 int main() { holoscan::make_application<MyApp>()->run(); }
 ```
-
 {% endif %}
-
 ---
 
 ## Building from Source (without HoloHub CLI)
@@ -106,16 +100,12 @@ cmake --build build -j$(nproc)
 ```
 
 Or, without the HoloHub CLI:
-
 {% if cookiecutter.language == 'cpp' %}
-
 ```bash
 # C++ (GTest via CTest)
 ctest --test-dir build --output-on-failure -L unit
 ```
-
 {% endif %}
-
 ```bash
 # Python (pytest)
 PYTHONPATH=build/python/lib${PYTHONPATH:+:$PYTHONPATH} {{ cookiecutter.module_slug | upper }}_BUILD_DIR=build pytest tests/python/ -v

@@ -9,7 +9,7 @@ distributing this Holoscan Module.
 
 ## Module layout
 
-```
+```text
 {{ cookiecutter.module_repo_name }}/
 ├── holohub                         # CLI wrapper (delegates to holoscan-cli)
 ├── Dockerfile                      # Development container image
@@ -61,14 +61,12 @@ checkout for host-side CLI development.
 cmake -S . -B build -DBUILD_ALL=ON -D{{ cookiecutter.module_slug | upper }}_BUILD_TESTING=ON
 cmake --build build -j"$(nproc)"
 ```
-
 {% if cookiecutter.language == 'cpp' %}
 Run C++ tests:
 
 ```bash
 ctest --test-dir build --output-on-failure -L unit
 ```
-
 {% endif %}
 Run Python tests:
 
