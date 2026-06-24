@@ -7,7 +7,7 @@
 # Run with:
 #   {{ cookiecutter.module_slug | upper }}_BUILD_DIR=build \
 #   PYTHONPATH=build/python/lib${PYTHONPATH:+:$PYTHONPATH} \
-#   python applications/{{ cookiecutter.module_slug }}_pipeline/{{ cookiecutter.module_slug }}_pipeline.py
+#   python applications/{{ cookiecutter.module_slug }}_pipeline/python/{{ cookiecutter.module_slug }}_pipeline.py
 {%- set op_class = cookiecutter.operator_slug.split('_')|map('capitalize')|join('') %}
 
 import logging
