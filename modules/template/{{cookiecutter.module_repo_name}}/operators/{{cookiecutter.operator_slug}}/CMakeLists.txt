@@ -12,6 +12,16 @@ target_link_libraries({{ cookiecutter.operator_slug }} PRIVATE holoscan::core)
 
 install(FILES {{ cookiecutter.operator_slug }}.hpp DESTINATION include/{{ cookiecutter.operator_slug }})
 
+# Export the operator as a CMake target so downstream projects can consume it
+# with find_package(holoscan_{{ cookiecutter.module_slug }}) +
+# target_link_libraries(... holoscan::{{ cookiecutter.operator_slug }}).
+install(TARGETS {{ cookiecutter.operator_slug }}
+    EXPORT holoscan_{{ cookiecutter.module_slug }}_op_targets)
+
+install(EXPORT holoscan_{{ cookiecutter.module_slug }}_op_targets
+    NAMESPACE holoscan::
+    DESTINATION lib/cmake/holoscan_{{ cookiecutter.module_slug }})
+
 add_subdirectory(python)
 {% else %}# Pure Python operator — copy source into the Python package tree.
 configure_file(
