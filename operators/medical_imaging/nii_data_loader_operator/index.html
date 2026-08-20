@@ -10811,8 +10811,6 @@
           
         
       
-        
-      
     
     
     
@@ -10845,11 +10843,6 @@
 
             </a>
             
-              
-              <label class="md-nav__link " for="__nav_2_77" id="__nav_2_77_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
           </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_77_label" aria-expanded="false">
@@ -10863,74 +10856,6 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_77_2" >
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../../applications/psd_pipeline/data_writer/" class="md-nav__link ">
-              
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Data Writer
-  
-
-    
-  </span>
-  
-  
-
-            </a>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_77_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_77_2">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Data Writer
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
               
             
           </ul>
@@ -20157,11 +20082,11 @@
 <span class="n">fragment</span> <span class="o">=</span> <span class="n">Fragment</span><span class="p">()</span>
 
 <span class="c1"># Initialize the NIfTI loader with a path to your NIfTI file</span>
-<span class="n">nii_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;path/to/your/image.nii&quot;</span><span class="p">)</span>  <span class="c1"># or .nii.gz</span>
+<span class="n">nii_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"path/to/your/image.nii"</span><span class="p">)</span>  <span class="c1"># or .nii.gz</span>
 <span class="n">nii_loader</span> <span class="o">=</span> <span class="n">NiftiDataLoader</span><span class="p">(</span><span class="n">fragment</span><span class="p">,</span> <span class="n">input_path</span><span class="o">=</span><span class="n">nii_path</span><span class="p">)</span>
 
 <span class="c1"># The operator can be used in a pipeline</span>
-<span class="c1"># The output port &#39;image&#39; will contain the loaded image as a numpy array</span>
+<span class="c1"># The output port 'image' will contain the loaded image as a numpy array</span>
 <span class="c1"># You can connect it to other operators that expect image data</span>
 </code></pre></div>
 <h2 id="inputoutput-ports">Input/Output Ports<a class="headerlink" href="#inputoutput-ports" title="Permanent link">#</a></h2>

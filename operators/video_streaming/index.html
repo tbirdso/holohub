@@ -10811,8 +10811,6 @@
           
         
       
-        
-      
     
     
     
@@ -10845,11 +10843,6 @@
 
             </a>
             
-              
-              <label class="md-nav__link " for="__nav_2_77" id="__nav_2_77_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
           </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_77_label" aria-expanded="false">
@@ -10863,74 +10856,6 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_77_2" >
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../applications/psd_pipeline/data_writer/" class="md-nav__link ">
-              
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Data Writer
-  
-
-    
-  </span>
-  
-  
-
-            </a>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_77_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_77_2">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Data Writer
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
               
             
           </ul>
@@ -20391,13 +20316,13 @@
 </code></pre></div>
 <h4 id="c-applications">C++ Applications<a class="headerlink" href="#c-applications" title="Permanent link">#</a></h4>
 <div class="highlight"><pre><span></span><code><span class="c1">// Client functionality</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;video_streaming_client.hpp&quot;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;frame_saver.hpp&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">"video_streaming_client.hpp"</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">"frame_saver.hpp"</span>
 
 <span class="c1">// Server functionality</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;video_streaming_server_resource.hpp&quot;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;video_streaming_server_upstream_op.hpp&quot;</span>
-<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;video_streaming_server_downstream_op.hpp&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">"video_streaming_server_resource.hpp"</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">"video_streaming_server_upstream_op.hpp"</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">"video_streaming_server_downstream_op.hpp"</span>
 </code></pre></div>
 <h4 id="python-applications">Python Applications<a class="headerlink" href="#python-applications" title="Permanent link">#</a></h4>
 <p>Both client and server operators have Python bindings available. To use them in Python:</p>
@@ -20436,7 +20361,7 @@
 <div class="highlight"><pre><span></span><code><span class="c1"># Download using NGC CLI</span>
 
 <span class="nb">cd</span><span class="w"> </span>&lt;your_holohub_path&gt;/operators/video_streaming/video_streaming_client
-ngc<span class="w"> </span>registry<span class="w"> </span>resource<span class="w"> </span>download-version<span class="w"> </span><span class="s2">&quot;nvidia/holoscan_client_cloud_streaming:0.2&quot;</span>
+ngc<span class="w"> </span>registry<span class="w"> </span>resource<span class="w"> </span>download-version<span class="w"> </span><span class="s2">"nvidia/holoscan_client_cloud_streaming:0.2"</span>
 unzip<span class="w"> </span>-o<span class="w"> </span>holoscan_client_cloud_streaming_v0.2/holoscan_client_cloud_streaming.zip<span class="w"> </span>-d<span class="w"> </span>holoscan_client_cloud_streaming
 
 <span class="c1"># Clean up NGC download directory</span>
@@ -20447,7 +20372,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>./holoscan_client_cloud_str
 <div class="highlight"><pre><span></span><code><span class="c1"># Download using NGC CLI</span>
 
 <span class="nb">cd</span><span class="w"> </span>&lt;your_holohub_path&gt;/operators/video_streaming/video_streaming_server
-ngc<span class="w"> </span>registry<span class="w"> </span>resource<span class="w"> </span>download-version<span class="w"> </span><span class="s2">&quot;nvidia/holoscan_server_cloud_streaming:0.2&quot;</span>
+ngc<span class="w"> </span>registry<span class="w"> </span>resource<span class="w"> </span>download-version<span class="w"> </span><span class="s2">"nvidia/holoscan_server_cloud_streaming:0.2"</span>
 unzip<span class="w"> </span>-o<span class="w"> </span>holoscan_server_cloud_streaming_v0.2/holoscan_server_cloud_streaming.zip<span class="w"> </span>-d<span class="w"> </span>holoscan_server_cloud_streaming
 
 <span class="c1"># Clean up NGC download directory</span>
@@ -20461,7 +20386,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>./holoscan_server_cloud_str
 <h4 id="run-instructions">Run Instructions<a class="headerlink" href="#run-instructions" title="Permanent link">#</a></h4>
 <p>Run all unit tests from the holohub root directory:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Run all unit tests with verbose output</span>
-./holohub<span class="w"> </span><span class="nb">test</span><span class="w"> </span>video_streaming<span class="w"> </span>--ctest-options<span class="o">=</span><span class="s2">&quot;-R unit_tests -V&quot;</span>
+./holohub<span class="w"> </span><span class="nb">test</span><span class="w"> </span>video_streaming<span class="w"> </span>--ctest-options<span class="o">=</span><span class="s2">"-R unit_tests -V"</span>
 </code></pre></div>
 <h3 id="integration-tests">Integration Tests<a class="headerlink" href="#integration-tests" title="Permanent link">#</a></h3>
 <p>Please refer to the <a href="https://github.com/nvidia-holoscan/holohub/blob/main/applications/video_streaming/TESTING.md">Integration Tests</a> for end-to-end integration tests validate the complete streaming pipeline with actual server/client communication and frame transmission.</p>

@@ -20,7 +20,7 @@
         <link rel="prev" href="../vila_live/">
       
       
-        <link rel="next" href="data_writer/">
+        <link rel="next" href="../video_streaming/">
       
       
         
@@ -10818,8 +10818,6 @@
           
         
       
-        
-      
     
     
     
@@ -10852,11 +10850,6 @@
 
             </a>
             
-              
-              <label class="md-nav__link md-nav__link--active" for="__nav_2_77" id="__nav_2_77_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
           </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_77_label" aria-expanded="true">
@@ -10870,74 +10863,6 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_77_2" >
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="data_writer/" class="md-nav__link ">
-              
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Data Writer
-  
-
-    
-  </span>
-  
-  
-
-            </a>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_77_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_77_2">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Data Writer
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
               
             
           </ul>
@@ -20261,7 +20186,7 @@ to drop packets in the appropriate memory region.</p>
 against the defined flows. So, for our data packets, we want to
 define a queue like this:</p>
 <div class="highlight"><pre><span></span><code><span class="w">            </span><span class="nt">flows</span><span class="p">:</span>
-<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Data</span><span class="nv"> </span><span class="s">packets&quot;</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Data</span><span class="nv"> </span><span class="s">packets"</span>
 <span class="w">                </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
 <span class="w">                </span><span class="nt">action</span><span class="p">:</span>
 <span class="w">                  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">queue</span>
@@ -20276,14 +20201,14 @@ define a queue like this:</p>
 <p>This is saying "if a UDP packet with IPv4 length 4,148 comes in on port
 4991, send it to the queue with ID 1". Now, if we look at our queue with
 ID 1, we see:</p>
-<div class="highlight"><pre><span></span><code><span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Data&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="s">"Data"</span>
 <span class="w">                </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 <span class="w">                </span><span class="nt">cpu_core</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
 <span class="w">                </span><span class="nt">batch_size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">12500</span>
 <span class="w">                </span><span class="nt">memory_regions</span><span class="p">:</span>
-<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Headers_RX_CPU&quot;</span>
-<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;VRT_Headers_RX_CPU&quot;</span>
-<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;Data_RX_GPU&quot;</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"Headers_RX_CPU"</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"VRT_Headers_RX_CPU"</span>
+<span class="w">                  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"Data_RX_GPU"</span>
 </code></pre></div>
 <p>When multiple <code>memory_regions</code> are specified like this, it means
 that each packet should be split based on the memory region size. In this
@@ -20330,18 +20255,16 @@ usb@1:14.2        usb0       network        Ethernet interface
 <code>0000:51:00.1</code>.</p>
 <h2 id="build-run">Build &amp; Run<a class="headerlink" href="#build-run" title="Permanent link">#</a></h2>
 <ol>
-<li><strong>Build</strong> the development container in two steps:</li>
+<li><strong>Build</strong> the development container:</li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="c1"># Build the networking dev container for DAQIRI</span>
-./holohub<span class="w"> </span>build-container<span class="w"> </span>daqiri<span class="w"> </span>--docker-file<span class="w"> </span>./pkg/holoscan-networking/Dockerfile
-
-<span class="c1"># Add the psd-pipeline deps</span>
-./holohub<span class="w"> </span>build-container<span class="w"> </span>psd_pipeline<span class="w"> </span>--base-img<span class="w"> </span>holohub:ngc-v4.0.0-dgpu<span class="w"> </span>--img<span class="w"> </span>holohub-psd-pipeline:ngc-v4.0.0-dgpu
+<div class="highlight"><pre><span></span><code>./holohub<span class="w"> </span>build-container<span class="w"> </span>psd_pipeline
 </code></pre></div>
+<p>The networking Dockerfile (<code>pkg/holoscan-networking/Dockerfile</code>) is selected
+   automatically from this application's <code>metadata.json</code>.</p>
 <ol>
 <li><strong>Launch</strong> the development container with the command:</li>
 </ol>
-<div class="highlight"><pre><span></span><code>./holohub<span class="w"> </span>run-container<span class="w"> </span>psd_pipeline<span class="w"> </span>--no-docker-build<span class="w"> </span>--docker-opts<span class="o">=</span><span class="s2">&quot;-u root --privileged&quot;</span><span class="w"> </span>--img<span class="w"> </span>holohub-psd-pipeline:ngc-v4.0.0-dgpu
+<div class="highlight"><pre><span></span><code>./holohub<span class="w"> </span>run-container<span class="w"> </span>psd_pipeline<span class="w"> </span>--no-docker-build<span class="w"> </span>--docker-opts<span class="o">=</span><span class="s2">"-u root --privileged"</span>
 </code></pre></div>
 <p>Once you are in the dev container:</p>
 <ol>
@@ -20352,7 +20275,7 @@ usb@1:14.2        usb0       network        Ethernet interface
 </li>
 <li>
 <p><strong>Run</strong> the application using:</p>
-<div class="highlight"><pre><span></span><code>./holohub<span class="w"> </span>run<span class="w"> </span>psd_pipeline<span class="w"> </span>--local<span class="w"> </span>--no-local-build<span class="w"> </span>--run-args<span class="o">=</span><span class="s2">&quot;config.yaml&quot;</span>
+<div class="highlight"><pre><span></span><code>./holohub<span class="w"> </span>run<span class="w"> </span>psd_pipeline<span class="w"> </span>--local<span class="w"> </span>--no-local-build<span class="w"> </span>--run-args<span class="o">=</span><span class="s2">"config.yaml"</span>
 </code></pre></div>
 </li>
 </ol>
@@ -20413,13 +20336,13 @@ usb@1:14.2        usb0       network        Ethernet interface
         
         
           
-          <a href="data_writer/" class="md-footer__link md-footer__link--next" aria-label="Next: data_writer (latest)">
+          <a href="../video_streaming/" class="md-footer__link md-footer__link--next" aria-label="Next: Video Streaming Demo (latest)">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                data_writer (latest)
+                Video Streaming Demo (latest)
               </div>
             </div>
             <div class="md-footer__button md-icon">

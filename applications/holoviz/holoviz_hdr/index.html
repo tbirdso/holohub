@@ -10820,8 +10820,6 @@
           
         
       
-        
-      
     
     
     
@@ -10854,11 +10852,6 @@
 
             </a>
             
-              
-              <label class="md-nav__link " for="__nav_2_77" id="__nav_2_77_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
           </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_77_label" aria-expanded="false">
@@ -10872,74 +10865,6 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_77_2" >
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../psd_pipeline/data_writer/" class="md-nav__link ">
-              
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Data Writer
-  
-
-    
-  </span>
-  
-  
-
-            </a>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_77_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_77_2">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Data Writer
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
               
             
           </ul>
@@ -20086,9 +20011,9 @@ This application demonstrates displaying HDR images using the Holoviz operator. 
 <p>Note that the screenshot above does not show the real HDR image on the display since it's not possible to take screenshots of HDR images.</p>
 <p>The Holoviz operator parameter <code>display_color_space</code> is used to set the color space. This allows HDR output on Linux distributions and displays supporting that feature. See <a href="https://docs.nvidia.com/holoscan/sdk-user-guide/operators/visualization#hdr">https://docs.nvidia.com/holoscan/sdk-user-guide/operators/visualization#hdr</a> for more information.</p>
 <div class="highlight"><pre><span></span><code><span class="w">    </span><span class="k">auto</span><span class="w"> </span><span class="n">holoviz</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">make_operator</span><span class="o">&lt;</span><span class="n">ops</span><span class="o">::</span><span class="n">HolovizOp</span><span class="o">&gt;</span><span class="p">(</span>
-<span class="w">        </span><span class="s">&quot;holoviz&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="s">"holoviz"</span><span class="p">,</span>
 <span class="w">        </span><span class="c1">// select the HDR10 ST2084 display color space</span>
-<span class="w">        </span><span class="n">Arg</span><span class="p">(</span><span class="s">&quot;display_color_space&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ops</span><span class="o">::</span><span class="n">HolovizOp</span><span class="o">::</span><span class="n">ColorSpace</span><span class="o">::</span><span class="n">HDR10_ST2084</span><span class="p">));</span>
+<span class="w">        </span><span class="n">Arg</span><span class="p">(</span><span class="s">"display_color_space"</span><span class="p">,</span><span class="w"> </span><span class="n">ops</span><span class="o">::</span><span class="n">HolovizOp</span><span class="o">::</span><span class="n">ColorSpace</span><span class="o">::</span><span class="n">HDR10_ST2084</span><span class="p">));</span>
 </code></pre></div>
 <h2 id="run-instructions">Run Instructions<a class="headerlink" href="#run-instructions" title="Permanent link">#</a></h2>
 <p>To build and start the application:</p>

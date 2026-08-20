@@ -17,7 +17,7 @@
         <link rel="canonical" href="https://nvidia-holoscan.github.io/holohub/applications/video_streaming/">
       
       
-        <link rel="prev" href="../psd_pipeline/data_writer/">
+        <link rel="prev" href="../psd_pipeline/">
       
       
         <link rel="next" href="video_streaming_client/">
@@ -10816,8 +10816,6 @@
           
         
       
-        
-      
     
     
     
@@ -10850,11 +10848,6 @@
 
             </a>
             
-              
-              <label class="md-nav__link " for="__nav_2_77" id="__nav_2_77_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
           </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_77_label" aria-expanded="false">
@@ -10868,74 +10861,6 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-    
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_77_2" >
-        
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../psd_pipeline/data_writer/" class="md-nav__link ">
-              
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Data Writer
-  
-
-    
-  </span>
-  
-  
-
-            </a>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_77_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_77_2">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Data Writer
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
               
             
           </ul>
@@ -20499,7 +20424,7 @@
 <span class="nb">cd</span><span class="w"> </span>operators/video_streaming/video_streaming_client
 
 <span class="c1"># Download using NGC CLI</span>
-ngc<span class="w"> </span>registry<span class="w"> </span>resource<span class="w"> </span>download-version<span class="w"> </span><span class="s2">&quot;nvidia/holoscan_client_cloud_streaming:0.2&quot;</span>
+ngc<span class="w"> </span>registry<span class="w"> </span>resource<span class="w"> </span>download-version<span class="w"> </span><span class="s2">"nvidia/holoscan_client_cloud_streaming:0.2"</span>
 unzip<span class="w"> </span>-o<span class="w"> </span>holoscan_client_cloud_streaming_v0.2/holoscan_client_cloud_streaming.zip<span class="w"> </span>-d<span class="w"> </span>holoscan_client_cloud_streaming
 
 <span class="c1"># Clean up</span>
@@ -20512,7 +20437,7 @@ rm<span class="w"> </span>-rf<span class="w"> </span>holoscan_client_cloud_strea
 <span class="nb">cd</span><span class="w"> </span>operators/video_streaming/video_streaming_server
 
 <span class="c1"># Download using NGC CLI</span>
-ngc<span class="w"> </span>registry<span class="w"> </span>resource<span class="w"> </span>download-version<span class="w"> </span><span class="s2">&quot;nvidia/holoscan_server_cloud_streaming:0.2&quot;</span>
+ngc<span class="w"> </span>registry<span class="w"> </span>resource<span class="w"> </span>download-version<span class="w"> </span><span class="s2">"nvidia/holoscan_server_cloud_streaming:0.2"</span>
 unzip<span class="w"> </span>-o<span class="w"> </span>holoscan_server_cloud_streaming_v0.2/holoscan_server_cloud_streaming.zip<span class="w"> </span>-d<span class="w"> </span>holoscan_server_cloud_streaming
 
 <span class="c1"># Clean up</span>
@@ -20806,11 +20731,11 @@ The server should display connection status and frame processing information. Lo
 <p>Or use direct HoloHub CLI commands:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Run C++ integration test using HoloHub CLI</span>
 ./holohub<span class="w"> </span><span class="nb">test</span><span class="w"> </span>video_streaming<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--ctest-options<span class="o">=</span><span class="s2">&quot;-R video_streaming_integration_test_cpp&quot;</span>
+<span class="w">  </span>--ctest-options<span class="o">=</span><span class="s2">"-R video_streaming_integration_test_cpp"</span>
 
 <span class="c1"># Run Python integration test using HoloHub CLI</span>
 ./holohub<span class="w"> </span><span class="nb">test</span><span class="w"> </span>video_streaming<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--ctest-options<span class="o">=</span><span class="s2">&quot;-R video_streaming_integration_test_python&quot;</span>
+<span class="w">  </span>--ctest-options<span class="o">=</span><span class="s2">"-R video_streaming_integration_test_python"</span>
 </code></pre></div>
 <p><strong>Test Scripts:</strong></p>
 <ul>
@@ -20877,7 +20802,7 @@ The server should display connection status and frame processing information. Lo
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../psd_pipeline/data_writer/" class="md-footer__link md-footer__link--prev" aria-label="Previous: data_writer (latest)">
+          <a href="../psd_pipeline/" class="md-footer__link md-footer__link--prev" aria-label="Previous: VITA 49 Power Spectral Density (latest)">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -20887,7 +20812,7 @@ The server should display connection status and frame processing information. Lo
                 Previous
               </span>
               <div class="md-ellipsis">
-                data_writer (latest)
+                VITA 49 Power Spectral Density (latest)
               </div>
             </div>
           </a>
